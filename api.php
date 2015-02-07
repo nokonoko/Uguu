@@ -1,27 +1,26 @@
 <?php
+//If the value d doesn't exist, redirect back to front page *1
 if(isset($_GET['d'])) {
+    //Include the core file with the functions
     include_once('core.php');
     switch ($_GET['d']) {
-
         case 'upload':
+        //Set the name value to the original filename
 	$name = $_FILES['file']['name'];
-	
+	//If the value name contains a custom name, set the name value
 	if(!empty($_POST['name'])){
 	$name = $_POST['name'];}
-	
-	if(!empty($_POST['autoext'])){
-	//
-	}
-	
+	//Call the save function which sends the file+name
 	save_file($_FILES['file']['tmp_name'], $name);
 	break;
-
         case 'extend-time':
             break;
 	default:
+	//If no correct valid argument for the api to perform on, tell them to enter a valid one
 	exit('Please provide a valid argument. Example: curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload');
 	break;
     }
 }else{
-    header('Location: http://uguu.se');
+    //*1
+    header('Location: index.html);
 }
