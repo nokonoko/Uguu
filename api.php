@@ -4,13 +4,16 @@ if(isset($_GET['d'])) {
     switch ($_GET['d']) {
 
         case 'upload':
+	$name = $_FILES['file']['name'];
+	if(!empty($_POST['name'])){
+	$name = $_POST['name'];
+	}
+	save_file($_FILES['file']['tmp_name'], $name);
+	break;
+	
+        case 'upload-sharex':
 
-            if(!empty($_POST['name'])){
-                save_file($_FILES["file"]["tmp_name"], $_POST['name']);
-            }else{
-                save_file($_FILES["file"]["tmp_name"], $_FILES["file"]["name"]);
-            }
-            break;
+        break;
 
         case 'extend-time':
             break;
