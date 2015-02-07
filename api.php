@@ -9,7 +9,7 @@ if(isset($_GET['d'])) {
             	if(isset($_POST['autoext'])){
             		$oftheworld = explode(".", $_FILES["file"]["name"]);
             		$ext = end($oftheworld);
-            		save_file($_FILES["file"]["tmp_name"], "$_POST['name'].$ext");
+            		save_file($_FILES["file"]["tmp_name"], $_POST['name']. '.' .$ext);
             	}else{
                 	save_file($_FILES["file"]["tmp_name"], $_POST['name']);
             	}
