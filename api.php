@@ -4,18 +4,20 @@ if(isset($_GET['d'])) {
     switch ($_GET['d']) {
 
         case 'upload':
-
+            $name = "";
+            
             if(!empty($_POST['name'])){
-            	if(isset($_POST['autoext'])){
-            		$oftheworld = explode(".", $_FILES["file"]["name"]);
-            		$ext = end($oftheworld);
-            		save_file($_FILES["file"]["tmp_name"], $_POST['name']. '.' .$ext);
-            	}else{
-                	save_file($_FILES["file"]["tmp_name"], $_POST['name']);
+                $name = $_POST['name'];
+                
+                if(isset($_POST['autoext'])){
+                    $split = explode(".", $_FILES["file"]["name"]);
+                    $name .= "." . end($split);
             	}
             }else{
-                save_file($_FILES["file"]["tmp_name"], $_FILES["file"]["name"]);
+                $name = $_FILES["file"]["name"];
             }
+            
+            save_file($_FILES["file"]["tmp_name"], $name);
             break;
 
         case 'extend-time':
