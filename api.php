@@ -6,7 +6,13 @@ if(isset($_GET['d'])) {
         case 'upload':
 
             if(!empty($_POST['name'])){
-                save_file($_FILES["file"]["tmp_name"], $_POST['name']);
+            	if(isset($_POST['autoext'])){
+            		$oftheworld = explode(".", $_FILES["file"]["name"]);
+            		$ext        = end($oftheworld);
+            		save_file($_FILES["file"]["tmp_name"], $_POST['name'] . $ext);
+            	}else{
+                	save_file($_FILES["file"]["tmp_name"], $_POST['name']);
+            	}
             }else{
                 save_file($_FILES["file"]["tmp_name"], $_FILES["file"]["name"]);
             }
