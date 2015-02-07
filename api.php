@@ -8,8 +8,8 @@ if(isset($_GET['d'])) {
             if(!empty($_POST['name'])){
             	if(isset($_POST['autoext'])){
             		$oftheworld = explode(".", $_FILES["file"]["name"]);
-            		$ext        = end($oftheworld);
-            		save_file($_FILES["file"]["tmp_name"], $_POST['name'] . $ext);
+            		$ext = end($oftheworld);
+            		save_file($_FILES["file"]["tmp_name"], "$_POST['name'].$ext");
             	}else{
                 	save_file($_FILES["file"]["tmp_name"], $_POST['name']);
             	}
