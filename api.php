@@ -5,9 +5,10 @@ if(isset($_GET['d'])) {
 
         case 'upload':
 	$name = $_FILES['file']['name'];
+	
 	if(!empty($_POST['name'])){
-	$name = $_POST['name'];
-	}
+	$name = $_POST['name'];}
+	
 	save_file($_FILES['file']['tmp_name'], $name);
 	break;
 	
