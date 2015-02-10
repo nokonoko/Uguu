@@ -10,6 +10,11 @@ if(isset($_GET['d'])) {
 	//If the value name contains a custom name, set the name value
 	if(!empty($_POST['name'])){
 	$name = $_POST['name'];}
+	//If value contains anything, keep original filename
+	if(!empty($_POST['originalname'])){
+        $name = $_FILES['file']['name'];}
+	//Remove any whitespace from name
+	$name = preg_replace('/\s+/', '', $name);
 	//Call the save function which sends the file+name
 	save_file($_FILES['file']['tmp_name'], $name);
 	break;
