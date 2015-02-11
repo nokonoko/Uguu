@@ -16,7 +16,7 @@ Proper design, commit new design and updated code (when finished, in preview pha
 # Using the API
 
   Leaving POST value 'name' empty will cause it to save using the original filename.
-  Leaving POST valie 'randomname' empty will cause it to use original filename or custom name if 'name' is set to file.ext.
+  Leaving POST value 'randomname' empty will cause it to use original filename or custom name if 'name' is set to file.ext.
   
   Putting anything into POST value 'randomname' will cause it to return a random filename + ext (xxxxxx.ext).
   Putting a custom name into POST value 'name' will cause it to return a custom filename (yourpick.ext).
