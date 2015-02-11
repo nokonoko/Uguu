@@ -11,10 +11,11 @@ if(isset($_GET['d'])) {
 	if(!empty($_POST['name'])){
 	$name = $_POST['name'];}
 	//If value contains anything, keep original filename
-	if(!empty($_POST['originalname'])){
-        $name = $_FILES['file']['name'];}
+	if(!empty($_POST['randomname'])){
+        $name = $_FILES['file']['name'];
+	$arg = 'rand';}
 	//Call the save function which sends the file+name
-	save_file($_FILES['file']['tmp_name'], $name);
+	save_file($_FILES['file']['tmp_name'], $name, $arg);
 	break;
         case 'extend-time':
             break;
