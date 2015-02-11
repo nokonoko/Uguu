@@ -20,3 +20,6 @@ Proper design, commit new design and updated code (when finished, in preview pha
   
   Putting anything into POST value 'randomname' will cause it to return a random filename + ext (xxxxxx.ext).
   Putting a custom name into POST value 'name' will cause it to return a custom filename (yourpick.ext).
+
+
+This will probably get changed later since it's messy and unpractical.
