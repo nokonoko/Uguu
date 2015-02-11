@@ -15,7 +15,6 @@ Proper design, commit new design and updated code (when finished, in preview pha
 
 # Using the API
 
-For now you can use the API like so:
   Leaving POST value 'name' empty will cause it to save using the original filename.
   Leaving POST valie 'randomname' empty will cause it to use original filename or custom name if 'name' is set to file.ext.
   
