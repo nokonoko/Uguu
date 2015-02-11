@@ -2,7 +2,7 @@
 //If the value d doesn't exist, redirect back to front page *1
 if(isset($_GET['d'])) {
     //Include the core file with the functions
-    include_once('core.php');
+    include_once('includes/core.php');
     switch ($_GET['d']) {
         case 'upload':
         //Set the name value to the original filename
