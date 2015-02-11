@@ -4,11 +4,11 @@ function save_file ($file, $name, $arg){
     $path='/home/neku/www/files/';
     //Generate name depending on arg
     switch($arg){
-        case 'rand':
-            $ext = pathinfo($file, PATHINFO_EXTENSION);
-            $file_name gen_name('random', $ext);
-            while(file_exists($path.file_name)){
-                $file_name gen_name('random', $ext);
+        case 'random':
+            $ext = pathinfo($file.$name, PATHINFO_EXTENSION);
+            $file_name = gen_name('random', $ext);
+            while(file_exists($path.$file_name)){
+                $file_name = gen_name('random', $ext);
             }
             break;
         case 'custom_original':
@@ -24,7 +24,7 @@ function save_file ($file, $name, $arg){
     //Return url+filename to the user
     echo 'http://a.uguu.se/'.$file_name;
 }
-function gen_name($arg, $in, $in2){
+function gen_name($arg, $in){
     $chars = 'abcdefghijklmnopqrstuvwxyz';
     $name = '';
     for ($i = 0; $i < 6; $i++) {
