@@ -25,5 +25,5 @@ if(isset($_GET['d'])) {
     }
 }else{
     //*1
-    header('Location: index.html);
+    header('Location: index.html');
 }
