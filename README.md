@@ -1,5 +1,5 @@
 # About
-http://Uguu.se source code, stores files and deletes after 30 minutes.
+[Uguu.se](http://uguu.se) source code, stores files and deletes after 30 minutes.
 
 # Install
 Tested with Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy.
@@ -23,3 +23,7 @@ Proper design, commit new design and updated code (when finished, in preview pha
 
 
 This will probably get changed later since it's messy and unpractical.
+
+# Contact
+
+[neku@pomf.se](mailto:neku@pomf.se) or [@Nekunekus](https://twitter.com/nekunekus).
