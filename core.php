@@ -4,7 +4,7 @@ function save_file ($file, $name){
     $path='/home/neku/www/files/';
     //Generate prefix, put together name and remove tags/whitespace
     $file_name = strip_tags(preg_replace('/\s+/', '', $name));
-    $file_name = gen_name(file_name);
+    $file_name = gen_name($file_name);
     while(file_exists($path.$file_name)){
         $file_name = gen_name(file_name);
     }
