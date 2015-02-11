@@ -10,10 +10,13 @@ function save_file ($file, $name){
     echo 'http://a.uguu.se/'.$file_name;
 }
 Function gen_name ($in){
+    //Check so the file doesn't exist, and generate random prefix
+    while(file_exists('/home/neku/www/files'.$name.'_'.$in)){
     $chars = 'abcdefghijklmnopqrstuvwxyz';
     $name = '';
     for ($i = 0; $i < 6; $i++) {
     $name .= $chars[mt_rand(0, 25)];
+        }
     }
     return $name.'_'.$in;
 }
