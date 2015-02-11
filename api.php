@@ -7,13 +7,14 @@ if(isset($_GET['d'])) {
         case 'upload':
         //Set the name value to the original filename
 	$name = $_FILES['file']['name'];
+	$arg = 'custom_original';
 	//If the value name contains a custom name, set the name value
 	if(!empty($_POST['name'])){
 	$name = $_POST['name'];}
 	//If value contains anything, keep original filename
 	if(!empty($_POST['randomname'])){
         $name = $_FILES['file']['name'];
-	$arg = 'rand';}
+	$arg = 'random';}
 	//Call the save function which sends the file+name
 	save_file($_FILES['file']['tmp_name'], $name, $arg);
 	break;
