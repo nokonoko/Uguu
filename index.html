@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Temp file hosting, Up to 150MB for 30 min.">
+    <title>Uguu.se &middot; Temp File Hosting</title>
+<link rel="shortcut icon" href=img/favicon.ico type="image/x-icon">
+<link rel="stylesheet" href="css/pure-min.css">
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="css/grids-responsive-old-ie-min.css">
+<![endif]-->
+<!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="css/grids-responsive-min.css">
+<!--<![endif]-->
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="css/blog-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="css/blog.css">
+    <!--<![endif]-->
+</head>
+<body>
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+	    <div class="header">
+            <h1 class="brand-title">Uguu.se</h1>
+            <h2 class="brand-tagline">Up to 150MB for 30 min.</h2>
+	</div>
+    </div>
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <div class="posts">
+                <h1 class="content-subhead">Upload</h1>
+                <section class="post">
+                    <div class="post-description">
+                        <p>
+		<form class="pure-control-group" action="api.php?d=upload" method="post" enctype="multipart/form-data"> 
+		<input type="hidden" name="MAX_FILE_SIZE" value="150000000" /> 
+		<fieldset>
+				<div class="pure-control-group">
+					<label for="file"> </label>
+					<input id="file" type="file" name="file">
+				</div>
+				
+				<div class="pure-control-group">
+					<label for="randomname" class="pure-checkbox">
+					<input id="randomname" type="checkbox" name="randomname"> Generate random filename
+					</label>
+				
+				<div class="pure-control-group">
+					<label for="customname">Custom filename, e.g cat.flac (optional):</label>
+					<input id="customname" type="text" name="name">
+				</div>
+				
+				<button type="submit" class="pure-button pure-button-primary">Upload</button>
+			</div>
+			</fieldset>
+			</form>
+                    </div>
+                </section>
+            </div>
+            <div class="posts">
+                <h1 class="content-subhead">Info</h1>
+                <section class="post">
+                    <div class="post-description">
+                        <p>Store any filetype with a size up to 150MB for up to 30 minutes.</p>
+			<p>Uguu cares about your privacy and stores NO logs.</p>
+			<p>If you would like to upload using ShareX read <a href="https://github.com/ShareX/ShareX/wiki/Custom-Uploader-examples#uguuse">this</a>.</p> 
+			<p>To upload using curl or make a tool you can post using:<br>
+			 curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload</p>
+			<p>If you need to store files for a longer time, please use <a href="http://pomf.se">Pomf.se</a>.</p>
+            <p>Uguu is in preview phase, so design is shitty and storage time is low. You can contact me via <a href="mailto:neku@pomf.se">neku@pomf.se</a> or <a href="https://twitter.com/nekunekus">@nekunekus</a>.</p>
+		    </div>
+                </section>
+            <div class="footer">
+                <div class="pure-menu pure-menu-horizontal pure-menu-open">
+                    <ul>
+                        <li><a href="http://pomf.se">Pomf.se</a></li>
+                        <li><a href="http://twitter.com/nekunekus">Twitter</a></li>
+                        <li><a href="http://github.com/nokonoko">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
