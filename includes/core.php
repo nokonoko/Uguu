@@ -1,4 +1,4 @@
-?php
+<?php
 function save_file ($file, $name, $arg){
     //Where to save
     $path='/home/neku/www/files/';
