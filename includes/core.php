@@ -1,4 +1,4 @@
-?php
+<?php
 function save_file ($file, $name, $arg){
     //Where to save
     $path='/home/neku/www/files/';
@@ -22,7 +22,7 @@ function save_file ($file, $name, $arg){
     //Move the file to the above location with said filename
     move_uploaded_file($file,$path.$file_name);
     //Return url+filename to the user
-    echo 'http://a.uguu.se/'.$file_name;
+    echo 'http://a.uguu.se/'.urlencode($file_name);
 }
 function gen_name($arg, $in){
     $chars = 'abcdefghijklmnopqrstuvwxyz';
