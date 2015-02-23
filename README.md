@@ -1,5 +1,5 @@
 # About
-[Uguu.se](http://uguu.se) source code, stores files and deletes after 30 minutes.
+[Uguu.se](http://uguu.se) source code, stores files and deletes after 1 hour.
 
 # Install
 Tested with Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy.
