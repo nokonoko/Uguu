@@ -6,7 +6,7 @@ if(isset($_GET['d'])) {
     switch ($_GET['d']) {
         case 'upload':
         //If no file is being posted, exit
-        if(empty($_FILES['file'])){
+        if(empty($_FILES['file']['name'])){
         exit('You fucked up, nothing to do.');}
         //Set the name value to the original filename
 	$name = $_FILES['file']['name'];
