@@ -17,6 +17,8 @@ Proper design, commit new design and updated code (when finished, in preview pha
 
 # Using the API
 
+  Be sure to set a user agent, otherwise CF might reject you as malicious.
+
   Leaving POST value 'name' empty will cause it to save using the original filename.
   Leaving POST value 'randomname' empty will cause it to use original filename or custom name if 'name' is set to file.ext.
   
