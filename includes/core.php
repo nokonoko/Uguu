@@ -12,6 +12,7 @@ function save_file ($file, $name, $arg){
             }
             break;
         case 'custom_original':
+            $name = stripslashes(str_replace('/', '', $name));
             $name = strip_tags(preg_replace('/\s+/', '', $name));
             $file_name = gen_name('custom_original', $name);
             while(file_exists($path.$file_name)){
