@@ -4,11 +4,11 @@
 # Install
 Tested with Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy and Apache (PHP 5.4) on Ubuntu 14.04 LTS
 
-Modify core.php where to save the files, add check.sh to Cron, edit everything else to your likings.
+Modify core.php where to save the files (line 4) and the prepend to the uploaded URL (line 26), add check.sh to Cron, edit everything else to your likings.
 
 Change php.ini and nginx.conf settings to allow bigger uploads.
 
-Make the rain/cache/ directory writable to whatever webserver you use.
+Make the entire uguu/ directory writable with chmod 777
 
 # Todo
 
