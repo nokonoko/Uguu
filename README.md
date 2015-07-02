@@ -2,13 +2,20 @@
 [Uguu.se](http://uguu.se) source code, stores files and deletes after X amount of time.
 
 # Install
-Tested with Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy and Apache (PHP 5.4) on Ubuntu 14.04 LTS
+Tested with:
+* Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy 
+* Apache (PHP 5.4) on Ubuntu 14.04 LTS
+* Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
 
-Modify core.php where to save the files, add check.sh to Cron, edit everything else to your likings.
+Modify 
+* core.php on where to save the files (line 4) and the prepend to the uploaded URL (line 26)
+* Cron with check.sh: `crontab -e` 
+* Everything else to your likings.
 
 Change php.ini and nginx.conf settings to allow bigger uploads.
 
-Make the rain/cache/ directory writable to whatever webserver you use.
+Make the uguu/ directory modifiable to the nginx user:
+`setfacl -m u:www-data:rwx /path/to/uguu/directory/`
 
 # Todo
 
