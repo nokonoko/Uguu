@@ -10,6 +10,7 @@ Tested with:
 Modify 
 * core.php on where to save the files (line 4) and the prepend to the uploaded URL (line 26)
 * Cron with check.sh: `crontab -e` 
+* Some extensions are blocked by default, this can be changed via includes/core.php's $block array.
 * Everything else to your likings.
 
 Change php.ini and nginx.conf settings to allow bigger uploads.
