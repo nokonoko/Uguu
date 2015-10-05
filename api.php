@@ -5,9 +5,11 @@ if(isset($_GET['d'])) {
     include_once('includes/core.php');
     switch ($_GET['d']) {
         case 'upload':
-        //If no file is being posted, exit
+        //If no file is being posted, show the error page and exit.
         if(empty($_FILES['file']['name'])){
-        exit('You fucked up, nothing to do.');}
+        	include('error.php');
+        	exit(0);
+        }
         //Set the name value to the original filename
 	$name = $_FILES['file']['name'];
 	$arg = 'custom_original';
