@@ -7,7 +7,7 @@ if(isset($_GET['d'])) {
         case 'upload':
         //If no file is being posted, show the error page and exit.
         if(empty($_FILES['file']['name'])){
-        	include('error.php');
+        	include_once('error.php');
         	exit(0);
         }
         //Set the name value to the original filename
