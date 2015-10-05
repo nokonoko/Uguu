@@ -19,7 +19,8 @@ Make the uguu/ directory modifiable to the nginx user:
 
 # Todo
 
-Proper design, commit new design and updated code (when finished, in preview phase).
+* Respond with JSON rather then a white page with echo, will break current tools for the page tho, maybe add a switch so using the webpage will respond using JSON by default and using the 'API' will respond with a plain echo by default?
+* Probably a lot of things but I'm a lazy fuck, come with suggestions.
 
 
 # Using the API
