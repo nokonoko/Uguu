@@ -2,10 +2,15 @@
 function save_file ($file, $name, $arg){
     //Where to save
     $path='/home/neku/www/files/';
+    //Ext blacklist
+    $block = array('exe', 'scr', 'rar', 'zip', 'com', 'vbs', 'bat', 'cmd', 'html', 'htm', 'msi');
     //Generate name depending on arg
     switch($arg){
         case 'random':
             $ext = pathinfo($file.$name, PATHINFO_EXTENSION);
+            $ext = strtolower($ext);
+            if(in_array($ext, $block)){
+                die('File type not allowed.');}
             $file_name = gen_name('random', $ext);
             while(file_exists($path.$file_name)){
                 $file_name = gen_name('random', $ext);
@@ -14,7 +19,11 @@ function save_file ($file, $name, $arg){
         case 'custom_original':
             $name = stripslashes(str_replace('/', '', $name));
             $name = strip_tags(preg_replace('/\s+/', '', $name));
-            $file_name = gen_name('custom_original', $name);
+                $file_name = gen_name('custom_original', $name);
+                $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                $ext = strtolower($ext);
+                if(in_array($ext, $block)){
+                die('File type not allowed.');}
             while(file_exists($path.$file_name)){
                 $file_name = gen_name('custom_original', $name);
             }
