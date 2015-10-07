@@ -33,6 +33,10 @@ Make the uguu/ directory modifiable to the nginx user:
   
   Putting anything into POST value 'randomname' will cause it to return a random filename + ext (xxxxxx.ext).
   Putting a custom name into POST value 'name' will cause it to return a custom filename (yourpick.ext).
+  
+  E.g:
+  curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload (HTML Response)
+  curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload-tool (Plain text Response)
 
 
 This will probably get changed later since it's messy and unpractical.
