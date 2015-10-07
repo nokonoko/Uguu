@@ -42,8 +42,17 @@ function save_file ($file, $name, $arg, $type){
     }
     //Move the file to the above location with said filename
     move_uploaded_file($file,$path.$file_name);
-    //Return url+filename to the user
+    //Check if html or plain text should be returned
+    if($type==='tool'){
+    //Return url+filename to the user (plain text)
     echo 'http://a.uguu.se/'.urlencode($file_name);
+    exit(0);
+    }elseif($type==='normal'){
+    //Return url+filename to the user (HTML)
+    $n=urlencode($file_name);
+    include_once('/home/neku/www/page/public/upload-done.php');
+    exit(0);
+    }
 }
 function gen_name($arg, $in){
     $chars = 'abcdefghijklmnopqrstuvwxyz';
