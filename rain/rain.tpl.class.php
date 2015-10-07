@@ -90,7 +90,7 @@ class RainTPL{
 		 *
 		 * @var bool
 		 */
-		static $php_enabled = false;
+		static $php_enabled = true;
 
 		
 		/**
