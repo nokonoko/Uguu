@@ -69,4 +69,3 @@ function gen_name($arg, $in){
             break;
     }
 }
-?>
