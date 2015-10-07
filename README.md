@@ -8,7 +8,9 @@ Tested with:
 * Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
 
 Modify 
-* core.php on where to save the files (line 4) and the prepend to the uploaded URL (line 26)
+* Modify includes/core.php where to save files and other paths.
+* Set correct paths in several other files. (Will add fix for this via config file instead).
+* Change uguu.se to your own name in several files.
 * Cron with check.sh: `crontab -e` 
 * Some extensions are blocked by default, this can be changed via includes/core.php's $block array.
 * Everything else to your likings.
