@@ -20,7 +20,8 @@ Make the uguu/ directory modifiable to the nginx user:
 
 # Todo
 
-* Respond with JSON rather then a white page with echo, will break current tools for the page tho, maybe add a switch so using the webpage will respond using JSON by default and using the 'API' will respond with a plain echo by default?
+* Restructure files.
+* Make global config file.
 * Probably a lot of things but I'm a lazy fuck, come with suggestions.
 
 
@@ -36,9 +37,7 @@ Make the uguu/ directory modifiable to the nginx user:
   
   E.g:
   
-  
   curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload (HTML Response)
-  
   
   curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload-tool (Plain text Response)
 
