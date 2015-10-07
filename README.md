@@ -29,19 +29,15 @@ Make the uguu/ directory modifiable to the nginx user:
 
 # Using the API
 
-  Be sure to set a user agent, otherwise CF might reject you as malicious.
-
-  Leaving POST value 'name' empty will cause it to save using the original filename.
-  Leaving POST value 'randomname' empty will cause it to use original filename or custom name if 'name' is set to file.ext.
+  * Leaving POST value 'name' empty will cause it to save using the original filename.
+  * Leaving POST value 'randomname' empty will cause it to use original filename or custom name if 'name' is set to file.ext.
   
-  Putting anything into POST value 'randomname' will cause it to return a random filename + ext (xxxxxx.ext).
-  Putting a custom name into POST value 'name' will cause it to return a custom filename (yourpick.ext).
+  * Putting anything into POST value 'randomname' will cause it to return a random filename + ext (xxxxxx.ext).
+  * Putting a custom name into POST value 'name' will cause it to return a custom filename (yourpick.ext).
   
   E.g:
-  
-  curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload (HTML Response)
-  
-  curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload-tool (Plain text Response)
+  * curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload (HTML Response)
+  * curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload-tool (Plain text Response)
 
 
 This will probably get changed later since it's messy and unpractical.
