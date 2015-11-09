@@ -11,7 +11,8 @@ Modify
 * Modify includes/core.php where to save files and other paths.
 * Set correct paths in several other files. (Will add fix for this via config file instead).
 * Change uguu.se to your own name in several files.
-* Cron with check.sh: `crontab -e` 
+* Cron with check.sh: `crontab -e`
+* After running crontab -e, add "0,15,30,45 * * * * bash /home/neku/www/check.sh" (without ""), or read up on how cron works.
 * Some extensions are blocked by default, this can be changed via includes/core.php's $block array.
 * Everything else to your likings.
 
