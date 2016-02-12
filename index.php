@@ -1,4 +1,6 @@
 <?php
+//Security
+error_reporting(0);
 require_once "rain/rain.tpl.class.php";
 
 raintpl::configure( 'path_replace', false);
