@@ -1,20 +1,41 @@
 # About
 Temp file sharing application source code, stores files and deletes after X amount of time. Forked from Uguu.se available [here](https://github.com/nokonoko/uguu).
 
-# Install
-Tested with:
+# Tested with:
 * Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy
 * Apache (PHP 5.4) on Ubuntu 14.04 LTS
 * Apache (PHP 5.6) on Debian 8 Jessie
 * Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
 
-Modify
-* Modify includes/config.php (copy config.template.php as a starting point) to determine the path and URL to the app, the default retention time and other config points
-* Execute check.sh with cron to delete old files: `crontab -e` and add `0,15,30,45 * * * * bash /path/to/check.sh` (or adapt if you know how cron works).
-* Some extensions are blocked by default, this can be changed via includes/config.php's CONFIG_BLOCKED_EXTENSIONS value.
+# Install:
 
-Make the uguu/public/files and uguu/rain/cache directory modifiable to the web server user:
-`chown -R www-data:www-data /path/to/uguu/public/files` and `chown -R www-data:www-data /path/to/uguu/rain/cache`
+* Deploy base code, for example with `git clone `
+* Modify includes/config.php (copy config.template.php as a starting point) to set up the main options for Uguu.
+* Some file extensions are blocked by default, this can be changed via includes/config.php's CONFIG_BLOCKED_EXTENSIONS value.
+* Execute check.sh regularly with cron to delete old files: `crontab -e` and add `0,15,30,45 * * * * bash /path/to/check.sh` (or adapt if you know how cron works).
+* Make the Uguu/public/files and Uguu/rain/cache directory modifiable by the web server user:
+`chown -R www-data:www-data /path/to/Uguu/public/files` and `chown -R www-data:www-data /path/to/Uguu/rain/cache`
+* Make sure the Uguu/public/files folder is not indexable, you may use a virtual host config similar to this one:
+
+```
+<VirtualHost *:80>
+        ServerName path.to.uguu
+
+        DocumentRoot /var/www/Uguu/
+        <Directory /var/www/Uguu/>
+                AllowOverride All
+                Require all granted
+        </Directory>
+
+        Alias "/files" "/var/www/Uguu/public/files/"
+        <Directory /var/www/Uguu/public/files/>
+                AllowOverride None
+                Options -Indexes
+                Require all granted
+        </Directory>
+
+</VirtualHost>
+```
 
 # Using the API
 
