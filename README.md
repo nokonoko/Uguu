@@ -1,5 +1,5 @@
 # About
-Uguu is a temporary file host, which deletes files after X amount of time.
+[Uguu.se](http://uguu.se) source code, stores files and deletes after X amount of time.
 
 # Tested with:
 * Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy
