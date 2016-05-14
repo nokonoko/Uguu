@@ -9,7 +9,7 @@ Temp file sharing application source code, stores files and deletes after X amou
 
 # Install:
 
-* Deploy base code, for example with `git clone https://github.com/pierre-alain-b/Uguu.git`
+* Deploy base code, for example with `git clone https://github.com/nokonoko/Uguu.git`
 * Modify includes/config.php (copy config.template.php as a starting point) to set up the main options for Uguu.
 * Some file extensions are blocked by default, this can be changed via includes/config.php's CONFIG_BLOCKED_EXTENSIONS value.
 * Copy `rain/template/footer.template.html` as `rain/template/footer.html` and personalize the footer as you wish
