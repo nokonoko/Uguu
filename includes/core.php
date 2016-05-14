@@ -46,7 +46,11 @@ function save_file ($file, $name, $arg, $type){
     //Check if html or plain text should be returned
     if($type==='tool'){
     //Return url+filename to the user (plain text)
+    if(CONFIG_SUBUPLOAD_URL_ENABLED == "true"){
+    echo CONFIG_SUBUPLOAD_URL.'/'.urlencode($file_name);
+    }else{
     echo CONFIG_ROOT_URL.'/files/'.urlencode($file_name);
+    }
     exit(0);
     }elseif($type==='normal'){
     //Return url+filename to the user (HTML)
