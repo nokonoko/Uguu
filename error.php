@@ -13,6 +13,5 @@ $tpl->assign("title", $title);
 $tpl->draw("header");
 $tpl->draw("error");
 
-
 $tpl->draw("footer");
 ?>

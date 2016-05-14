@@ -1,0 +1,4 @@
+includes/config.php
+rain/cache/*.php
+rain/template/footer.html
+public/files
