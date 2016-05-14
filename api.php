@@ -1,14 +1,17 @@
 <?php
+//Loading configuration file
+require_once "includes/config.php";
+
 //If the value d doesn't exist, redirect back to front page *1
 if(isset($_GET['d'])) {
     //Include the core file with the functions
-    include_once('includes/core.php');
+    include_once(CONFIG_ROOT_PATH.'includes/core.php');
     switch ($_GET['d']) {
     	//Uploading with HTML response and errors
         case 'upload':
         //If no file is being posted, show the error page and exit.
         if(empty($_FILES['file']['name'])){
-        	include_once('error.php');
+        	include_once(CONFIG_ROOT_PATH.'error.php');
         	exit(0);
         }
         //Set the name value to the original filename
@@ -47,7 +50,7 @@ if(isset($_GET['d'])) {
             break;
 	default:
 	//If no correct valid argument for the api to perform on, tell them to enter a valid one
-	exit('Please provide a valid argument. Example: curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload-tool');
+	exit('Please provide a valid argument. Example: curl -i -F name=test.jpg -F file=@localfile.jpg '.CONFIG_ROOT_URL.'/api.php?d=upload-tool');
 	break;
     }
 }else{

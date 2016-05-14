@@ -1,4 +1,7 @@
 <?php
+//Loading configuration file
+require_once "includes/config.php";
+
 require_once "rain/rain.tpl.class.php";
 
 raintpl::configure( 'path_replace', false);
@@ -15,6 +18,7 @@ $tpl->assign("title", $title);
 $tpl->draw("header");
 
 if(isset($_GET['info'])) {
+    $tpl->assign("url_filename", CONFIG_ROOT_URL);
     $tpl->draw("info");
 } else {
     $tpl->draw("upload");
