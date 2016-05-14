@@ -30,6 +30,9 @@ Temp file sharing application source code, stores files and deletes after X amou
 
         Alias "/files" "/var/www/Uguu/public/files/"
         <Directory /var/www/Uguu/public/files/>
+		<Files *>
+                        SetHandler default-handler
+                </Files>
                 AllowOverride None
                 Options -Indexes
                 Require all granted
