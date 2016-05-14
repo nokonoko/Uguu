@@ -25,10 +25,5 @@ Make the uguu/public/files and uguu/rain/cache directory modifiable to the web s
   * Putting a custom name into POST value 'name' will cause it to return a custom filename (yourpick.ext).
 
   E.g:
-  * curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload (HTML Response)
-  * curl -i -F name=test.jpg -F file=@localfile.jpg http://uguu.se/api.php?d=upload-tool (Plain text Response)
-
-This will probably get changed later since it's messy and unpractical.
-
-# Contact
-[neku@pomf.se](mailto:neku@pomf.se) or [@Nekunekus](https://twitter.com/nekunekus).
+  * curl -i -F name=test.jpg -F file=@localfile.jpg http://path.to.uguu/api.php?d=upload (HTML Response)
+  * curl -i -F name=test.jpg -F file=@localfile.jpg http://path.to.uguu/api.php?d=upload-tool (Plain text Response)
