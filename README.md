@@ -1,5 +1,5 @@
 # About
-Temp file sharing application source code, stores files and deletes after X amount of time. Forked from Uguu.se available [here](https://github.com/nokonoko/uguu).
+Uguu is a temporary file host, which deletes files after X amount of time.
 
 # Tested with:
 * Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy
