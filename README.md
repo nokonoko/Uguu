@@ -41,6 +41,58 @@
 </VirtualHost>
 ```
 
+Or something like this using Nginx:
+
+uguu.se
+```
+server{
+    listen              104.243.35.197:80;
+    server_name         uguu.se www.uguu.se;
+
+    root                        /home/neku/www/uguu/;
+    autoindex           off;
+    index                       index.html index.php;
+
+return 301 https://$host$request_uri;
+
+    location ~* \.php$ {
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_intercept_errors on;
+        fastcgi_index index.php;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+        error_page 404 /404.html;
+        error_page 403 /404.html;
+        location /404.html {
+        root /home/neku/www;
+        }
+}
+```
+
+a.uguu.se (notice that scripts e.g PHP will NOT be executed from this subdomain)
+```
+server{
+    listen          104.243.35.197:80;
+    server_name     a.uguu.se www.a.uguu.se;
+
+    root            /home/neku/www/files;
+    autoindex       off;
+    index           index.html;
+
+return 301 https://$host$request_uri;
+
+        error_page      404 /404.html;
+        error_page      403 /404.html;
+        location /404.html {
+        root /home/neku/www;
+        }
+}
+```
+
+
 # Using the API
 
   * Leaving POST value 'name' empty will cause it to save using the original filename.
