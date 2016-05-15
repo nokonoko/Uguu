@@ -53,8 +53,6 @@ server{
     autoindex           off;
     index                       index.html index.php;
 
-return 301 https://$host$request_uri;
-
     location ~* \.php$ {
         fastcgi_pass unix:/var/run/php5-fpm.sock;
         fastcgi_intercept_errors on;
@@ -81,8 +79,6 @@ server{
     root            /home/neku/www/files;
     autoindex       off;
     index           index.html;
-
-return 301 https://$host$request_uri;
 
         error_page      404 /404.html;
         error_page      403 /404.html;
