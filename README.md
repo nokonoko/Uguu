@@ -30,7 +30,7 @@
 
         Alias "/files" "/var/www/Uguu/public/files/"
         <Directory /var/www/Uguu/public/files/>
-		      <Files *>
+          <Files *>
             SetHandler default-handler
           </Files>
           AllowOverride None
