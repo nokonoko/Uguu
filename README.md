@@ -16,7 +16,7 @@
 * Execute check.sh regularly with cron to delete old files: `crontab -e` and add `0,15,30,45 * * * * bash /path/to/check.sh` (or adapt if you know how cron works).
 * Make the Uguu/public/files and Uguu/rain/cache directory modifiable by the web server user:
 `chown -R www-data:www-data /path/to/Uguu/public/files` and `chown -R www-data:www-data /path/to/Uguu/rain/cache`
-* Make sure the Uguu/public/files folder is not indexable, you may use a virtual host config similar to this one:
+* Make sure the Uguu/public/files folder is not indexable, you may use a virtual host config similar to this one using Apache:
 
 ```
 <VirtualHost *:80>
@@ -41,7 +41,7 @@
 </VirtualHost>
 ```
 
-Or something like this using Nginx:
+Or something like this using Nginx+PHP-FPM:
 
 uguu.se
 ```
