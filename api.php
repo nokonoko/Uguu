@@ -6,6 +6,7 @@ require_once "includes/config.php";
 if(isset($_GET['d'])) {
     //Include the core file with the functions
     include_once(CONFIG_ROOT_PATH.'includes/core.php');
+    $withNewLine=false;
     switch ($_GET['d']) {
     	//Uploading with HTML response and errors
         case 'upload':
@@ -28,6 +29,8 @@ if(isset($_GET['d'])) {
 	save_file($_FILES['file']['tmp_name'], $name, $arg, 'normal');
 	break;
 	//Uploading without HTML response or errors
+	case 'upload-tool-with-new-line':
+	$withNewLine=true;
 	case 'upload-tool':
 	        //If no file is being posted, show the error page and exit.
         if(empty($_FILES['file']['name'])){
@@ -44,7 +47,7 @@ if(isset($_GET['d'])) {
         $name = $_FILES['file']['name'];
 	$arg = 'random';}
 	//Call the save function which sends the file+name
-	save_file($_FILES['file']['tmp_name'], $name, $arg, 'tool');
+	save_file($_FILES['file']['tmp_name'], $name, $arg, 'tool', $withNewLine);
 	break;
         case 'extend-time':
             break;
