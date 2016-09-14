@@ -3,7 +3,7 @@
 require_once "config.php";
 
 //Saving the file on the server
-function save_file ($file, $name, $arg, $type,$withNewLine=false){
+function save_file ($file, $name, $arg, $type, $withNewLine=false){
     //Generate name depending on arg
     switch($arg){
         case 'random':
