@@ -47,9 +47,9 @@ function save_file ($file, $name, $arg, $type){
     if($type==='tool'){
     //Return url+filename to the user (plain text)
     if(CONFIG_SUBUPLOAD_URL_ENABLED == "true"){
-    echo CONFIG_SUBUPLOAD_URL.'/'.urlencode($file_name);
+    echo CONFIG_SUBUPLOAD_URL.'/'.urlencode($file_name)."\n";
     }else{
-    echo CONFIG_ROOT_URL.'/files/'.urlencode($file_name);
+    echo CONFIG_ROOT_URL.'/files/'.urlencode($file_name)."\n";
     }
     exit(0);
     }elseif($type==='normal'){
