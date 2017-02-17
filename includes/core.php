@@ -3,7 +3,7 @@
 require_once "config.php";
 
 //Saving the file on the server
-function save_file ($file, $name, $arg, $type){
+function save_file ($file, $name, $arg, $type, $withNewLine=false){
     //Generate name depending on arg
     switch($arg){
         case 'random':
@@ -48,8 +48,10 @@ function save_file ($file, $name, $arg, $type){
     //Return url+filename to the user (plain text)
     if(CONFIG_SUBUPLOAD_URL_ENABLED == "true"){
     echo CONFIG_SUBUPLOAD_URL.'/'.urlencode($file_name);
+    if ($withNewLine) echo "\n";
     }else{
     echo CONFIG_ROOT_URL.'/files/'.urlencode($file_name);
+    if ($withNewLine) echo "\n";
     }
     exit(0);
     }elseif($type==='normal'){
