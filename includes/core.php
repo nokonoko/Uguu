@@ -9,14 +9,7 @@ function save_file ($file, $name, $arg, $type){
         case 'random':
             $ext = pathinfo($file.$name, PATHINFO_EXTENSION);
             $ext = strtolower($ext);
-            if(in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))){
-              if($type==='normal'){
-                include_once(CONFIG_ROOT_PATH.'error_meow.php');
-                exit(0);
-              }else{
-                exit('File type not allowed.');
-              }
-            }
+            verify_extension($ext, $type);
             $file_name = gen_name('random', $ext);
             while(file_exists(CONFIG_FILES_PATH.$file_name)){
               $file_name = gen_name('random', $ext);
@@ -28,14 +21,7 @@ function save_file ($file, $name, $arg, $type){
                 $file_name = gen_name('custom_original', $name);
                 $ext = pathinfo($file_name, PATHINFO_EXTENSION);
                 $ext = strtolower($ext);
-                if(in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))){
-                 if($type==='normal'){
-                   include_once(CONFIG_ROOT_PATH.'error_meow.php');
-                   exit(0);
-                 }else{
-                   exit('File type not allowed.');
-                 }
-                }
+                verify_extension($ext, $type);
             while(file_exists(CONFIG_FILES_PATH.$file_name)){
                 $file_name = gen_name('custom_original', $name);
             }
@@ -74,5 +60,23 @@ function gen_name($arg, $in){
         case 'custom_original':
             return $name.'_'.$in;
             break;
+    }
+}
+
+//Verify that the extension is allowed
+function verify_extension($ext, $type){
+    if(CONFIG_EXTENSION_BLOCKING_MODE == "WHITELIST") {
+        $allowed = in_array($ext, unserialize(CONFIG_ALLOWED_EXTENSIONS));
+    }else{
+        $allowed = !in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS));
+    }
+
+    if(!$allowed){
+        if($type==='normal'){
+            include_once(CONFIG_ROOT_PATH.'error_meow.php');
+            exit(0);
+        }else{
+            exit('File type not allowed.');
+        }
     }
 }

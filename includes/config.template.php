@@ -15,7 +15,11 @@ define("CONFIG_MAX_RETENTION_TIME", "60");
 define("CONFIG_MAX_RETENTION_TEXT", "1 hour");
 //Length of the random chain appended to the filename
 define("CONFIG_RANDOM_LENGTH", "12");
-//This is the list of blocked extensions, you can remove extensions or add to this list as you like
-define ("CONFIG_BLOCKED_EXTENSIONS", serialize(array("exe", "scr", "rar", "zip", "com", "vbs", "bat", "cmd", "html", "htm", "msi", "php", "php5")));
+//Operate on a BLACKLIST or a WHITELIST when blocking file extensions
+define("CONFIG_EXTENSION_BLOCKING_MODE", "BLACKLIST");
+//This is the list of blocked extensions in BLACKLIST mode (default mode), you can remove extensions or add to this list as you like
+define("CONFIG_BLOCKED_EXTENSIONS", serialize(array("exe", "scr", "rar", "zip", "com", "vbs", "bat", "cmd", "html", "htm", "msi", "php", "php5")));
+//This is the list of allowed extensions in WHITELIST mode, you can remove extensions or add to this list as you like
+define("CONFIG_ALLOWED_EXTENSIONS", serialize(array("txt", "pdf")));
 //https://wiki.gentoo.org/wiki/Handbook to set this string correctly, or just ignore it
 define("VERYLO_NG_STRING_THATDOESNTREALLYD_O_ANYTHING", "ok");
