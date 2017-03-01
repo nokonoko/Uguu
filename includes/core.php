@@ -65,7 +65,7 @@ function gen_name($arg, $in){
 
 //Verify that the extension is allowed
 function verify_extension($ext, $type){
-    if(CONFIG_EXTENSION_BLOCKING_MODE == "WHITELIST") {
+    if(CONFIG_EXTENSION_BLOCKING_MODE === "WHITELIST") {
         $allowed = in_array($ext, unserialize(CONFIG_ALLOWED_EXTENSIONS));
     }else{
         $allowed = !in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS));
