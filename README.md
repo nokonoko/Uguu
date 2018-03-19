@@ -7,6 +7,7 @@
 * Apache (PHP 5.6) on Debian 8 Jessie
 * Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
 * Apache (PHP 5.6.33 (remi-php56)) on CentOS 6.9
+* [Caddy](https://caddyserver.com/) + php7.0-fpm on Ubuntu 16.04.4 LTS
 
 # Install:
 
@@ -86,6 +87,18 @@ server{
         location /404.html {
         root /home/neku/www;
         }
+}
+```
+
+Or something like this for usage with caddy:
+```
+uguu.se {
+    fastcgi / /var/run/php/php7.0-fpm.sock php
+    root /home/neku/www
+}
+
+a.uguu.se {
+    root /home/neku/www/files
 }
 ```
 
