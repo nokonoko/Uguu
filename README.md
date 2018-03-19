@@ -7,6 +7,7 @@
 * Apache (PHP 5.6) on Debian 8 Jessie
 * Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
 * Apache (PHP 5.6.33 (remi-php56)) on CentOS 6.9
+* Nginx+PHP7-FPM (PHP 7.0) on Debian 9 Stretch
 
 # Install:
 
