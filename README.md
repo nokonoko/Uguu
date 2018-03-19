@@ -9,6 +9,8 @@
 * Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
 * Nginx+PHP7-FPM (PHP 7.0) on Debian 9 Stretch
 
+* [Caddy](https://caddyserver.com/) + php7.0-fpm on Ubuntu 16.04.4 LTS
+
 # Install:
 
 * Deploy base code, for example with `git clone https://github.com/nokonoko/Uguu.git`
