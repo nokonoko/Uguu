@@ -8,7 +8,6 @@
 * Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy
 * Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
 * Nginx+PHP7-FPM (PHP 7.0) on Debian 9 Stretch
-
 * [Caddy](https://caddyserver.com/) + php7.0-fpm on Ubuntu 16.04.4 LTS
 
 # Install:
@@ -89,6 +88,18 @@ server{
         location /404.html {
         root /home/neku/www;
         }
+}
+```
+
+Or something like this for usage with caddy:
+```
+uguu.se {
+    fastcgi / /var/run/php/php7.0-fpm.sock php
+    root /home/neku/www
+}
+
+a.uguu.se {
+    root /home/neku/www/files
 }
 ```
 
