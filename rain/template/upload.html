@@ -1,11 +1,11 @@
 <div class="container">
     <form class="col s12" action="api.php?d=upload" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="MAX_FILE_SIZE" value="150000000" />
+        <input type="hidden" name="MAX_FILE_SIZE" value="157286400" />
             <div class="file-field input-field">
                 <input class="file-path validate" type="text" readonly="readonly"/>
                     <div class="btn ie-btn-fix">
                         <span>File</span>
-                        <input id="file" type="file" name="file" />
+                        <input id="send" type="file" name="file" />
                     </div>
                 </div>
 
@@ -20,10 +20,44 @@
                         <label for="customname">Custom filename, e.g cat.flac (optional)</label>
                     </div>
                 </div>
-
+<p id="error1" style="display:none; color:#FF0000;">
+File formats are not allowed to be upload. Please see <a href="/?Info"> Help </a>.
+</p>
+<p id="error2" style="display:none; color:#FF0000;">
+The size of single file is limited to 150 MB. For larger files, please use the client.
+</p>
                 <button class="btn waves-effect waves-light" type="submit">Upload
                     <i class="mdi-content-send right"></i>
                 </button>
             </div>
     </form>
 </div>
+<script>
+$('input[type="submit"]').prop("disabled", true);
+var a=0;
+//input field
+$('#send').bind('change', function() {
+if ($('button:submit').attr('disabled',false)){
+	$('button:submit').attr('disabled',true);
+	}
+var ext = $('#send').val().split('.').pop().toLowerCase();
+if ($.inArray(ext, ['7z','exe','gif','jpg','png','rar','torrent','zip']) == -1){
+	$('#error1').slideDown("slow");
+	$('#error2').slideUp("slow");
+	a=0;
+	}else{
+	var picsize = (this.files[0].size);
+	if (picsize > 157286400){
+	$('#error2').slideDown("slow");
+	a=0;
+	}else{
+	a=1;
+	$('#error2').slideUp("slow");
+	}
+	$('#error1').slideUp("slow");
+	if (a==1){
+		$('button:submit').attr('disabled',false);
+		}
+}
+});
+</script>
