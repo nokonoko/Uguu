@@ -55,7 +55,10 @@ function gen_name($arg, $in){
         }
     switch($arg){
         case 'random':
-            return $name.'.'.$in;
+            if($in){
+                return $name.'.'.$in;
+            }
+            return $name;
             break;
         case 'custom_original':
             return $name.'_'.$in;
