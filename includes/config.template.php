@@ -21,5 +21,7 @@ define("CONFIG_EXTENSION_BLOCKING_MODE", "BLACKLIST");
 define("CONFIG_BLOCKED_EXTENSIONS", serialize(array("exe", "scr", "rar", "zip", "com", "vbs", "bat", "cmd", "html", "htm", "msi", "php", "php5")));
 //This is the list of allowed extensions in WHITELIST mode, you can remove extensions or add to this list as you like
 define("CONFIG_ALLOWED_EXTENSIONS", serialize(array("txt", "pdf")));
+//List of blocked MIME types, for when simple ext checks doesnt cut it
+define ("CONFIG_BLOCKED_MIME", serialize(array("application/octet-stream", "application/msword", "text/html", "application/x-dosexec", "application/zip", "application/java", "application/java-archive")));
 //https://wiki.gentoo.org/wiki/Handbook to set this string correctly, or just ignore it
 define("VERYLO_NG_STRING_THATDOESNTREALLYD_O_ANYTHING", "ok");
