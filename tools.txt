@@ -7,3 +7,6 @@ API
 To upload using curl or make a tool you can post using:
 curl -i -F name=test.jpg -F file=@localfile.jpg https://uguu.se/api.php?d=upload (HTML Response)
 curl -i -F name=test.jpg -F file=@localfile.jpg https://uguu.se/api.php?d=upload-tool (Plain text Response)
+
+
+curl -i -F randomname=randomname -F file=@localfile.jpg https://uguu.se/api.php?d=upload-tool (Using a random name like ofijasofjyipyip.jpg)
