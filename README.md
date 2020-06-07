@@ -20,7 +20,7 @@
 * Make the Uguu/public/files and Uguu/rain/cache directory modifiable by the web server user:
 `chown -R www-data:www-data /path/to/Uguu/public/files` and `chown -R www-data:www-data /path/to/Uguu/rain/cache`
 * Make sure the Uguu/public/files folder is not indexable, you may use a virtual host config similar to this one using Apache:
-
+* If you intend to allow uploading files larger than 2 MB, you may also need to increase POST size limits in php.ini and webserver configuration. For PHP, modify upload_max_filesize and post_max_size values. The configuration option for Nginx webserver is client_max_body_size and LimitRequestBody for Apache.
 ```
 <VirtualHost *:80>
         ServerName path.to.uguu
