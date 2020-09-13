@@ -1,6 +1,5 @@
 # About
-
-Note: [Uguu.se](https://Uguu.se) no longer runs this code but instead a modified version of [Pomf](https://github.com/pomf/pomf), will be uploading that code soon.
+[Uguu.se](https://Uguu.se) no longer runs this code but instead a modified version of [Pomf](https://github.com/pomf/pomf), will be uploading that code soon.
 
 
 # Tested with:
