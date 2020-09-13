@@ -1,5 +1,4 @@
 # About
-[Uguu.se](http://uguu.se) source code, stores files and deletes after X amount of time.
 
 Note: [Uguu.se](https://Uguu.se) no longer runs this code but instead a modified version of [Pomf](https://github.com/pomf/pomf), will be uploading that code soon.
 
