@@ -84,8 +84,6 @@ Then add them to your crontab:
 
 These scripts check if DB entries and files are older then 24 hours and if they are deletes them.
 
-Example nginx configs can be found in confs/.
-
 ## Using SQLite as DB engine
 
 We need to create the SQLite database before it may be used by uguu.
