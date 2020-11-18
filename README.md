@@ -56,7 +56,12 @@ file size, are found in `dist.json`.  Changes made here will
 only take effect after rebuilding the site pages.  This may be done by running
 `make` from the root of the site directory.
 
-Back-end related settings, such as database configuration, and path for uploaded files, are found in `static/php/includes/settings.inc.php`.  Changes made here take effect immediately.
+Back-end related settings, such as database configuration, and path for uploaded files, are found in `static/php/includes/settings.inc.php`.  Changes made here take effect immediately. Change the following settings:
+```php
+define('UGUU_DB_CONN', 'sqlite:/path/to/db/uguu.sq3');
+define('UGUU_FILES_ROOT', '/path/to/file/');
+define('UGUU_URL', 'https://subdomainforyourfiles.your.site');
+```
 
 If you intend to allow uploading files larger than 2 MB, you may also need to
 increase POST size limits in `php.ini` and webserver configuration. For PHP,
