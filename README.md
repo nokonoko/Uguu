@@ -87,7 +87,7 @@ First create a directory for the database, e.g. `mkdir /var/db/uguu`.
 Then, create a new SQLite database from the schema, e.g. `sqlite3 /var/db/uguu/uguu.sq3 -init /home/uguu/sqlite_schema.sql`.
 Then, finally, ensure the permissions are correct, e.g.
 ```bash
-chown nginx:nginx /var/db/uguu
+chown www-data:www-data /var/db/uguu
 chmod 0750 /var/db/uguu
 chmod 0640 /var/db/uguu/uguu.sq3
 ```
