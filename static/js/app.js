@@ -130,8 +130,11 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (respStatus === 413) {
       link.textContent = 'File too big!';
       url.appendChild(link);
+    } else if (respStatus === 415) {
+      link.textContent = 'Filetype not allowed!';
+      url.appendChild(link);
     } else {
-      link.textContent = 'Filetype not allowed or server error!';
+      link.textContent = 'Server error!';
       url.appendChild(link);
     }
   }

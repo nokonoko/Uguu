@@ -12,7 +12,7 @@ class Response
      *
      * Valid strings are 'csv', 'html', 'json' and 'text'.
      *
-     * @var string $type Response type
+     * @var string Response type
      */
     private $type;
 
@@ -57,8 +57,9 @@ class Response
     /**
      * Routes error messages depending on response type.
      *
-     * @param int $code HTTP status code number.
-     * @param int $desc Descriptive error message.
+     * @param int $code HTTP status code number
+     * @param int $desc descriptive error message
+     *
      * @return void
      */
     public function error($code, $desc)
@@ -80,7 +81,7 @@ class Response
                 break;
         }
 
-        http_response_code(500); // "500 Internal Server Error"
+        //http_response_code(500); // "500 Internal Server Error"
         echo $response;
     }
 
@@ -88,6 +89,7 @@ class Response
      * Routes success messages depending on response type.
      *
      * @param mixed[] $files
+     *
      * @return void
      */
     public function send($files)
@@ -117,8 +119,10 @@ class Response
      * Indicates with CSV body the request was invalid.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
-     * @param int $description Descriptive error message.
-     * @return string Error message in CSV format.
+     *
+     * @param int $description descriptive error message
+     *
+     * @return string error message in CSV format
      */
     private static function csvError($description)
     {
@@ -129,8 +133,10 @@ class Response
      * Indicates with CSV body the request was successful.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
+     *
      * @param mixed[] $files
-     * @return string Success message in CSV format.
+     *
+     * @return string success message in CSV format
      */
     private static function csvSuccess($files)
     {
@@ -149,9 +155,11 @@ class Response
      * Indicates with HTML body the request was invalid.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
-     * @param int $code HTTP status code number.
-     * @param int $description Descriptive error message.
-     * @return string Error message in HTML format.
+     *
+     * @param int $code        HTTP status code number
+     * @param int $description descriptive error message
+     *
+     * @return string error message in HTML format
      */
     private static function htmlError($code, $description)
     {
@@ -162,15 +170,17 @@ class Response
      * Indicates with HTML body the request was successful.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
+     *
      * @param mixed[] $files
-     * @return string Success message in HTML format.
+     *
+     * @return string success message in HTML format
      */
     private static function htmlSuccess($files)
     {
         $result = '';
 
         foreach ($files as $file) {
-            $result .=  '<a href="'.$file['url'].'">'.$file['url'].'</a><br>';
+            $result .= '<a href="'.$file['url'].'">'.$file['url'].'</a><br>';
         }
 
         return $result;
@@ -180,41 +190,47 @@ class Response
      * Indicates with JSON body the request was invalid.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
-     * @param int $code HTTP status code number.
-     * @param int $description Descriptive error message.
-     * @return string Error message in pretty-printed JSON format.
+     *
+     * @param int $code        HTTP status code number
+     * @param int $description descriptive error message
+     *
+     * @return string error message in pretty-printed JSON format
      */
     private static function jsonError($code, $description)
     {
-        return json_encode(array(
+        return json_encode([
             'success' => false,
             'errorcode' => $code,
             'description' => $description,
-        ), JSON_PRETTY_PRINT);
+        ], JSON_PRETTY_PRINT);
     }
 
     /**
      * Indicates with JSON body the request was successful.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
+     *
      * @param mixed[] $files
-     * @return string Success message in pretty-printed JSON format.
+     *
+     * @return string success message in pretty-printed JSON format
      */
     private static function jsonSuccess($files)
     {
-        return json_encode(array(
+        return json_encode([
             'success' => true,
             'files' => $files,
-        ), JSON_PRETTY_PRINT);
+        ], JSON_PRETTY_PRINT);
     }
 
     /**
      * Indicates with plain text body the request was invalid.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
-     * @param int $code HTTP status code number.
-     * @param int $description Descriptive error message.
-     * @return string Error message in plain text format.
+     *
+     * @param int $code        HTTP status code number
+     * @param int $description descriptive error message
+     *
+     * @return string error message in plain text format
      */
     private static function textError($code, $description)
     {
@@ -225,8 +241,10 @@ class Response
      * Indicates with plain text body the request was successful.
      *
      * @deprecated 2.1.0 Will be renamed to camelCase format.
+     *
      * @param mixed[] $files
-     * @return string Success message in plain text format.
+     *
+     * @return string success message in plain text format
      */
     private static function textSuccess($files)
     {
