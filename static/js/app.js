@@ -131,10 +131,10 @@ document.addEventListener('DOMContentLoaded', function() {
       link.textContent = 'File too big!';
       url.appendChild(link);
     } else if (respStatus === 415) {
-      link.textContent = 'File not allowed lol!';
+      link.textContent = 'Filetype not allowed!';
       url.appendChild(link);
     } else {
-      link.textContent = 'Filetype not allowed or server error!';
+      link.textContent = 'Server error!';
       url.appendChild(link);
     }
   }
