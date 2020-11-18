@@ -1,0 +1,14 @@
+language: php
+php:
+  - '7.2'
+  - '7.3'
+  - '7.4'
+
+install:
+- source ~/.nvm/nvm.sh 
+- nvm ls-remote
+- nvm install stable
+- nvm use stable
+script:
+- make 
+

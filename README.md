@@ -1,118 +1,122 @@
-# About
-[Uguu.se](https://Uguu.se) no longer runs this code but instead a modified version of [Pomf](https://github.com/pomf/pomf), will be uploading that code soon.
+# Uguu
 
+uguu is a simple file uploading and sharing platform.
 
-# Tested with:
-* Apache (PHP 5.4) on Ubuntu 14.04 LTS
-* Apache (PHP 5.6) on Debian 8 Jessie
-* Apache (PHP 5.6.33 (remi-php56)) on CentOS 6.9
-* Nginx+PHP5-FPM (PHP 5.4) on Debian 7 Wheezy
-* Nginx+PHP5-FPM (PHP 5.6) on Debian 8 Jessie
-* Nginx+PHP7-FPM (PHP 7.0) on Debian 9 Stretch
-* [Caddy](https://caddyserver.com/) + php7.0-fpm on Ubuntu 16.04.4 LTS
+## Features
 
-# Install:
+- One click uploading, no registration required
+- A minimal, modern web interface
+- Drag & drop supported
+- Upload API with multiple response choices
+  - JSON
+  - HTML
+  - Text
+  - CSV
+- Supports [ShareX](https://getsharex.com/) and other screenshot tools
 
-* Deploy base code, for example with `git clone https://github.com/nokonoko/Uguu.git`
-* Modify includes/config.php (copy config.template.php as a starting point) to set up the main options for Uguu.
-* Some file extensions are blocked by default, this can be changed via includes/config.php's CONFIG_BLOCKED_EXTENSIONS value.
-* Copy `rain/template/footer.template.html` as `rain/template/footer.html` and personalize the footer as you wish
-* Execute check.sh regularly with cron to delete old files: `crontab -e` and add `0,15,30,45 * * * * cd /path/to/uguu/includes && bash check.sh` (or adapt if you know how cron works).
-* Make the Uguu/public/files and Uguu/rain/cache directory modifiable by the web server user:
-`chown -R www-data:www-data /path/to/Uguu/public/files` and `chown -R www-data:www-data /path/to/Uguu/rain/cache`
-* Make sure the Uguu/public/files folder is not indexable, you may use a virtual host config similar to this one using Apache:
-* If you intend to allow uploading files larger than 2 MB, you may also need to increase POST size limits in php.ini and webserver configuration. For PHP, modify upload_max_filesize and post_max_size values. The configuration option for Nginx webserver is client_max_body_size and LimitRequestBody for Apache.
+### Demo
+
+See the real world example at [uguu.se](https://uguu.se).
+
+## Requirements
+
+Original development environment is Nginx + PHP7.3 + SQLite, but is confirmed to
+work with Apache 2.4 and newer PHP versions.
+
+## Install
+
+For the purposes of this guide, we won't cover setting up Nginx, PHP, SQLite,
+Node, or NPM. So we'll just assume you already have them all running well.
+
+### Compiling
+
+First you must get a copy of the uguu code.  To do so, clone this git repo.
+You will need to recursively clone the repo to get the required PHP submodule,
+and the optional user panel submodule.
+```bash
+git clone --recursive https://github.com/nokonoko/uguu
 ```
-<VirtualHost *:80>
-        ServerName path.to.uguu
-
-        DocumentRoot /var/www/Uguu/
-        <Directory /var/www/Uguu/>
-                AllowOverride All
-                Require all granted
-        </Directory>
-
-        Alias "/files" "/var/www/Uguu/public/files/"
-        <Directory /var/www/Uguu/public/files/>
-          <Files *>
-            SetHandler default-handler
-          </Files>
-          AllowOverride None
-          Options -Indexes
-          Require all granted
-        </Directory>
-
-</VirtualHost>
+If you don't want either of the submodules run the following command,
+```bash
+git clone https://github.com/nokonoko/uguu
 ```
 
-Or something like this using Nginx+PHP-FPM:
+Assuming you already have Node and NPM working, compilation is easy. If you would like any additional submodules, or to exclude the default PHP submodule, use the `MODULES="..."` variable.
 
-uguu.se
+Run the following commands to do so.
+```bash
+cd uguu/
+make
+# alternatively
+make MODULES="" # compile no submodules; exclude the default php backend module
+make MODULES="php" # compile the php submodule
+#
+make install
 ```
-server{
-    listen              104.243.35.197:80;
-    server_name         uguu.se www.uguu.se;
-
-    root                        /home/neku/www/uguu/;
-    autoindex           off;
-    index                       index.html index.php;
-
-    location ~* \.php$ {
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_intercept_errors on;
-        fastcgi_index index.php;
-        fastcgi_split_path_info ^(.+\.php)(.*)$;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-
-        error_page 404 /404.html;
-        error_page 403 /404.html;
-        location /404.html {
-        root /home/neku/www;
-        }
-}
+OR
+```bash
+make install DESTDIR=/desired/path/for/site
 ```
+After this, the uguu site is now compressed and set up inside `dist/`, or, if specified, `DESTDIR`.
 
-a.uguu.se (notice that scripts e.g PHP will NOT be executed from this subdomain)
-```
-server{
-    listen          104.243.35.197:80;
-    server_name     a.uguu.se www.a.uguu.se;
+## Configuring
 
-    root            /home/neku/www/files;
-    autoindex       off;
-    index           index.html;
+Front-end related settings, such as the name of the site, and maximum allowable
+file size, are found in `dist.json`.  Changes made here will
+only take effect after rebuilding the site pages.  This may be done by running
+`make` from the root of the site directory.
 
-        error_page      404 /404.html;
-        error_page      403 /404.html;
-        location /404.html {
-        root /home/neku/www;
-        }
-}
-```
+Back-end related settings, such as database configuration, and path for uploaded files, are found in `static/php/includes/settings.inc.php`.  Changes made here take effect immediately.
 
-Or something like this for usage with caddy:
-```
-uguu.se {
-    fastcgi / /var/run/php/php7.0-fpm.sock php
-    root /home/neku/www
-}
+If you intend to allow uploading files larger than 2 MB, you may also need to
+increase POST size limits in `php.ini` and webserver configuration. For PHP,
+modify `upload_max_filesize` and `post_max_size` values. The configuration
+option for nginx webserver is `client_max_body_size`.
 
-a.uguu.se {
-    root /home/neku/www/files
-}
+Example nginx configs can be found in confs/.
+
+## Using SQLite as DB engine
+
+We need to create the SQLite database before it may be used by uguu.
+Fortunately, this is incredibly simple.  
+
+First create a directory for the database, e.g. `mkdir /var/db/uguu`.  
+Then, create a new SQLite database from the schema, e.g. `sqlite3 /var/db/uguu/uguu.sq3 -init /home/uguu/sqlite_schema.sql`.
+Then, finally, ensure the permissions are correct, e.g.
+```bash
+chown nginx:nginx /var/db/uguu
+chmod 0750 /var/db/uguu
+chmod 0640 /var/db/uguu/uguu.sq3
 ```
 
+Finally, edit `php/includes/settings.inc.php` to indicate this is the database engine you would like to use.  Make the changes outlined below
+```php
+define('UGUU_DB_CONN', '[stuff]'); ---> define('UGUU_DB_CONN', 'sqlite:/var/db/uguu/uguu.sq3');
+define('UGUU_DB_USER', '[stuff]'); ---> define('UGUU_DB_USER', null);
+define('UGUU_DB_PASS', '[stuff]'); ---> define('UGUU_DB_PASS', null);
+```
 
-# Using the API
+*NOTE: The directory where the SQLite database is stored, must be writable by the web server user*
 
-  * Leaving POST value 'name' empty will cause it to save using the original filename.
-  * Leaving POST value 'randomname' empty will cause it to use original filename or custom name if 'name' is set to file.ext.
+### Apache
 
-  * Putting anything into POST value 'randomname' will cause it to return a random filename + ext (xxxxxx.ext).
-  * Putting a custom name into POST value 'name' will cause it to return a custom filename (yourpick.ext).
+If you are running Apache and want to compress your output when serving files,
+add to your `.htaccess` file:
 
-  E.g:
-  * curl -i -F name=test.jpg -F file=@localfile.jpg http://path.to.uguu/api.php?d=upload (HTML Response)
-  * curl -i -F name=test.jpg -F file=@localfile.jpg http://path.to.uguu/api.php?d=upload-tool (Plain text Response)
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/x-javascript application/json
+
+Remember to enable `deflate_module` and `filter_module` modules in your Apache
+configuration file.
+
+## Getting help
+
+Hit me up at twitter or email me.
+
+## Credits
+
+Uguu is based off [Pomf](http://github.com/pomf/pomf).
+
+## License
+
+Uguu is free software, and is released under the terms of the Expat license. See
+`LICENSE`.

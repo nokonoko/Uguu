@@ -1,0 +1,397 @@
+/**
+ * Copyright (c) 2011, 2012, 2013 Twitter, Inc.
+ * Copyright (c) 2013, 2014 Peter Lejeck <peter.lejeck@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * USE BORDER BOX
+ */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/**
+  * PAGE LAYOUT
+  */
+body {
+  background-attachment: fixed, fixed;
+  background-color: #F7F7F7;
+  background-image: url('grill.php'), url('img/bg.png');
+  background-position: 85% 100%, top left;
+  background-repeat: no-repeat, repeat;
+  color: #333;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  height: 100%;
+  line-height: 20px;
+  margin: 0;
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+.container {
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+/**
+ * ELEMENTS
+ */
+/* paragraphs */
+p {
+  margin: 0 0 10px;
+}
+/* images */
+input[type=image], img {
+  vertical-align: middle;
+}
+/* links */
+a {
+  color: #0078B4;
+  text-decoration: none;
+  transition: color 0.25s;
+}
+a:hover,
+a:focus,
+a:active {
+  color: #005580;
+}
+a:focus {
+  outline: thin dotted #333;
+}
+
+/**
+ * JUMBOTRON
+ */
+.jumbotron {
+  margin: 60px 0;
+  text-align: center;
+  transition: width 0.5s, height 0.5s, margin 0.5s, padding 0.5s;
+}
+.jumbotron h1 {
+  color: inherit;
+  font-family: inherit;
+  font-size: 72px;
+  font-weight: bold;
+  line-height: 1;
+  margin: 10px 0;
+  cursor: default;
+  text-rendering: optimizelegibility;
+}
+.jumbotron .lead {
+  font-size: 21px;
+  font-weight: 200;
+  line-height: 30px;
+  margin-bottom: 20px;
+  transition: font-size 0.5s;
+}
+.jumbotron .btn {
+  background: rgba(202, 230, 190, 0.75);
+  border: 1px solid #B7D1A0;
+  border-radius: 4px;
+  color: #468847;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 24px;
+  padding: 28px 48px;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+  transition: background-color 0.25s, width 0.5s, height 0.5s;
+}
+.jumbotron .btn:hover,
+.jumbotron .btn:active,
+.jumbotron .btn:focus,
+.jumbotron .btn.drop {
+  background-color: rgb(188, 228, 170);
+  text-decoration: none;
+}
+
+/**
+ * BOXES
+ */
+.alert {
+  background-color: #FCF8E3;
+  border: 1px solid #FBEED5;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  text-shadow: 0px 1px rgba(255, 255, 255, 0.5);
+  transition: width 0.5s, margin 0.5s, padding 0.5s, background-color 0.5s;
+}
+.alert-error {
+  background-color: #F2DEDE;
+  border-color: #EED3D7;
+  color: #AA4342;
+}
+.alert-info {
+  background-color: #D9EDF7;
+  border-color: #BCE8F1;
+  color: #167196;
+}
+
+/**
+ * DONATION BUTTONS
+ */
+span.donate-btns {
+  display: block;
+  text-align: center;
+  margin: 11px 0 3px;
+}
+a.donate-btn {
+  height: 26px;
+  display: inline-block;
+  margin: 2px 5px;
+  background: hsl(0, 0%, 95%);
+  line-height: 16px;
+  padding: 3px 8px 3px 24px;
+  border-radius: 3px;
+  color: hsl(0, 0%, 25%);
+  border: 1px solid hsl(0, 0%, 85%);
+  transition: all .2s;
+}
+a.donate-btn:hover {
+  color: #000;
+  border: 1px solid hsl(0, 0%, 70%);
+  background-color: hsl(0, 0%, 80%);
+}
+.icon {
+  display: block;
+  height: 16px;
+  width: 16px;
+  float: left;
+  margin-left: -20px;
+  margin-top: 1px;
+}
+.icon-paypal {
+  background-image: url('img/paypal.png');
+}
+.icon-bitcoin {
+  background-image: url('img/bitcoin.png');
+}
+.icon-flattr {
+  background-image: url('img/flattr.png');
+}
+
+/**
+ * NAVIGATION LINKS
+ */
+nav > ul,
+nav a {
+  color: #33799B;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+nav > ul > li {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+}
+nav > ul > li:after {
+  content: "|";
+  margin: 0 8px;
+  opacity: 0.3;
+}
+nav > ul > li:last-child:after {
+  content: "";
+  margin: 0;
+}
+
+
+
+/**
+ * UPLOAD FILE LIST
+ */
+#upload-filelist {
+  list-style-type: none;
+  margin: 20px 50px;
+  padding: 0;
+  text-align: left;
+}
+.error#upload-filelist {
+  color: #891A18;
+}
+button.upload-clipboard-btn {
+  height: 16px;
+}
+.error#upload-filelist .progress-percent {
+  color: #B94A48;
+}
+.error#upload-filelist .file-progress {
+  display: none;
+}
+#upload-filelist > li {
+  margin-top: 5px;
+  overflow: hidden;
+}
+#upload-filelist > li.total {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  padding-top: 5px;
+}
+.file-name {
+  float: left;
+  overflow: hidden;
+  max-width: 70%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-progress,
+.file-url {
+  display: inline-block;
+  float: right;
+  font-size: 0.9em;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.file-url a {
+  color: #5C5C5C;
+}
+.file-url a:hover {
+  color: #1C1C1C;
+}
+.progress-percent {
+  float: right;
+}
+
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border: none;
+
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.25) inset;
+}
+
+/* completed rows */
+.completed .file-progress,
+.completed .progress-percent {
+  display: none;
+}
+.completed .file-url {
+  display: block;
+}
+
+/**
+ * PROGRESS BARS
+ */
+.progress-outer {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid white;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px black;
+  color: transparent;
+  display: inline-block;
+  font-size: 0;
+  float: right;
+  height: 8px;
+  margin: 6px 6px 0;
+  overflow: hidden;
+  vertical-align: middle;
+  width: 50px;
+}
+.progress-inner {
+  background-color: black;
+  height: 6px;
+  margin: 0;
+  width: 0;
+}
+
+/**
+ * MEDIA QUERIES
+ */
+@media only screen and (max-device-width: 320px), only screen and (max-width: 400px) {
+  body {
+    padding: 10px 0 0 0;
+  }
+  .jumbotron {
+    margin: 20px 0 30px;
+  }
+  .jumbotron .lead {
+    font-size: 18px;
+  }
+  .jumbotron .btn, .alert, #upload-filelist {
+    border-radius: 0;
+    border-width: 1px 0;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  #upload-filelist {
+    background-color: rgba(255, 255, 255, 0.75);
+    overflow: hidden;
+  }
+  #upload-filelist > li.file {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .file-progress {
+    width: 70%;
+  }
+  .file-name, .file-url {
+    width: 100%;
+    max-width: 100%;
+  }
+  .file-url a {
+    text-decoration: underline;
+    margin-left: 15px;
+  }
+  .file-url a:before {
+    content: "http://";
+  }
+  .alert {
+    font-size: 13px;
+  }
+  .alert-error {
+    background-color: rgba(248, 223, 223, 0.75);
+  }
+  nav {
+    background-color: rgba(255, 255, 255, 0.75);
+    border: #FFFFFF;
+    padding: 10px 0;
+  }
+}
+/*
+ * no js
+ */
+#upload-btn {
+  display: none;
+}
+.js #upload-input {
+  display: none;
+}
+.js input[type="submit"]{
+  display: none;
+}
+.js #upload-btn {
+  display: inline-block !important;
+}
