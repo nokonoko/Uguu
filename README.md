@@ -1,6 +1,6 @@
 # Uguu
 
-Uguu is a simple temporary file uploading and sharing platform where files get deleted after 24 hours.
+Uguu is a simple temporary file uploading and sharing platform where files get deleted after X amount of time.
 
 ## Features
 
