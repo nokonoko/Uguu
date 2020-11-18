@@ -31,17 +31,11 @@ Node, or NPM. So we'll just assume you already have them all running well.
 ### Compiling
 
 First you must get a copy of the uguu code.  To do so, clone this git repo.
-You will need to recursively clone the repo to get the required PHP submodule,
-and the optional user panel submodule.
-```bash
-git clone --recursive https://github.com/nokonoko/uguu
-```
-If you don't want either of the submodules run the following command,
 ```bash
 git clone https://github.com/nokonoko/uguu
 ```
 
-Assuming you already have Node and NPM working, compilation is easy. If you would like any additional submodules, or to exclude the default PHP submodule, use the `MODULES="..."` variable.
+Assuming you already have Node and NPM working, compilation is easy.
 
 Run the following commands to do so.
 ```bash
