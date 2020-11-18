@@ -116,9 +116,13 @@ define('UGUU_DB_PASS', '[stuff]'); ---> define('UGUU_DB_PASS', null);
 
 *NOTE: The directory where the SQLite database is stored, must be writable by the web server user*
 
-### Nginx/Apache
+## Nginx/Apache
 
 I won't cover settings everything up, however do NOT allow PHP scripts to be executed on your subdomain serving the files or someone will just upload a PHP shell and PwN you.
+
+## API
+To upload using curl or make a tool you can post using: 
+`curl -i -F files[]=@yourfile.jpeg https://uguu.se/upload.php (JSON Response)`
 
 ## Getting help
 
