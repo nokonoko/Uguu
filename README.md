@@ -47,10 +47,6 @@ Run the following commands to do so.
 ```bash
 cd uguu/
 make
-# alternatively
-make MODULES="" # compile no submodules; exclude the default php backend module
-make MODULES="php" # compile the php submodule
-#
 make install
 ```
 OR
@@ -110,7 +106,7 @@ configuration file.
 
 ## Getting help
 
-Hit me up at twitter or email me.
+Hit me up at [@nekunekus](https://twitter.com/nekunekus) or email me at neku@pomf.se
 
 ## Credits
 
