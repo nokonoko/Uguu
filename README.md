@@ -20,8 +20,8 @@ See the real world example at [uguu.se](https://uguu.se).
 
 ## Requirements
 
-Original development environment is Nginx + PHP7.3 + SQLite, but is confirmed to
-work with Apache 2.4 and newer PHP versions.
+Original development environment is Nginx + PHP5.3 + SQLite, but is confirmed to
+work with Apache 2.4 and newer PHP versions like PHP7.3.
 
 ## Install
 
