@@ -83,6 +83,16 @@ Then add them to your crontab:
 
 These scripts check if DB entries and files are older then 24 hours and if they are deletes them.
 
+## MIME/EXT Blocking
+
+Blocking certain filetypes from being uploaded can be changed by editing the following settings in `static/php/includes/settings.inc.php`:
+```php
+define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml']));
+define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary']));
+```
+
+By default the most common malicious filetypes are blocked.
+
 ## Using SQLite as DB engine
 
 We need to create the SQLite database before it may be used by uguu.
