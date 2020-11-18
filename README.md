@@ -56,7 +56,7 @@ file size, are found in `dist.json`.  Changes made here will
 only take effect after rebuilding the site pages.  This may be done by running
 `make` from the root of the site directory.
 
-Back-end related settings, such as database configuration, and path for uploaded files, are found in `static/php/includes/settings.inc.php`.  Changes made here take effect immediately. Change the following settings:
+Back-end related settings, such as database configuration, and path for uploaded files, are found in `includes/settings.inc.php`.  Changes made here take effect immediately. Change the following settings:
 ```php
 define('UGUU_DB_CONN', 'sqlite:/path/to/db/uguu.sq3');
 define('UGUU_FILES_ROOT', '/path/to/file/');
@@ -85,7 +85,7 @@ These scripts check if DB entries and files are older then 24 hours and if they 
 
 ## MIME/EXT Blocking
 
-Blocking certain filetypes from being uploaded can be changed by editing the following settings in `static/php/includes/settings.inc.php`:
+Blocking certain filetypes from being uploaded can be changed by editing the following settings in `includes/settings.inc.php`:
 ```php
 define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml']));
 define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary']));
@@ -107,7 +107,7 @@ chmod 0750 /var/db/uguu
 chmod 0640 /var/db/uguu/uguu.sq3
 ```
 
-Finally, edit `php/includes/settings.inc.php` to indicate this is the database engine you would like to use.  Make the changes outlined below
+Finally, edit `includes/settings.inc.php` to indicate this is the database engine you would like to use.  Make the changes outlined below
 ```php
 define('UGUU_DB_CONN', '[stuff]'); ---> define('UGUU_DB_CONN', 'sqlite:/var/db/uguu/uguu.sq3');
 define('UGUU_DB_USER', '[stuff]'); ---> define('UGUU_DB_USER', null);
