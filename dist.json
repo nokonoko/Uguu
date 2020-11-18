@@ -21,6 +21,7 @@
 	"siteUrl": "https://yoursite.com",
 	"abuseContact": "abuse@example.com",
 	"infoContact": "info@example.com",
+	"ServerCountryLocation": "Sweden",
 	"paypalUrl": "",
 	"bitcoinAddress": "",
 	"flattrUrl": ""
