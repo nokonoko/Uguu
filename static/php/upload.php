@@ -105,6 +105,7 @@ function uploadFile($file)
 
     // Attempt to move it to the static directory
     if (!move_uploaded_file($file->tempfile, $uploadFile)) {
+        http_response_code(500);
         throw new Exception(
             'Failed to move file to destination',
             500
@@ -113,6 +114,7 @@ function uploadFile($file)
 
     // Need to change permissions for the new file to make it world readable
     if (!chmod($uploadFile, 0644)) {
+        http_response_code(500);
         throw new Exception(
             'Failed to change file permissions',
             500
