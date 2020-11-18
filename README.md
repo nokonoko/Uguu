@@ -132,7 +132,7 @@ Hit me up at [@nekunekus](https://twitter.com/nekunekus) or email me at neku@pom
 
 ## Credits
 
-Uguu is based off [Pomf](http://github.com/pomf/pomf).
+Uguu is based on [Pomf](http://github.com/pomf/pomf).
 
 ## License
 
