@@ -28,7 +28,7 @@ work with Apache 2.4 and newer PHP versions like PHP7.3.
 For the purposes of this guide, we won't cover setting up Nginx, PHP, SQLite,
 Node, or NPM. So we'll just assume you already have them all running well.
 
-NPM/Node is only needed to compile the files, Uguu runs on PHP.
+**NPM/Node is only needed to compile the files, Uguu runs on PHP.**
 
 ### Compiling
 
