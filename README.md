@@ -69,6 +69,14 @@ increase POST size limits in `php.ini` and webserver configuration. For PHP,
 modify `upload_max_filesize` and `post_max_size` values. The configuration
 option for nginx webserver is `client_max_body_size`.
 
+Edit checkdb.sh and checkfiles.sh to the proper paths then add them to your crontab:
+```bash
+0,30 * * * * bash /path/to/checkfiles.sh
+0,30 * * * * bash /path/to/checkdb.sh
+```
+
+These scripts check if DB entries and files are older then 24 hours and if they are deletes them.
+
 Example nginx configs can be found in confs/.
 
 ## Using SQLite as DB engine
