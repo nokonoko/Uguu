@@ -37,7 +37,7 @@ git clone https://github.com/nokonoko/uguu
 
 Assuming you already have Node and NPM working, compilation is easy.
 
-Run the following commands to do so.
+Run the following commands to do so, please configure `dist.json` before you compile.
 ```bash
 cd uguu/
 make
