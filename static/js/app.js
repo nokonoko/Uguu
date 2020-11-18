@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
       link.textContent = 'File too big!';
       url.appendChild(link);
     } else {
-      link.textContent = 'Server error!';
+      link.textContent = 'Filetype not allowed or server error!';
       url.appendChild(link);
     }
   }

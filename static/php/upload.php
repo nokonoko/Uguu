@@ -56,13 +56,13 @@ function generateName($file)
 
         //Check if mime is blacklisted
         if (in_array($type_mime, unserialize(CONFIG_BLOCKED_MIME))) {
-            throw new Exception('Extension type not allowed.');
+            throw new Exception('Filetype not allowed!');
             exit(0);
         }
 
         //Check if EXT is blacklisted
         if (in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))) {
-            throw new Exception('Extension type not allowed.');
+            throw new Exception('Filetype not allowed!');
             exit(0);
         }
 
