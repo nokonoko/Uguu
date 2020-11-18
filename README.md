@@ -116,15 +116,9 @@ define('UGUU_DB_PASS', '[stuff]'); ---> define('UGUU_DB_PASS', null);
 
 *NOTE: The directory where the SQLite database is stored, must be writable by the web server user*
 
-### Apache
+### Nginx/Apache
 
-If you are running Apache and want to compress your output when serving files,
-add to your `.htaccess` file:
-
-    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/x-javascript application/json
-
-Remember to enable `deflate_module` and `filter_module` modules in your Apache
-configuration file.
+I won't cover settings everything up, however do NOT allow PHP scripts to be executed on your subdomain serving the files or someone will just upload a PHP shell and PwN you.
 
 ## Getting help
 
