@@ -1,4 +1,4 @@
-# Uguu
+# What is Uguu?
 
 Uguu is a simple temporary file uploading and sharing platform where files get deleted after X amount of time.
 
