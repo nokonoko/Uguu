@@ -122,7 +122,9 @@ I won't cover settings everything up, however do NOT allow PHP scripts to be exe
 
 ## API
 To upload using curl or make a tool you can post using: 
-`curl -i -F files[]=@yourfile.jpeg https://uguu.se/upload.php (JSON Response)`
+```
+curl -i -F files[]=@yourfile.jpeg https://uguu.se/upload.php (JSON Response)
+```
 
 ## Getting help
 
