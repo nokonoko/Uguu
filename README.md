@@ -144,19 +144,13 @@ server{
     }
 
     location ~* \.php$ {
-	fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
-        fastcgi_intercept_errors on;
-        fastcgi_index index.php;
-        fastcgi_split_path_info ^(.+\.php)(.*)$;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	  fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+    fastcgi_intercept_errors on;
+    fastcgi_index index.php;
+    fastcgi_split_path_info ^(.+\.php)(.*)$;
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
-
-        error_page 404 /4041x.html;
-        error_page 403 /4041x.html;
-        location /4041x.html {
-        root /home/neku/www;
-      }
 }
 ```
 
