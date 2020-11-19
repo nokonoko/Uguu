@@ -158,7 +158,7 @@ server{
         root /home/neku/www;
       }
 }
-´´´
+```
 Subdomain serving files (do not enable PHP here):
 ´´´
 server{
@@ -175,7 +175,7 @@ server{
     access_log	    off;
     index           index.html;
 }
-´´´
+```
 
 To redirect HTTP to HTTPS make a config for each domain like so:
 ```
@@ -184,7 +184,7 @@ server {
     server_name www.domain.com domain.com; 
     return 301 https://domain.com$request_uri;
 }
-´´´
+```
 
 ## API
 To upload using curl or make a tool you can post using: 
