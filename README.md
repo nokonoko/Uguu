@@ -144,7 +144,7 @@ server{
     }
 
     location ~* \.php$ {
-	  fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+    fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
     fastcgi_intercept_errors on;
     fastcgi_index index.php;
     fastcgi_split_path_info ^(.+\.php)(.*)$;
