@@ -118,9 +118,73 @@ define('UGUU_DB_PASS', '[stuff]'); ---> define('UGUU_DB_PASS', null);
 
 *NOTE: The directory where the SQLite database is stored, must be writable by the web server user*
 
-## Nginx/Apache
+## Nginx example config
 
-I won't cover settings everything up, however do NOT allow PHP scripts to be executed on your subdomain serving the files or someone will just upload a PHP shell and PwN you.
+I won't cover settings everything up, here are some Nginx examples. Use [Letsencrypt](https://letsencrypt.org) to obain a SSL cert.
+
+Main domain:
+```
+server{
+    
+    listen	        443 ssl;
+    server_name		www.yourdomain.com yourdomain.com;
+
+    ssl on;
+    ssl_certificate /path/to/fullchain.pem;
+    ssl_certificate_key /path/toprivkey.pem;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    
+
+    root /path/to/uguu/dist/;
+    autoindex		off;
+    access_log      off;
+    index index.html index.php;  
+
+    location ~* \.(ico|css|js|ttf)$ {
+    expires 7d;
+    }
+
+    location ~* \.php$ {
+	fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+        fastcgi_intercept_errors on;
+        fastcgi_index index.php;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+        error_page 404 /4041x.html;
+        error_page 403 /4041x.html;
+        location /4041x.html {
+        root /home/neku/www;
+      }
+}
+´´´
+Subdomain serving files (do not enable PHP here):
+´´´
+server{
+    listen          443 ssl;
+    server_name     www.subdomain.serveryourfiles.com subdomain.serveryourfiles.com;
+
+    ssl on;
+    ssl_certificate /path/to/fullchain.pem;
+    ssl_certificate_key /path/to/privkey.pem;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    
+    root            /path/where/uploaded/files/are/stored/;
+    autoindex       off;
+    access_log	    off;
+    index           index.html;
+}
+´´´
+
+To redirect HTTP to HTTPS make a config for each domain like so:
+```
+server {
+    listen 80;
+    server_name www.domain.com domain.com; 
+    return 301 https://domain.com$request_uri;
+}
+´´´
 
 ## API
 To upload using curl or make a tool you can post using: 
