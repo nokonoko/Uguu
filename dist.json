@@ -22,6 +22,7 @@
 	"abuseContact": "abuse@example.com",
 	"infoContact": "info@example.com",
 	"ServerCountryLocation": "Sweden",
+	"SiteMetaInfo": "Uguu is a temporary file hosting service, upload files up to 100MiB for 24 hours.",
 	"paypalUrl": "",
 	"bitcoinAddress": "",
 	"flattrUrl": ""
