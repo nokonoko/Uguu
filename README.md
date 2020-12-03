@@ -186,6 +186,15 @@ To upload using curl or make a tool you can post using:
 ```
 curl -i -F files[]=@yourfile.jpeg https://uguu.se/upload.php (JSON Response)
 ```
+```
+curl -i -F files[]=@yourfile.jpeg https://uguu.se/upload.php?output=text (Text Response)
+```
+```
+curl -i -F files[]=@yourfile.jpeg https://uguu.se/upload.php?output=csv (CSV Response)
+```
+```
+curl -i -F files[]=@yourfile.jpeg https://uguu.se/upload.php?output=html (HTML Response)
+```
 
 ## Getting help
 
