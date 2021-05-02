@@ -8,5 +8,6 @@ CREATE TABLE `files` (
 ,  `filename` varchar(30) default NULL
 ,  `size` integer  default NULL
 ,  `date` integer default NULL
+,  `ip` char(15) default NULL
 );
 END TRANSACTION;

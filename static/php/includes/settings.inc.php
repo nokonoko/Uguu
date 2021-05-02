@@ -12,7 +12,7 @@
  *
  * @see http://php.net/manual/en/ref.pdo-mysql.connection.php PHP manual for
  * PDO_MYSQL DSN.
- * @param string POMF_DB_CONN DSN:host|unix_socket=hostname|path;dbname=database
+ * @param string UGUU_DB_CONN DSN:host|unix_socket=hostname|path;dbname=database
  */
 define('UGUU_DB_CONN', 'sqlite:/path/to/db/uguu.sq3');
 
@@ -20,10 +20,13 @@ define('UGUU_DB_CONN', 'sqlite:/path/to/db/uguu.sq3');
  * PDO database login credentials
  */
 
-/* @param string POMF_DB_NAME Database username */
+/* @param string UGUU_DB_NAME Database username */
 define('UGUU_DB_USER', 'NULL');
-/* @param string POMF_DB_PASS Database password */
+/* @param string UGUU_DB_PASS Database password */
 define('UGUU_DB_PASS', 'NULL');
+
+/** Log IP of uploads */
+define('LOG_IP', 'no');
 
 /*
  * File system location where to store uploaded files
@@ -39,14 +42,14 @@ define('UGUU_FILES_ROOT', '/path/to/file/');
  * exist under a randomly generated filename, so we count tries and keep trying.
  * If this value is exceeded, we give up trying to generate a new filename.
  *
- * @param int POMF_FILES_RETRIES Number of attempts to retry
+ * @param int UGUU_FILES_RETRIES Number of attempts to retry
  */
 define('UGUU_FILES_RETRIES', 15);
 
 /*
  * The length of generated filename (without file extension)
  *
- * @param int POMF_FILES_LENGTH Number of random alphabetical ASCII characters
+ * @param int UGUU_FILES_LENGTH Number of random alphabetical ASCII characters
  * to use
  */
 define('UGUU_FILES_LENGTH', 8);
@@ -54,9 +57,9 @@ define('UGUU_FILES_LENGTH', 8);
 /*
  * URI to prepend to links for uploaded files
  *
- * @param string POMF_URL URI with trailing delimiter
+ * @param string UGUU_URL URI with trailing delimiter
  */
-define('UGUU_URL', 'https://a.uguu.se/');
+define('UGUU_URL', 'https://url.to.subdomain.where.files.will.be.served.com');
 
 /*
  * URI for filename generation
