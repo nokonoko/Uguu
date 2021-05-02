@@ -153,9 +153,7 @@ function uploadFile($file)
     $q->bindValue(':name', $newname, PDO::PARAM_STR);
     $q->bindValue(':size', $file->size, PDO::PARAM_INT);
     $q->bindValue(':date', time(), PDO::PARAM_INT);
-    if(LOG_IP == 'yes'){
     $q->bindValue(':ip', $ip, PDO::PARAM_STR);
-    }
     $q->execute();
 
     return array(
