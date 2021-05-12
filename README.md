@@ -89,8 +89,8 @@ These scripts check if DB entries and files are older then 24 hours and if they 
 
 Blocking certain filetypes from being uploaded can be changed by editing the following settings in `includes/settings.inc.php`:
 ```php
-define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml']));
-define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary']));
+define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml', 'svg']));
+define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary', 'image/svg+xml']));
 ```
 
 By default the most common malicious filetypes are blocked.

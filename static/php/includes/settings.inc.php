@@ -75,8 +75,8 @@ define('ID_CHARSET', 'abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ');
 //$FILTER_MIME = array("application/octet-stream", "application/msword", "text/html", "application/x-dosexec", "application/zip", "application/java", "application/java-archive", "application/pdf", "application/x-executable");
 //$FILTER_EXT = array("exe", "scr", "com", "vbs", "bat", "cmd", "htm", "html", "zip", "jar", "msi", "apk", "pdf");
 
-define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml']));
-define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary']));
+define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml', 'svg']));
+define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary', 'image/svg+xml']));
 
 /**
  * Filter mode: whitelist (true) or blacklist (false).
