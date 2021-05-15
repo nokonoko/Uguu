@@ -11,8 +11,6 @@
 	<h2>What files are allowed?</h2>
 	<p>{{siteName}} welcomes uploading all files, as long as the file is legal in {{ServerCountryLocation}} and you have the legal right to publish the file on our service.</p>
 	<p>As an exception to this policy to prevent abuse, we do not allow malware on our service. Any malware that could be used to infect other computers may be removed from our service at our discretion.</p>
-	<h2>Do you keep logs of uploaded files?</h2>
-	<p>We don't collect or log any data of our users in respect for privacy. We only have files uploaded by our users.</p>
 	<h2>Can you remove my copyrighted file?</h2>
 	<p>Please submit your copyright takedown notice to <a href="mailto:{{abuseContact}}">{{abuseContact}}</a>. We will handle your notice within 24 hours and disable access to the infringing file after receiving a notice compliant with the Copyright Act 1968.</p>
 	<h2>Can you remove files that are defaming me or otherwise infringing my non-copyright rights?</h2>
