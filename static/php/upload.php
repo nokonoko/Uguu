@@ -76,15 +76,15 @@ function generateName($file)
         }
 
         // Check blacklist DB
-        $q = $db->prepare('SELECT hash, COUNT(*) AS count FROM blacklistedfiles WHERE hash = (:hash)');
-        $q->bindValue(':hash', $file->getSha1(), PDO::PARAM_STR);
-        $q->execute();
-        $result = $q->fetch();
-        if ($result['count'] > 0) {
-            http_response_code(415);
-            throw new UploadException(UPLOAD_ERR_BLACKLISTED);
-            exit(0);
-        }
+        //$q = $db->prepare('SELECT hash, COUNT(*) AS count FROM blacklistedfiles WHERE hash = (:hash)');
+        //$q->bindValue(':hash', $file->getSha1(), PDO::PARAM_STR);
+        //$q->execute();
+        //$result = $q->fetch();
+        //if ($result['count'] > 0) {
+        //    http_response_code(415);
+        //    throw new UploadException(UPLOAD_ERR_BLACKLISTED);
+        //    exit(0);
+        //}
 
         // Check if a file with the same name does already exist in the database
         $q = $db->prepare('SELECT COUNT(filename) FROM files WHERE filename = (:name)');
