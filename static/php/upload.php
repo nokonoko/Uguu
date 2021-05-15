@@ -22,8 +22,8 @@ function generateName($file)
     global $doubledots;
 
     // We start at N retries, and --N until we give up
-    $tries = POMF_FILES_RETRIES;
-    $length = POMF_FILES_LENGTH;
+    $tries = UGUU_FILES_RETRIES;
+    $length = UGUU_FILES_LENGTH;
     //Get EXT
     $ext = pathinfo($file->name, PATHINFO_EXTENSION);
     //Get mime
@@ -121,7 +121,7 @@ function uploadFile($file)
     $ip = $_SERVER['REMOTE_ADDR'];
 
     // Store the file's full file path in memory
-    $uploadFile = POMF_FILES_ROOT . $newname;
+    $uploadFile = UGUU_FILES_ROOT . $newname;
 
     // Attempt to move it to the static directory
     if (!move_uploaded_file($file->tempfile, $uploadFile)) {
@@ -159,7 +159,7 @@ function uploadFile($file)
     return array(
         'hash' => $file->getSha1(),
         'name' => $file->name,
-        'url' => POMF_URL.rawurlencode($newname),
+        'url' => UGUU_URL.rawurlencode($newname),
         'size' => $file->size,
     );
 }
