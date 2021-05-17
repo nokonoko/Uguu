@@ -38,7 +38,7 @@ define('UGUU_FILES_ROOT', '/path/to/file/');
 /*
  * Maximum number of iterations while generating a new filename
  *
- * Pomf uses an algorithm to generate random filenames. Sometimes a file may
+ * Uguu uses an algorithm to generate random filenames. Sometimes a file may
  * exist under a randomly generated filename, so we count tries and keep trying.
  * If this value is exceeded, we give up trying to generate a new filename.
  *
@@ -87,7 +87,7 @@ $FILTER_MODE = false;
 /**
  * Double dot file extensions.
  *
- * Pomf keeps the last file extension for the uploaded file. In other words, an
+ * Uguu keeps the last file extension for the uploaded file. In other words, an
  * uploaded file with `.tar.gz` extension will be given a random filename which
  * ends in `.gz` unless configured here to ignore discards for `.tar.gz`.
  *
