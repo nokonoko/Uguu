@@ -6,6 +6,7 @@
 	<div class="jumbotron">
 		<h1><abbr title="Frequently asked questions">FAQ</abbr></h1>
 	</div>
+	<div class="alert alert-info">
 	<h2>What is {{siteName}}?</h2>
 	<p><span role="definition"><dfn>{{siteName}}</dfn> is a simple to use free file hosting service.</span> It lets you share your photos, documents, music, videos and more with others online for 24 hours.</p>
 	<h2>What files are allowed?</h2>
@@ -20,6 +21,7 @@
 	<p>If you are an {{ServerCountryLocation}}law enforcement official and you need our assistance, please contact <a href="mailto:{{abuseContact}}">{{abuseContact}}</a>. If you are a law enforcement official from another country, we may voluntarily cooperate if the crime you are investigating would also be illegal in {{ServerCountryLocation}}.</p>
 	<h2>I have a question...</h2>
 	<p>Send us an email at <a href="mailto:{{infoContact}}">{{infoContact}}</a> and let's talk!</p>
+</div>
 </article>
 {% include "nav.swig" %}
 {% endblock %}

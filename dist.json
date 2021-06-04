@@ -22,7 +22,8 @@
 	"abuseContact": "abuse@example.com",
 	"infoContact": "info@example.com",
 	"ServerCountryLocation": "Sweden",
-	"SiteMetaInfo": "Uguu is a temporary file hosting service, upload files up to 100MiB for 24 hours.",
+	"SiteMetaInfo": "SITENAME is a temporary file hosting service, upload files up to 128MiB for 24 hours.",
+	"ToolsDesc": "The following tools might need editing to work on this clone of Uguu, usually editing the URL works.",
 	"paypalUrl": "",
 	"bitcoinAddress": "",
 	"flattrUrl": ""
