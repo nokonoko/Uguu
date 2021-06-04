@@ -28,7 +28,7 @@ work with Apache 2.4 and newer PHP versions like PHP7.3.
 For the purposes of this guide, we won't cover setting up Nginx, PHP, SQLite,
 Node, or NPM. So we'll just assume you already have them all running well.
 
-**NPM/Node is only needed to compile the files, Uguu runs on PHP.**
+‼️ **NPM/Node is only needed to compile the files, Uguu runs on PHP.** ‼️
 
 ### Compiling
 
@@ -39,7 +39,7 @@ git clone https://github.com/nokonoko/uguu
 
 Assuming you already have Node and NPM working, compilation is easy.
 
-Run the following commands to do so, please configure `dist.json` before you compile.
+**Run the following commands to do so, please configure `dist.json` before you compile.**
 ```bash
 cd uguu/
 make
@@ -58,26 +58,26 @@ file size, are found in `dist.json`.  Changes made here will
 only take effect after rebuilding the site pages.  This may be done by running
 `make` from the root of the site directory.
 
-Back-end related settings, such as database configuration, and path for uploaded files, are found in `includes/settings.inc.php`.  Changes made here take effect immediately. Change the following settings:
+**Back-end related settings, such as database configuration, and path for uploaded files, are found in `includes/settings.inc.php`.  Changes made here take effect immediately. Change the following settings:**
 ```php
 define('UGUU_DB_CONN', 'sqlite:/path/to/db/uguu.sq3');
 define('UGUU_FILES_ROOT', '/path/to/file/');
 define('UGUU_URL', 'https://subdomainforyourfiles.your.site');
 ```
 
-If you intend to allow uploading files larger than 2 MB, you may also need to
+‼️ **If you intend to allow uploading files larger than 2 MB, you may also need to
 increase POST size limits in `php.ini` and webserver configuration. For PHP,
 modify `upload_max_filesize` and `post_max_size` values. The configuration
-option for nginx webserver is `client_max_body_size`.
+option for nginx webserver is `client_max_body_size`.** ‼️
 
-Edit checkdb.sh and checkfiles.sh to the proper paths:
+**Edit checkdb.sh and checkfiles.sh to the proper paths:**
 ```bash
 sqlite3 /path/to/db/uguu.sq3 "DELETE FROM files WHERE date <= strftime('%s', datetime('now', '-1 day'));"
 ```
 ```bash
 find /path/to/files/ -mmin +1440 -exec rm -f {} \;
 ```
-Then add them to your crontab:
+**Then add them to your crontab:**
 ```bash
 0,30 * * * * bash /path/to/checkfiles.sh
 0,30 * * * * bash /path/to/checkdb.sh
@@ -87,7 +87,7 @@ These scripts check if DB entries and files are older then 24 hours and if they 
 
 ## MIME/EXT Blocking
 
-Blocking certain filetypes from being uploaded can be changed by editing the following settings in `includes/settings.inc.php`:
+**Blocking certain filetypes from being uploaded can be changed by editing the following settings in `includes/settings.inc.php`:**
 ```php
 define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml', 'svg']));
 define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary', 'image/svg+xml']));
