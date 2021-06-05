@@ -1,5 +1,0 @@
-server {
-listen 80;
-server_name A.X www.A.X;
-return 301 https://A.X$request_uri;
-}
