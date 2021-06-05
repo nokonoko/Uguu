@@ -1,0 +1,5 @@
+server {
+listen 80;
+server_name A.Y www.A.Y;
+return 301 https://A.Y$request_uri;
+}
