@@ -48,7 +48,7 @@ Hit me up at [@nekunekus](https://twitter.com/nekunekus) or email me at neku@pom
 
 ## Credits
 
-Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma Lejack & Eric Johansson (nekunekus).
+Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma Lejack & Eric Johansson (nekunekus) and with help from the open source community.
 
 ## License
 
