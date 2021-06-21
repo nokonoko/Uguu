@@ -133,7 +133,8 @@ function uploadFile($file)
     if(LOG_IP == 'yes'){
         $q = $db->prepare('INSERT INTO files (hash, originalname, filename, size, date, ip) VALUES (:hash, :orig, :name, :size, :date, :ip)');
     }else{
-	    $q = $db->prepare('INSERT INTO files (hash, originalname, filename, size, date) VALUES (:hash, :orig, :name, :size, :date)');
+        $ip = '0';
+        $q = $db->prepare('INSERT INTO files (hash, originalname, filename, size, date, ip) VALUES (:hash, :orig, :name, :size, :date, :ip)');
     }
     // Common parameters binding
     $q->bindValue(':hash', $file->getSha1(), PDO::PARAM_STR);
