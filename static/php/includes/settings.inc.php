@@ -59,7 +59,7 @@ define('UGUU_FILES_LENGTH', 8);
  *
  * @param string UGUU_URL URI with trailing delimiter
  */
-define('UGUU_URL', 'https://url.to.subdomain.where.files.will.be.served.com');
+define('UGUU_URL', 'https://url.to.subdomain.where.files.will.be.served.com/');
 
 /*
  * URI for filename generation
