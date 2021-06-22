@@ -36,7 +36,7 @@ If you don't need a detailed one just follow the instructions below.
  git clone https://github.com/nokonoko/uguu
  ```
 
- Assuming you already have Node working, compilation is easy.
+Uguu runs on PHP but you will need Node to compile it, by doing:
 
  **Run the following commands to do so, please configure `dist.json` before you compile.**
  ```bash
