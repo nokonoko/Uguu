@@ -1,6 +1,8 @@
 # What is Uguu?
 
-Uguu is a simple lightweight temporary file uploading and sharing platform where files get deleted after X amount of time.
+Uguu is a simple lightweight temporary file hosting platform where files get deleted after X amount of time.
+
+It can also be configurated to not expire files, and act as a slimmed version of Pomf.
 
 ## Features
 
@@ -26,8 +28,6 @@ work with Apache 2.4 and newer PHP versions like PHP7.3.
 ## Install
 
 A detailed installation and configuration can be found at [Uguu/Pomf Documentation](https://blog.yeet.nu/blog/uguu-docs).
-
-Please note that if you do not setup the cron scripts Uguu will act as a more slimmed version of Pomf and files won't expire.
 
 ## API
 To upload using curl or make a tool you can post using: 
