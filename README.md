@@ -27,6 +27,8 @@ work with Apache 2.4 and newer PHP versions like PHP7.3.
 
 A detailed installation and configuration can be found at [Uguu/Pomf Documentation](https://blog.yeet.nu/blog/uguu-docs).
 
+Please note that if you do not setup the cron scripts Uguu will act as a more slimmed version of Pomf and files won't expire.
+
 ## API
 To upload using curl or make a tool you can post using: 
 ```
