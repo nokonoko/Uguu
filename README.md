@@ -1,8 +1,6 @@
 # What is Uguu?
 
-Uguu is a simple lightweight temporary file hosting platform where files get deleted after X amount of time.
-
-It can also be configurated to not expire files, and act as a slimmed version of Pomf.
+Uguu is a simple lightweight file uploading and sharing platform, with the option for files to expire.
 
 ## Features
 
