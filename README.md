@@ -91,8 +91,19 @@ If you don't need a detailed one just follow the instructions below.
  define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat', 'cmd', 'htm', 'html', 'jar', 'msi', 'apk', 'phtml', 'svg']));
  define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary', 'image/svg+xml']));
  ```
+By default the most common malicious filetypes are blocked.
 
- By default the most common malicious filetypes are blocked.
+ ## IP logging
+ This is turned off by default, but you can enable it by changing:
+ ```php
+ define('LOG_IP', 'false');
+```
+
+## Anti dupe
+This is turned off by default, if a user uploads a file already uploaded the link to the already existing file will be returned instead.
+ ```php
+ define('ANTI_DUPE', 'false');
+```
 
  ## Using SQLite as DB engine
 
