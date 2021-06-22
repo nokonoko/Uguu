@@ -23,6 +23,8 @@ See the real world example at [uguu.se](https://uguu.se).
 Original development environment is Nginx + PHP5.3 + SQLite, but is confirmed to
 work with Apache 2.4 and newer PHP versions like PHP7.3.
 
+Node is used to compile Uguu.
+
 ## Install
 
 **Detailed installation and configuration can be found at [Uguu Documentation](https://blog.yeet.nu/blog/uguu-docs).**
@@ -35,8 +37,6 @@ If you don't need a detailed one just follow the instructions below.
  ```bash
  git clone https://github.com/nokonoko/uguu
  ```
-
-Uguu runs on PHP but you will need Node to compile it, by doing:
 
  **Run the following commands to do so, please configure `dist.json` before you compile.**
  ```bash
