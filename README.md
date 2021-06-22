@@ -25,7 +25,7 @@ work with Apache 2.4 and newer PHP versions like PHP7.3.
 
 ## Install
 
-**Detailed installation and configuration can be found at [Uguu/Pomf Documentation](https://blog.yeet.nu/blog/uguu-docs).**
+**Detailed installation and configuration can be found at [Uguu Documentation](https://blog.yeet.nu/blog/uguu-docs).**
 
 If you don't need a detailed one just follow the instructions below.
 
