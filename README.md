@@ -23,7 +23,7 @@ Uguu is a simple lightweight file uploading and sharing platform, with the optio
 
 ### Demo
 
-See the real world example at [uguu.se](https://uguu.se).
+See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
