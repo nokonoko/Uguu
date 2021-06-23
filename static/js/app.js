@@ -1,5 +1,7 @@
 /**
  * Copyright (c) 2016 Luminarys <postmaster@gensok.io>
+ * 
+ * Copyright (c) 2021 Eric Johansson (Nekunekus) <neku@pomf.se>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,7 @@
  * SOFTWARE.
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function() {
   /**
    * Sets up the elements inside file upload rows.
    * 
@@ -251,6 +253,17 @@ document.addEventListener('DOMContentLoaded', function() {
     target.click();
   }
 
+  /* Handles the pasting function */
+  window.addEventListener("paste", e =>{
+  var len = e.clipboardData.files.length;
+  for (var i = 0; i < len; i++) {
+      var file = e.clipboardData.files[i];
+      var row = addRow(file);
+      uploadFile(file, row);
+  }
+  });
+
+
   /* Set-up the event handlers for the <button>, <input> and the window itself
      and also set the "js" class on selector "#upload-form", presumably to
      allow custom styles for clients running javascript. */
@@ -260,6 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('dragleave', handleDragAway.bind(this, state, uploadButton), false);
   window.addEventListener('drop', handleDragAway.bind(this, state, uploadButton), false);
   window.addEventListener('dragover', stopDefaultEvent, false);
+
 
   var uploadInput = document.getElementById('upload-input');
   uploadInput.addEventListener('change', uploadFiles);
