@@ -18,7 +18,7 @@
   "devDependencies": {
     "clean-css": "^4.2.1",
     "clean-css-cli": "^4.3.0",
-    "uglify-js": "^2.6.2",
+    "uglify-js": "^3.13.9",
     "swig": "^1.4.2"
   },
   "dependencies": {
