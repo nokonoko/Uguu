@@ -27,7 +27,7 @@ Node is used to compile Uguu.
 
 ## Install
 
-**Detailed installation and configuration can be found at [Uguu Documentation](https://blog.yeet.nu/blog/uguu-docs).**
+**Detailed installation and configuration can be found at [Uguu Documentation](https://docs.uguu.se).**
 
 If you don't need a detailed one just follow the instructions below.
 
