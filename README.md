@@ -2,7 +2,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nokonoko_Uguu&metric=alert_status)](https://sonarcloud.io/dashboard?id=nokonoko_Uguu)
 [![MIT
 licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nokonoko/uguu/master/LICENSE)
-[![Documentation Status](https://assets.readthedocs.org/static/projects/badges/passing-flat.svg)](https://docs.uguu.se)
+[![Documentation Status](https://docs.uguu.se/img/flat.svg)](https://docs.uguu.se)
 
 
 # What is Uguu?
