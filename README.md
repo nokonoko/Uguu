@@ -155,8 +155,3 @@ Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma L
 
 Uguu is free software, and is released under the terms of the Expat license. See
 `LICENSE`.
-
-## To do in release v1.1.0
-* Mod feature and interface
-* Blacklist DB (already exists on Uguu.se, but not in this code)
-* Code cleanup
