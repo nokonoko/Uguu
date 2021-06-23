@@ -32,7 +32,7 @@ ifneq (,$(findstring moe,$(MODULES)))
 endif
 	
 min-css:
-	$(NODE) $(CURDIR)/node_modules/.bin/cleancss --skip-rebase --O1 specialComments:0 $(CURDIR)/static/css/uguu.css --output $(CURDIR)/build/uguu.min.css
+	$(NODE) $(CURDIR)/node_modules/.bin/cleancss $(CURDIR)/static/css/uguu.css --output $(CURDIR)/build/uguu.min.css
 
 min-js:
 	echo "// @source https://github.com/nokonoko/uguu/tree/master/static/js" > $(CURDIR)/build/uguu.min.js 
