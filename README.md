@@ -6,7 +6,7 @@ Uguu is a simple lightweight file uploading and sharing platform, with the optio
 
 - One click uploading, no registration required
 - A minimal, modern web interface
-- Drag & drop supported
+- Drag & Drop & Paste supported
 - Upload API with multiple response choices
   - JSON
   - HTML
