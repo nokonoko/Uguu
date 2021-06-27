@@ -7,7 +7,7 @@ licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.github
 
 # What is Uguu?
 
-Uguu is a simple lightweight file uploading and sharing platform, with the option for files to expire.
+Uguu is a simple lightweight temporary file hosting and sharing platform, but can also be used as a permanent file host.
 
 ## Features
 
@@ -23,7 +23,7 @@ Uguu is a simple lightweight file uploading and sharing platform, with the optio
 
 ### Demo
 
-See the real world example at [uguu.se](https://uguu.se).
+See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
