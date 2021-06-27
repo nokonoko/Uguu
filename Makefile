@@ -42,7 +42,6 @@ min-js:
 
 copy-img:
 	cp -v $(CURDIR)/static/img/*.png $(CURDIR)/build/img/
-	cp -v $(CURDIR)/static/img/favicon.ico $(CURDIR)/build/
 
 copy-php:
 ifneq ($(wildcard $(CURDIR)/static/php/.),)
