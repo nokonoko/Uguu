@@ -1,4 +1,4 @@
-{% extends "layout.swig" %}
+{% extends "layout_index.swig" %}
 
 {% block body %}
 <div class="jumbotron">

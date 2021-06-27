@@ -1,6 +1,6 @@
 {
   "name": "uguu",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Kawaii file host",
   "homepage": "https://uguu.se/",
   "repository": {
@@ -9,7 +9,8 @@
   },
   "author": "Eric Johansson <neku@pomf.se>",
   "contributors": [
-    "Pomf Community <github.com/pomf/pomf>"
+    "Pomf Community <github.com/pomf/pomf>",
+    "Uguu Community <github.com/nokonoko/uguu"
   ],
   "license": "MIT",
   "bugs": {

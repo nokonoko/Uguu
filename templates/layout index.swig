@@ -8,6 +8,7 @@
 		<title>{{siteName}} &middot; {% block title %}Kawaii Temporary File Hosting{% endblock %}</title>
 		<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
 		<link rel="stylesheet" href="uguu.min.css">
+		<script src="uguu.min.js"></script>
 	</head>
 	<body>
 		<div class="container">
