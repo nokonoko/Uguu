@@ -26,10 +26,10 @@ define('UGUU_DB_USER', 'NULL');
 define('UGUU_DB_PASS', 'NULL');
 
 /** Log IP of uploads */
-define('LOG_IP', 'false');
+define('LOG_IP', false);
 
 /** Dont upload a file already in the DB */
-define('ANTI_DUPE', 'false');
+define('ANTI_DUPE', false);
 
 /*
  * File system location where to store uploaded files

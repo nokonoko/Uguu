@@ -109,7 +109,7 @@ function uploadFile($file)
     // Check if a file with the same hash and size (a file which is the same)
     // does already exist in the database; if it does, return the proper link
     // and data. PHP deletes the temporary file just uploaded automatically.
-    if(ANTI_DUPE == 'true'){
+    if(ANTI_DUPE){
     $q = $db->prepare('SELECT filename, COUNT(*) AS count FROM files WHERE hash = (:hash) AND size = (:size)');
     $q->bindValue(':hash', $file->getSha1(), PDO::PARAM_STR);
     $q->bindValue(':size', $file->size, PDO::PARAM_INT);
@@ -124,9 +124,6 @@ function uploadFile($file)
         ];
     }
 }
-
-    // Get IP
-    $ip = $_SERVER['REMOTE_ADDR'];
 
     // Generate a name for the file
     $newname = generateName($file);
@@ -152,15 +149,15 @@ function uploadFile($file)
         ); // HTTP status code "500 Internal Server Error"
     }
 
-    // Add it to the database
-        if(LOG_IP == 'true'){
-        $q = $db->prepare('INSERT INTO files (hash, originalname, filename, size, date, ip) VALUES (:hash, :orig, :name, :size, :date, :ip)');
-        } else {
-        $ip = '0';
-        $q = $db->prepare('INSERT INTO files (hash, originalname, filename, size, date, ip) VALUES (:hash, :orig, :name, :size, :date, :ip)');
-        }
+    // Log IP
+    if(LOG_IP){
+        $ip = $_SERVER['REMOTE_ADDR'];
+    } else {
+        $ip = null;
+    }
 
     // Common parameters binding
+    $q = $db->prepare('INSERT INTO files (hash, originalname, filename, size, date, ip) VALUES (:hash, :orig, :name, :size, :date, :ip)');
     $q->bindValue(':hash', $file->getSha1(), PDO::PARAM_STR);
     $q->bindValue(':orig', strip_tags($file->name), PDO::PARAM_STR);
     $q->bindValue(':name', $newname, PDO::PARAM_STR);
