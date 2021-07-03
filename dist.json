@@ -3,7 +3,7 @@
           "allowErrors": false
         },
         "dest": "dist",
-        "pkgVersion": "<%= pkg.version %>",
+        "pkgVersion": "1.1.2",
 	"banners": [
 		"banners/malware_scans.swig",
 		"banners/donations.swig"
