@@ -25,10 +25,14 @@ define('UGUU_DB_USER', 'NULL');
 /* @param string UGUU_DB_PASS Database password */
 define('UGUU_DB_PASS', 'NULL');
 
-/** Log IP of uploads */
+/** 
+ * @param boolean Log IP of uploads 
+ */
 define('LOG_IP', false);
 
-/** Dont upload a file already in the DB */
+/** 
+ * @param boolean anti-dupe
+ */
 define('ANTI_DUPE', false);
 
 /*
@@ -78,11 +82,11 @@ define('CONFIG_BLOCKED_EXTENSIONS', serialize(['exe', 'scr', 'com', 'vbs', 'bat'
 define('CONFIG_BLOCKED_MIME', serialize(['application/msword', 'text/html', 'application/x-dosexec', 'application/java', 'application/java-archive', 'application/x-executable', 'application/x-mach-binary', 'image/svg+xml']));
 
 /**
- * Filter mode: whitelist (true) or blacklist (false).
- *
- * @param bool $FILTER_MODE mime type filter mode
+ * Whitelist or blacklist mode
+ * @param boolean blacklist (false) | whitelist (true)
  */
-$FILTER_MODE = false;
+define('CONFIG_FILTER_MODE', false);
+
 /**
  * Double dot file extensions.
  *

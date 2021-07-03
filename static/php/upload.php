@@ -61,15 +61,34 @@ function generateName($file)
             $name .= '.'.$ext;
         }
 
-        //Check if MIME is blacklisted
-        if (in_array($type_mime, unserialize(CONFIG_BLOCKED_MIME))) {
-            http_response_code(415);
-            exit(0);
-        }
-        //Check if EXT is blacklisted
-        if (in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))) {
-            http_response_code(415);
-            exit(0);
+        // Check if file is whitelisted or blacklisted
+        switch (CONFIG_FILTER_MODE) {
+
+            case false:
+                //check if MIME is blacklisted
+                if (in_array($type_mime, unserialize(CONFIG_BLOCKED_MIME))) {
+                    http_response_code(415);
+                    exit(0);
+                }
+                //Check if EXT is blacklisted
+                if (in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))) {
+                    http_response_code(415);
+                    exit(0);
+                }
+            break;
+
+            case true:
+                //Check if MIME is whitelisted
+                if (!in_array($type_mime, unserialize(CONFIG_BLOCKED_MIME))) {
+                    http_response_code(415);
+                    exit(0);
+                }
+                //Check if EXT is whitelisted
+                if (!in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))) {
+                    http_response_code(415);
+                    exit(0);
+                }
+            break;
         }
 
         // Check if a file with the same name does already exist in the database
@@ -93,8 +112,6 @@ function generateName($file)
 function uploadFile($file)
 {
     global $db;
-    global $FILTER_MODE;
-    global $FILTER_MIME;
 
     // Handle file errors
     if ($file->error) {
