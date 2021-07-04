@@ -35,6 +35,12 @@ define('LOG_IP', false);
  */
 define('ANTI_DUPE', false);
 
+/** 
+ * @param boolean blacklist DB
+ * ONLY ENABLE THIS IS YOU ARE USING THE LATEST DB SCHEMA!
+ */
+define('BLACKLIST_DB', false);
+
 /*
  * File system location where to store uploaded files
  *

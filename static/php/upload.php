@@ -61,6 +61,22 @@ function generateName($file)
             $name .= '.'.$ext;
         }
 
+        // Check if the file is blacklisted
+        if(BLACKLIST_DB){
+            $q = $db->prepare('SELECT hash, COUNT(*) AS count FROM blacklist WHERE hash = (:hash)');
+            $q->bindValue(':hash', $file->getSha1(), PDO::PARAM_STR);
+            $q->execute();
+            $result = $q->fetch();
+            if ($result['count'] > 0) {
+                http_response_code(415);
+                throw new Exception(
+                    'File blacklisted!',
+                    415
+                );
+            exit(0);    
+            }
+        }
+
         // Check if file is whitelisted or blacklisted
         switch (CONFIG_FILTER_MODE) {
 
@@ -68,12 +84,20 @@ function generateName($file)
                 //check if MIME is blacklisted
                 if (in_array($type_mime, unserialize(CONFIG_BLOCKED_MIME))) {
                     http_response_code(415);
-                    exit(0);
+                    throw new Exception(
+                        'File type not allowed!',
+                        415
+                    );
+                exit(0);   
                 }
                 //Check if EXT is blacklisted
                 if (in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))) {
                     http_response_code(415);
-                    exit(0);
+                    throw new Exception(
+                        'File type not allowed!',
+                        415
+                    );
+                exit(0);  
                 }
             break;
 
@@ -81,12 +105,20 @@ function generateName($file)
                 //Check if MIME is whitelisted
                 if (!in_array($type_mime, unserialize(CONFIG_BLOCKED_MIME))) {
                     http_response_code(415);
-                    exit(0);
+                    throw new Exception(
+                        'File type not allowed!',
+                        415
+                    );
+                exit(0);  
                 }
                 //Check if EXT is whitelisted
                 if (!in_array($ext, unserialize(CONFIG_BLOCKED_EXTENSIONS))) {
                     http_response_code(415);
-                    exit(0);
+                    throw new Exception(
+                        'File type not allowed!',
+                        415
+                    );
+                exit(0);  
                 }
             break;
         }
