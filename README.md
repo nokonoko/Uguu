@@ -36,6 +36,7 @@ Node is used to compile Uguu.
 
 Installation and configuration can be found at [Uguu Documentation](https://docs.uguu.se).
 
+If you need a admin panel check out [Moe Panel](https://github.com/pomf/MoePanel).
 
 ## Getting help
 
