@@ -7,7 +7,7 @@ CREATE TABLE `files` (
   `date` int(15) DEFAULT NULL,
   `ip` char(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 CREATE TABLE `accounts` (
  `id` int(20) unsigned NOT NULL auto_increment,
@@ -15,7 +15,7 @@ CREATE TABLE `accounts` (
   `pass` varchar(255) default NULL,
   `level` int(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 CREATE TABLE `blacklist` (
  `id` int(20) unsigned NOT NULL auto_increment,
@@ -23,4 +23,4 @@ CREATE TABLE `blacklist` (
   `originalname` varchar(255) default NULL,
   `time` int(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
