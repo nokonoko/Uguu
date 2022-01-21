@@ -26,5 +26,48 @@
 	"ToolsDesc": "The following tools might need editing to work on this clone of Uguu, usually editing the URL works.",
 	"paypalUrl": "",
 	"bitcoinAddress": "",
-	"flattrUrl": ""
+	"flattrUrl": "",
+
+	"DB_MODE": "sqlite",
+	"DB_CONN": "/path/to/db/uguu.sq3",
+	"DB_USER": "NULL",
+	"DB_PASS": "NULL",
+	"LOG_IP": false,
+	"ANTI_DUPE": false,
+	"BLACKLIST_DB": true,
+	"FILTER_MODE": true,
+	"FILES_ROOT": "/path/files",
+	"FILES_RETRIES": 15,
+	"SSL": true,
+	"URL": "a.uguu.se",
+	"ID_CHARSET": "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ",
+	"BLOCKED_EXTENSIONS": [
+		"exe",
+		"scr",
+		"com",
+		"vbs",
+		"bat",
+		"cmd",
+		"htm",
+		"html",
+		"jar",
+		"msi",
+		"apk",
+		"phtml",
+		"svg"
+	],
+	"BLOCKED_MIME": [
+		"application/msword",
+		"text/html",
+		"application/x-dosexec",
+		"application/java",
+		"application/java-archive",
+		"application/x-executable",
+		"application/x-mach-binary",
+		"image/svg+xml"	
+	],
+	"DOUBLE_DOTS": [
+		"tar.gz",
+		"tar.cp"
+	]
 }
