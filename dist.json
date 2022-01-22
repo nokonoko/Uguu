@@ -65,12 +65,5 @@
     "application/x-executable",
     "application/x-mach-binary",
     "image/svg+xml"
-  ],
-  "DOUBLE_DOTS": [
-    "tar.gz",
-    "tar.bz",
-    "tar.bz2",
-    "tar.xz",
-    "user.js"
   ]
 }

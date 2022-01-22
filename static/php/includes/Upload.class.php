@@ -106,7 +106,23 @@ class Upload
             'size' => self::$FILE_SIZE
         ];
     }
+    public function fileInfo()
+    {
+        if (isset($_FILES['files'])) {
+            self::$SHA1 = sha1_file(self::$TEMP_FILE);
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            self::$FILE_MIME = finfo_file($finfo, self::$TEMP_FILE);
+            $extension = explode('.',self::$FILE_NAME,2);
+            self::$FILE_EXTENSION = $extension['1'];
+            finfo_close($finfo);
 
+            if (Settings::$LOG_IP) {
+                self::$IP = $_SERVER['REMOTE_ADDR'];
+            } else {
+                self::$IP = '0';
+            }
+        }
+    }
     /**
      * @throws Exception
      */
@@ -124,8 +140,9 @@ class Upload
                 self::$NEW_NAME .= Settings::$ID_CHARSET[mt_rand(0, strlen(Settings::$ID_CHARSET))];
             }
 
-            if (isset(self::$FILE_EXTENSION) && self::$FILE_EXTENSION !== '') {
-                self::$NEW_NAME_FULL = self::$NEW_NAME . '.' . self::$FILE_EXTENSION;
+            if(isset(self::$FILE_EXTENSION)){
+                self::$NEW_NAME_FULL = self::$NEW_NAME;
+                self::$NEW_NAME_FULL .= '.'.self::$FILE_EXTENSION;
             }
 
             if (Settings::$BLACKLIST_DB) {
@@ -139,30 +156,6 @@ class Upload
         } while ((new Database())->dbCheckNameExists() > 0);
 
         return self::$NEW_NAME_FULL;
-    }
-
-    public function fileInfo()
-    {
-        if (isset($_FILES['files'])) {
-            self::$SHA1 = sha1_file(self::$TEMP_FILE);
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            self::$FILE_MIME = finfo_file($finfo, self::$TEMP_FILE);
-            finfo_close($finfo);
-
-            if (Settings::$LOG_IP) {
-                self::$IP = $_SERVER['REMOTE_ADDR'];
-            } else {
-                self::$IP = '0';
-            }
-
-            foreach (Settings::$DOUBLE_DOTS as $DDOT) {
-                if (stripos(strrev(self::$FILE_NAME), $DDOT) === 0) {
-                    self::$FILE_EXTENSION = strrev($DDOT);
-                } else {
-                    self::$FILE_EXTENSION = pathinfo(self::$FILE_NAME, PATHINFO_EXTENSION);
-                }
-            }
-        }
     }
 
     /**

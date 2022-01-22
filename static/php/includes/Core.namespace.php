@@ -85,7 +85,6 @@ namespace Core {
                 self::$ID_CHARSET = $settings_array['ID_CHARSET'];
                 self::$BLOCKED_EXTENSIONS = $settings_array['BLOCKED_EXTENSIONS'];
                 self::$BLOCKED_MIME = $settings_array['BLOCKED_MIME'];
-                self::$DOUBLE_DOTS = $settings_array['DOUBLE_DOTS'];
             } catch (Exception) {
                 throw new Exception('Cant populate settings.', 500);
             }
