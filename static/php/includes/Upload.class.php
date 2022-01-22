@@ -152,6 +152,9 @@ class Upload
     }
 
     /**
+     * Check if file extension is blacklisted
+     * if it does throw an exception.
+     *
      * @throws Exception
      */
     public function checkExtensionBlacklist()
@@ -181,7 +184,6 @@ class Upload
                 self::$NEW_NAME_FULL .= '.' . self::$FILE_EXTENSION;
             }
         } while ((new Database())->dbCheckNameExists() > 0);
-
         return self::$NEW_NAME_FULL;
     }
 }
