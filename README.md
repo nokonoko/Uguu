@@ -48,5 +48,5 @@ Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma L
 
 ## License
 
-Uguu is free software, and is released under the terms of the Expat license. See
+Uguu is free software, and is released under the terms of the GPL-3.0 license. See
 `LICENSE`.
