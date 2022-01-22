@@ -61,12 +61,12 @@ namespace Core {
          */
         public static function loadConfig()
         {
-            if (!file_exists('/Users/go.johansson/PERSONAL_REPOS/Uguu/dist.json')) {
+            if (!file_exists('/var/www/uguu/dist.json')) {
                 throw new Exception('Cant read settings file.', 500);
             }
             try {
                 $settings_array = json_decode(
-                    file_get_contents('/Users/go.johansson/PERSONAL_REPOS/Uguu/dist.json'),
+                    file_get_contents('/var/www/uguu/dist.json'),
                     true
                 );
                 self::$DB_MODE = $settings_array['DB_MODE'];

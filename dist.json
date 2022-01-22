@@ -28,14 +28,14 @@
   "bitcoinAddress": "",
   "flattrUrl": "",
   "DB_MODE": "sqlite",
-  "DB_PATH": "/Users/go.johansson/PERSONAL_REPOS/Uguu/uguu.sq3",
+  "DB_PATH": "/var/www/db/uguu.sq3",
   "DB_USER": "NULL",
   "DB_PASS": "NULL",
-  "LOG_IP": true,
+  "LOG_IP": false,
   "ANTI_DUPE": false,
   "BLACKLIST_DB": true,
   "FILTER_MODE": true,
-  "FILES_ROOT": "/Users/go.johansson/PERSONAL_REPOS/Uguu/dist/files/",
+  "FILES_ROOT": "/var/www/files/",
   "FILES_RETRIES": 15,
   "SSL": "true",
   "URL": "a.uguu.se",
@@ -68,6 +68,9 @@
   ],
   "DOUBLE_DOTS": [
     "tar.gz",
-    "tar.cp"
+    "tar.bz",
+    "tar.bz2",
+    "tar.xz",
+    "user.js"
   ]
 }
