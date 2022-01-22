@@ -37,7 +37,7 @@
   "FILTER_MODE": true,
   "FILES_ROOT": "/var/www/files/",
   "FILES_RETRIES": 15,
-  "SSL": "true",
+  "SSL": true,
   "URL": "a.uguu.se",
   "NAME_LENGTH": 8,
   "ID_CHARSET": "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ",
