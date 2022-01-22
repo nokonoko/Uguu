@@ -24,6 +24,7 @@ htmlmin:
 
 installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
+	mkdir -p $(DESTDIR)/ $(DESTDIR)/img/grills
 ifneq (,$(findstring php,$(MODULES)))
 	mkdir -p $(DESTDIR)/includes
 endif
@@ -42,6 +43,7 @@ min-js:
 
 copy-img:
 	cp -v $(CURDIR)/static/img/*.png $(CURDIR)/build/img/
+	cp -R $(CURDIR)/static/img/grills $(CURDIR)/build/img/
 
 copy-php:
 ifneq ($(wildcard $(CURDIR)/static/php/.),)
