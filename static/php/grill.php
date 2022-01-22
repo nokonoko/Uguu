@@ -22,4 +22,4 @@ require_once 'includes/Core.namespace.php';
 
 use Core\cuteGrills as cuteGrills;
 
-cuteGrills::showGrills();
+(new cuteGrills())->showGrills();

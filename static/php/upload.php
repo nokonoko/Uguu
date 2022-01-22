@@ -20,18 +20,20 @@
 
 require_once 'includes/Upload.class.php';
 
-use Core\Response as Response;
+$type = $_GET['output'] ?? 'json';
+$response = (new Core\Response($type));
 
 if (isset($_FILES['files'])) {
     $uploads = (new Upload())->reFiles($_FILES['files']);
 
-    foreach ($uploads as $upload) {
-        $res[] = (new Upload())->uploadFile($upload);
+    try {
+        foreach ($uploads as $upload) {
+            $res[] = (new Upload())->uploadFile($upload);
+        }
+        $response->send($res);
+    } catch (Exception $e) {
+        $response->error($e->getCode(), $e->getMessage());
     }
-
-    if (isset($res)) {
-        (new Response())->returnSuccess($res);
-    } else {
-        (new Response())->returnError(400, 'No input file(s)', 'N/A');
-    }
+} else {
+    $response->error(400, 'No input file(s)');
 }

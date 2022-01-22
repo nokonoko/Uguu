@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Uguu
  *
@@ -18,7 +19,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
 namespace Core {
+
+    require_once 'Upload.class.php';
 
     use PDO;
     use Upload as Upload;
@@ -51,26 +55,37 @@ namespace Core {
         public static array $BLOCKED_MIME;
 
 
-        public function __construct()
+        public static function loadConfig()
         {
-            $settings_array = json_decode(file_get_contents('/Users/go.johansson/PERSONAL_REPOS/Uguu/dist.json'), true);
-            self::$DB_MODE = $settings_array['DB_MODE'];
-            self::$DB_PATH = $settings_array['DB_PATH'];
-            self::$DB_USER = $settings_array['DB_USER'];
-            self::$DB_PASS = $settings_array['DB_PASS'];
-            self::$LOG_IP = $settings_array['LOG_IP'];
-            self::$ANTI_DUPE = $settings_array['ANTI_DUPE'];
-            self::$BLACKLIST_DB = $settings_array['BLACKLIST_DB'];
-            self::$FILTER_MODE = $settings_array['FILTER_MODE'];
-            self::$FILES_ROOT = $settings_array['FILES_ROOT'];
-            self::$FILES_RETRIES = $settings_array['FILES_RETRIES'];
-            self::$SSL = $settings_array['SSL'];
-            self::$URL = $settings_array['URL'];
-            self::$NAME_LENGTH = $settings_array['NAME_LENGTH'];
-            self::$ID_CHARSET = $settings_array['ID_CHARSET'];
-            self::$BLOCKED_EXTENSIONS = $settings_array['BLOCKED_EXTENSIONS'];
-            self::$BLOCKED_MIME = $settings_array['BLOCKED_MIME'];
-            self::$DOUBLE_DOTS = array($settings_array['DOUBLE_DOTS']);
+            if (!file_exists('/Users/go.johansson/PERSONAL_REPOS/Uguu/dist.json')) {
+                throw new \Exception('Cant read settings file.', 500);
+            }
+            try {
+                $settings_array = json_decode(
+                    file_get_contents('/Users/go.johansson/PERSONAL_REPOS/Uguu/dist.json'),
+                    true
+                );
+                self::$DB_MODE = $settings_array['DB_MODE'];
+                self::$DB_PATH = $settings_array['DB_PATH'];
+                self::$DB_USER = $settings_array['DB_USER'];
+                self::$DB_PASS = $settings_array['DB_PASS'];
+                self::$LOG_IP = $settings_array['LOG_IP'];
+                self::$ANTI_DUPE = $settings_array['ANTI_DUPE'];
+                self::$BLACKLIST_DB = $settings_array['BLACKLIST_DB'];
+                self::$FILTER_MODE = $settings_array['FILTER_MODE'];
+                self::$FILES_ROOT = $settings_array['FILES_ROOT'];
+                self::$FILES_RETRIES = $settings_array['FILES_RETRIES'];
+                self::$SSL = $settings_array['SSL'];
+                self::$URL = $settings_array['URL'];
+                self::$NAME_LENGTH = $settings_array['NAME_LENGTH'];
+                self::$ID_CHARSET = $settings_array['ID_CHARSET'];
+                self::$BLOCKED_EXTENSIONS = $settings_array['BLOCKED_EXTENSIONS'];
+                self::$BLOCKED_MIME = $settings_array['BLOCKED_MIME'];
+                self::$DOUBLE_DOTS = $settings_array['DOUBLE_DOTS'];
+            } catch (\Exception $e) {
+                throw new \Exception('Cant populate settings.', 500);
+            }
+            (new Database())->assemblePDO();
         }
     }
 
@@ -78,115 +93,360 @@ namespace Core {
     {
         public static array $GRILLS;
 
-        public function __construct()
-        {
-            self::$GRILLS = array_slice(scandir('/Users/go.johansson/PERSONAL_REPOS/Uguu/dist/img/grills/'), 2);
-        }
-
-
         public static function showGrills()
         {
+            self::loadGrills();
             if (!headers_sent()) {
-                header('Location: ' . self::$GRILLS[array_rand(self::$GRILLS)], true, 303);
+                header(
+                    'Location: /img/grills/' .
+                    self::$GRILLS[array_rand(self::$GRILLS)],
+                    true,
+                    303
+                );
             }
+        }
+
+        public static function loadGrills()
+        {
+            self::$GRILLS = array_slice(scandir('img/grills/'), 2);
         }
     }
 
+    /**
+     * The Response class is a do-it-all for getting responses out in different
+     * formats.
+     *
+     * @todo Create sub-classes to split and extend this god object.
+     */
     class Response
     {
-        public function returnError($code, $message, $filename): bool|string
+        /**
+         * Indicates response type used for routing.
+         *
+         * Valid strings are 'csv', 'html', 'json' and 'text'.
+         *
+         * @var string Response type
+         */
+        private $type;
+
+        /**
+         * Indicates requested response type.
+         *
+         * Valid strings are 'csv', 'html', 'json', 'gyazo' and 'text'.
+         *
+         * @param string|null $response_type Response type
+         */
+        public function __construct($response_type = null)
         {
+            switch ($response_type) {
+                case 'csv':
+                    header('Content-Type: text/csv; charset=UTF-8');
+                    $this->type = $response_type;
+                    break;
+                case 'html':
+                    header('Content-Type: text/html; charset=UTF-8');
+                    $this->type = $response_type;
+                    break;
+                case 'json':
+                    header('Content-Type: application/json; charset=UTF-8');
+                    $this->type = $response_type;
+                    break;
+                case 'gyazo':
+                    header('Content-Type: text/plain; charset=UTF-8');
+                    $this->type = 'text';
+                    break;
+                case 'text':
+                    header('Content-Type: text/plain; charset=UTF-8');
+                    $this->type = $response_type;
+                    break;
+                default:
+                    header('Content-Type: application/json; charset=UTF-8');
+                    $this->type = 'json';
+                    $this->error(400, 'Invalid response type. Valid options are: csv, html, json, text.');
+                    break;
+            }
+        }
+
+        /**
+         * Routes error messages depending on response type.
+         *
+         * @param int $code HTTP status code number
+         * @param int $desc descriptive error message
+         *
+         * @return void
+         */
+        public function error($code, $desc)
+        {
+            $response = null;
+
+            switch ($this->type) {
+                case 'csv':
+                    $response = $this->csvError($desc);
+                    break;
+                case 'html':
+                    $response = $this->htmlError($code, $desc);
+                    break;
+                case 'json':
+                    $response = $this->jsonError($code, $desc);
+                    break;
+                case 'text':
+                    $response = $this->textError($code, $desc);
+                    break;
+            }
             http_response_code($code);
-            header('Content-Type: application/json; charset=UTF-8');
-            self::cleanAndDie();
-            return json_encode(array(
+            echo $response;
+        }
+
+        /**
+         * Indicates with CSV body the request was invalid.
+         *
+         * @param int $description descriptive error message
+         *
+         * @return string error message in CSV format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function csvError($description)
+        {
+            return '"error"' . "\r\n" . "\"$description\"" . "\r\n";
+        }
+
+        /**
+         * Indicates with HTML body the request was invalid.
+         *
+         * @param int $code HTTP status code number
+         * @param int $description descriptive error message
+         *
+         * @return string error message in HTML format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function htmlError($code, $description)
+        {
+            return '<p>ERROR: (' . $code . ') ' . $description . '</p>';
+        }
+
+        /**
+         * Indicates with JSON body the request was invalid.
+         *
+         * @param int $code HTTP status code number
+         * @param int $description descriptive error message
+         *
+         * @return string error message in pretty-printed JSON format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function jsonError($code, $description)
+        {
+            return json_encode([
                 'success' => false,
-                'file' => $filename,
-                'code' => $code,
-                'description' => $message
-            ), JSON_FORCE_OBJECT);
+                'errorcode' => $code,
+                'description' => $description,
+            ], JSON_PRETTY_PRINT);
         }
 
-        public function cleanAndDie()
+        /**
+         * Indicates with plain text body the request was invalid.
+         *
+         * @param int $code HTTP status code number
+         * @param int $description descriptive error message
+         *
+         * @return string error message in plain text format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function textError($code, $description)
         {
-            Settings::$DB = null;
+            return 'ERROR: (' . $code . ') ' . $description;
         }
 
-        public function returnSuccess($files): bool|string
+        /**
+         * Routes success messages depending on response type.
+         *
+         * @param mixed[] $files
+         *
+         * @return void
+         */
+        public function send($files)
         {
-            http_response_code('200');
-            header('Content-Type: application/json; charset=UTF-8');
-            return json_encode(array(
+            $response = null;
+
+            switch ($this->type) {
+                case 'csv':
+                    $response = $this->csvSuccess($files);
+                    break;
+                case 'html':
+                    $response = $this->htmlSuccess($files);
+                    break;
+                case 'json':
+                    $response = $this->jsonSuccess($files);
+                    break;
+                case 'text':
+                    $response = $this->textSuccess($files);
+                    break;
+            }
+
+            http_response_code(200); // "200 OK". Success.
+            echo $response;
+        }
+
+        /**
+         * Indicates with CSV body the request was successful.
+         *
+         * @param mixed[] $files
+         *
+         * @return string success message in CSV format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function csvSuccess($files)
+        {
+            $result = '"name","url","hash","size"' . "\r\n";
+            foreach ($files as $file) {
+                $result .= '"' . $file['name'] . '"' . ',' .
+                    '"' . $file['url'] . '"' . ',' .
+                    '"' . $file['hash'] . '"' . ',' .
+                    '"' . $file['size'] . '"' . "\r\n";
+            }
+
+            return $result;
+        }
+
+        /**
+         * Indicates with HTML body the request was successful.
+         *
+         * @param mixed[] $files
+         *
+         * @return string success message in HTML format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function htmlSuccess($files)
+        {
+            $result = '';
+
+            foreach ($files as $file) {
+                $result .= '<a href="' . $file['url'] . '">' . $file['url'] . '</a><br>';
+            }
+
+            return $result;
+        }
+
+        /**
+         * Indicates with JSON body the request was successful.
+         *
+         * @param mixed[] $files
+         *
+         * @return string success message in pretty-printed JSON format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function jsonSuccess($files)
+        {
+            return json_encode([
                 'success' => true,
-                'files' => $files
-            ), JSON_PRETTY_PRINT);
+                'files' => $files,
+            ], JSON_PRETTY_PRINT);
+        }
+
+        /**
+         * Indicates with plain text body the request was successful.
+         *
+         * @param mixed[] $files
+         *
+         * @return string success message in plain text format
+         * @deprecated 2.1.0 Will be renamed to camelCase format.
+         *
+         */
+        private static function textSuccess($files)
+        {
+            $result = '';
+
+            foreach ($files as $file) {
+                $result .= $file['url'] . "\n";
+            }
+
+            return $result;
         }
     }
 
 
     class Database
     {
-
-        public function __construct()
+        public static function assemblePDO()
         {
-            Settings::$DB = new PDO(
-                Settings::$DB_MODE . ':' . Settings::$DB_PATH, Settings::$DB_USER,
-                Settings::$DB_PASS
-            );
+            try {
+                Settings::$DB = new PDO(
+                    Settings::$DB_MODE . ':' . Settings::$DB_PATH, Settings::$DB_USER,
+                    Settings::$DB_PASS
+                );
+            } catch (\Exception $e) {
+                throw new \Exception('Cant connect to DB.', 500);
+            }
         }
 
         public function dbCheckNameExists()
         {
-            $q = Settings::$DB->prepare('SELECT COUNT(filename) FROM files WHERE filename = (:name)');
-            $q->bindValue(':name', Upload::$NEW_NAME_FULL);
-            $q->execute();
-            return $q->fetchColumn();
+            try {
+                $q = Settings::$DB->prepare('SELECT COUNT(filename) FROM files WHERE filename = (:name)');
+                $q->bindValue(':name', Upload::$NEW_NAME_FULL);
+                $q->execute();
+                return $q->fetchColumn();
+            } catch (\Exception $e) {
+                throw new \Exception('Cant check if name exists in DB.', 500);
+            }
         }
 
         public function checkFileBlacklist()
         {
-            $q = Settings::$DB->prepare('SELECT hash, COUNT(*) AS count FROM blacklist WHERE hash = (:hash)');
-            $q->bindValue(':hash', Upload::$SHA1, PDO::PARAM_STR);
-            $q->execute();
-            $result = $q->fetch();
-            if ($result['count'] > 0) {
-                (new Response())->returnError('415', 'File blacklisted!', Upload::$FILE_NAME);
+            try {
+                $q = Settings::$DB->prepare('SELECT hash, COUNT(*) AS count FROM blacklist WHERE hash = (:hash)');
+                $q->bindValue(':hash', Upload::$SHA1, PDO::PARAM_STR);
+                $q->execute();
+                $result = $q->fetch();
+                if ($result['count'] > 0) {
+                    throw new \Exception('File blacklisted!', 415);
+                }
+            } catch (\Exception $e) {
+                throw new \Exception('Cant check blacklist DB.', 500);
             }
         }
 
-        public function antiDupe(): ?array
+        public function antiDupe()
         {
-            $q = Settings::$DB->prepare(
-                'SELECT filename, COUNT(*) AS count FROM files WHERE hash = (:hash) AND size = (:size)'
-            );
-            $q->bindValue(':hash', Upload::$SHA1, PDO::PARAM_STR);
-            $q->bindValue(':size', Upload::$FILE_SIZE, PDO::PARAM_INT);
-            $q->execute();
-            $result = $q->fetch();
-            if ($result['count'] > 0) {
-                return array(
-                    'hash' => Upload::$SHA1,
-                    'name' => Upload::$FILE_NAME,
-                    'url' => Settings::$URL . rawurlencode($result['filename']),
-                    'size' => Upload::$FILE_SIZE
+            try {
+                $q = Settings::$DB->prepare(
+                    'SELECT filename, COUNT(*) AS count FROM files WHERE hash = (:hash) AND size = (:size)'
                 );
+                $q->bindValue(':hash', Upload::$SHA1, PDO::PARAM_STR);
+                $q->bindValue(':size', Upload::$FILE_SIZE, PDO::PARAM_INT);
+                $q->execute();
+                $result = $q->fetch();
+                if ($result['count'] > 0) {
+                    Upload::$NEW_NAME_FULL = $result['filename'];
+                }
+            } catch (\Exception $e) {
+                throw new \Exception('Cant check for dupes in DB.', 500);
             }
-            return [];
         }
 
         public function newIntoDB()
         {
-            $q = Settings::$DB->prepare(
-                'INSERT INTO files (hash, originalname, filename, size, date, ip)' .
-                'VALUES (:hash, :orig, :name, :size, :date, :ip)'
-            );
-            $q->bindValue(':hash', Upload::$SHA1, PDO::PARAM_STR);
-            $q->bindValue(':orig', strip_tags(Upload::$FILE_NAME), PDO::PARAM_STR);
-            $q->bindValue(':name', Upload::$NEW_NAME_FULL, PDO::PARAM_STR);
-            $q->bindValue(':size', Upload::$FILE_SIZE, PDO::PARAM_INT);
-            $q->bindValue(':date', time(), PDO::PARAM_STR);
-            $q->bindValue(':ip', Upload::$IP, PDO::PARAM_STR);
-            $q->execute();
+            try {
+                $q = Settings::$DB->prepare(
+                    'INSERT INTO files (hash, originalname, filename, size, date, ip)' .
+                    'VALUES (:hash, :orig, :name, :size, :date, :ip)'
+                );
+                $q->bindValue(':hash', Upload::$SHA1, PDO::PARAM_STR);
+                $q->bindValue(':orig', strip_tags(Upload::$FILE_NAME), PDO::PARAM_STR);
+                $q->bindValue(':name', Upload::$NEW_NAME_FULL, PDO::PARAM_STR);
+                $q->bindValue(':size', Upload::$FILE_SIZE, PDO::PARAM_INT);
+                $q->bindValue(':date', time(), PDO::PARAM_STR);
+                $q->bindValue(':ip', Upload::$IP, PDO::PARAM_STR);
+                $q->execute();
+            } catch (\Exception $e) {
+                throw new \Exception('Cant insert into DB.', 500);
+            }
         }
     }
 }
