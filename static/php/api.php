@@ -18,7 +18,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-class errorReport
-{
+require_once 'includes/Upload.class.php';
 
+use Core\Response as Response;
+
+if (isset($_FILES['files'])) {
+    $uploads = (new Upload())->reFiles($_FILES['files']);
+
+    foreach ($uploads as $upload) {
+        $res[] = (new Upload())->uploadFile($upload);
+    }
+
+    if (isset($res)) {
+        (new Response())->returnSuccess($res);
+    } else {
+        (new Response())->returnError(400, 'No input file(s)', 'N/A');
+    }
 }
