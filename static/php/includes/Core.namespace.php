@@ -327,7 +327,7 @@ namespace Core {
                 $q->execute();
                 $result = $q->fetch();
                 if ($result['count'] > 0) {
-                    Upload::$NEW_NAME_FULL = $result['filename'];
+                    return $result['filename'];
                 }
             } catch (Exception) {
                 throw new Exception('Cant check for dupes in DB.', 500);
@@ -357,6 +357,5 @@ namespace Core {
         }
     }
 }
-
 
 
