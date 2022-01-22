@@ -25,7 +25,7 @@ htmlmin:
 installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
 ifneq (,$(findstring php,$(MODULES)))
-	mkdir -p $(DESTDIR)/classes $(DESTDIR)/includes
+	mkdir -p $(DESTDIR)/includes
 endif
 ifneq (,$(findstring moe,$(MODULES)))
 	mkdir -p $(DESTDIR)/moe/{css,fonts,includes,js,login,panel/css/font,panel/css/images,register,templates}

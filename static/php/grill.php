@@ -1,24 +1,25 @@
 <?php
+/*
+ * Uguu
+ *
+ * @copyright Copyright (c) 2022 Go Johansson (nekunekus) <neku@pomf.se> <github.com/nokonoko>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
-// Array of image paths, feel free to add/remove to/from this list
-$images = array(
-    'img/2.png',
-    'img/3.png',
-    'img/4.png',
-    'img/5.png',
-    'img/6.png',
-    'img/7.png',
-    'img/8.png',
-    'img/9.png',
-    'img/10.png',
-    'img/11.png',
-    'img/12.png',
-    'img/13.png',
-    'img/14.png',
-    'img/15.png',
-);
+require_once 'includes/Core.namespace.php';
 
-// Redirect to a random image from the above array using status code "303 See Other" 
-if (headers_sent() === false) {
-    header('Location: '.$images[array_rand($images)], true, 303);
-}
+use Core\cuteGrills as cuteGrills;
+
+cuteGrills::showGrills();
