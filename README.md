@@ -26,10 +26,9 @@ See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
-Original development environment is Nginx + PHP8.1 + SQLite, but is confirmed to
-work with Apache and older PHP versions like PHP7.4.
+Tested and working with Nginx + PHP-8.0/8.1 + SQLite/MySQL. 
 
-Node is used to compile Uguu.
+Node is used to compile Uguu, after that it runs on PHP.
 
 ## Installation
 
