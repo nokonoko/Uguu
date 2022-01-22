@@ -28,9 +28,11 @@ if (isset($_FILES['files'])) {
 
     try {
         foreach ($uploads as $upload) {
-            $res[] = (new Upload())->uploadFile($upload);
+            $res[] = (new Upload())->uploadFile();
         }
-        $response->send($res);
+        if (isset($res)) {
+            $response->send($res);
+        }
     } catch (Exception $e) {
         $response->error($e->getCode(), $e->getMessage());
     }

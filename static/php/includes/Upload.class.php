@@ -65,7 +65,10 @@ class Upload
         return $result;
     }
 
-    public function uploadFile($file): array
+    /**
+     * @throws Exception
+     */
+    public function uploadFile(): array
     {
         (new Settings())->loadConfig();
 
@@ -73,7 +76,7 @@ class Upload
             (new Database())->antiDupe();
         }
 
-        (new Upload())->generateName($file);
+        (new Upload())->generateName();
 
 
         if (!is_dir(Settings::$FILES_ROOT)) {
@@ -104,9 +107,12 @@ class Upload
         ];
     }
 
-    public function generateName($file): string
+    /**
+     * @throws Exception
+     */
+    public function generateName(): string
     {
-        (new Upload())->fileInfo($file);
+        (new Upload())->fileInfo();
 
         do {
             if (Settings::$FILES_RETRIES === 0) {
@@ -135,7 +141,7 @@ class Upload
         return self::$NEW_NAME_FULL;
     }
 
-    public function fileInfo($file)
+    public function fileInfo()
     {
         if (isset($_FILES['files'])) {
             self::$SHA1 = sha1_file(self::$TEMP_FILE);
@@ -159,6 +165,9 @@ class Upload
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function checkMimeBlacklist()
     {
         if (in_array(self::$FILE_MIME, Settings::$BLOCKED_MIME)) {
@@ -166,6 +175,9 @@ class Upload
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function checkExtensionBlacklist()
     {
         if (in_array(self::$FILE_EXTENSION, Settings::$BLOCKED_EXTENSIONS)) {

@@ -24,6 +24,7 @@ namespace Core {
 
     require_once 'Upload.class.php';
 
+    use Exception;
     use PDO;
     use Upload as Upload;
 
@@ -55,10 +56,13 @@ namespace Core {
         public static array $BLOCKED_MIME;
 
 
+        /**
+         * @throws Exception
+         */
         public static function loadConfig()
         {
             if (!file_exists('/Users/go.johansson/PERSONAL_REPOS/Uguu/dist.json')) {
-                throw new \Exception('Cant read settings file.', 500);
+                throw new Exception('Cant read settings file.', 500);
             }
             try {
                 $settings_array = json_decode(
@@ -82,8 +86,8 @@ namespace Core {
                 self::$BLOCKED_EXTENSIONS = $settings_array['BLOCKED_EXTENSIONS'];
                 self::$BLOCKED_MIME = $settings_array['BLOCKED_MIME'];
                 self::$DOUBLE_DOTS = $settings_array['DOUBLE_DOTS'];
-            } catch (\Exception $e) {
-                throw new \Exception('Cant populate settings.', 500);
+            } catch (Exception) {
+                throw new Exception('Cant populate settings.', 500);
             }
             (new Database())->assemblePDO();
         }
@@ -112,30 +116,10 @@ namespace Core {
         }
     }
 
-    /**
-     * The Response class is a do-it-all for getting responses out in different
-     * formats.
-     *
-     * @todo Create sub-classes to split and extend this god object.
-     */
     class Response
     {
-        /**
-         * Indicates response type used for routing.
-         *
-         * Valid strings are 'csv', 'html', 'json' and 'text'.
-         *
-         * @var string Response type
-         */
-        private $type;
+        private mixed $type;
 
-        /**
-         * Indicates requested response type.
-         *
-         * Valid strings are 'csv', 'html', 'json', 'gyazo' and 'text'.
-         *
-         * @param string|null $response_type Response type
-         */
         public function __construct($response_type = null)
         {
             switch ($response_type) {
@@ -167,14 +151,6 @@ namespace Core {
             }
         }
 
-        /**
-         * Routes error messages depending on response type.
-         *
-         * @param int $code HTTP status code number
-         * @param int $desc descriptive error message
-         *
-         * @return void
-         */
         public function error($code, $desc)
         {
             $response = null;
@@ -197,46 +173,17 @@ namespace Core {
             echo $response;
         }
 
-        /**
-         * Indicates with CSV body the request was invalid.
-         *
-         * @param int $description descriptive error message
-         *
-         * @return string error message in CSV format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function csvError($description)
+        private static function csvError($description): string
         {
             return '"error"' . "\r\n" . "\"$description\"" . "\r\n";
         }
 
-        /**
-         * Indicates with HTML body the request was invalid.
-         *
-         * @param int $code HTTP status code number
-         * @param int $description descriptive error message
-         *
-         * @return string error message in HTML format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function htmlError($code, $description)
+        private static function htmlError($code, $description): string
         {
             return '<p>ERROR: (' . $code . ') ' . $description . '</p>';
         }
 
-        /**
-         * Indicates with JSON body the request was invalid.
-         *
-         * @param int $code HTTP status code number
-         * @param int $description descriptive error message
-         *
-         * @return string error message in pretty-printed JSON format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function jsonError($code, $description)
+        private static function jsonError($code, $description): bool|string
         {
             return json_encode([
                 'success' => false,
@@ -245,28 +192,12 @@ namespace Core {
             ], JSON_PRETTY_PRINT);
         }
 
-        /**
-         * Indicates with plain text body the request was invalid.
-         *
-         * @param int $code HTTP status code number
-         * @param int $description descriptive error message
-         *
-         * @return string error message in plain text format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function textError($code, $description)
+
+        private static function textError($code, $description): string
         {
             return 'ERROR: (' . $code . ') ' . $description;
         }
 
-        /**
-         * Routes success messages depending on response type.
-         *
-         * @param mixed[] $files
-         *
-         * @return void
-         */
         public function send($files)
         {
             $response = null;
@@ -290,16 +221,7 @@ namespace Core {
             echo $response;
         }
 
-        /**
-         * Indicates with CSV body the request was successful.
-         *
-         * @param mixed[] $files
-         *
-         * @return string success message in CSV format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function csvSuccess($files)
+        private static function csvSuccess($files): string
         {
             $result = '"name","url","hash","size"' . "\r\n";
             foreach ($files as $file) {
@@ -312,16 +234,7 @@ namespace Core {
             return $result;
         }
 
-        /**
-         * Indicates with HTML body the request was successful.
-         *
-         * @param mixed[] $files
-         *
-         * @return string success message in HTML format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function htmlSuccess($files)
+        private static function htmlSuccess($files): string
         {
             $result = '';
 
@@ -332,16 +245,7 @@ namespace Core {
             return $result;
         }
 
-        /**
-         * Indicates with JSON body the request was successful.
-         *
-         * @param mixed[] $files
-         *
-         * @return string success message in pretty-printed JSON format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function jsonSuccess($files)
+        private static function jsonSuccess($files): bool|string
         {
             return json_encode([
                 'success' => true,
@@ -349,16 +253,7 @@ namespace Core {
             ], JSON_PRETTY_PRINT);
         }
 
-        /**
-         * Indicates with plain text body the request was successful.
-         *
-         * @param mixed[] $files
-         *
-         * @return string success message in plain text format
-         * @deprecated 2.1.0 Will be renamed to camelCase format.
-         *
-         */
-        private static function textSuccess($files)
+        private static function textSuccess($files): string
         {
             $result = '';
 
@@ -370,9 +265,11 @@ namespace Core {
         }
     }
 
-
     class Database
     {
+        /**
+         * @throws Exception
+         */
         public static function assemblePDO()
         {
             try {
@@ -380,11 +277,14 @@ namespace Core {
                     Settings::$DB_MODE . ':' . Settings::$DB_PATH, Settings::$DB_USER,
                     Settings::$DB_PASS
                 );
-            } catch (\Exception $e) {
-                throw new \Exception('Cant connect to DB.', 500);
+            } catch (Exception) {
+                throw new Exception('Cant connect to DB.', 500);
             }
         }
 
+        /**
+         * @throws Exception
+         */
         public function dbCheckNameExists()
         {
             try {
@@ -392,11 +292,14 @@ namespace Core {
                 $q->bindValue(':name', Upload::$NEW_NAME_FULL);
                 $q->execute();
                 return $q->fetchColumn();
-            } catch (\Exception $e) {
-                throw new \Exception('Cant check if name exists in DB.', 500);
+            } catch (Exception) {
+                throw new Exception('Cant check if name exists in DB.', 500);
             }
         }
 
+        /**
+         * @throws Exception
+         */
         public function checkFileBlacklist()
         {
             try {
@@ -405,13 +308,16 @@ namespace Core {
                 $q->execute();
                 $result = $q->fetch();
                 if ($result['count'] > 0) {
-                    throw new \Exception('File blacklisted!', 415);
+                    throw new Exception('File blacklisted!', 415);
                 }
-            } catch (\Exception $e) {
-                throw new \Exception('Cant check blacklist DB.', 500);
+            } catch (Exception) {
+                throw new Exception('Cant check blacklist DB.', 500);
             }
         }
 
+        /**
+         * @throws Exception
+         */
         public function antiDupe()
         {
             try {
@@ -425,11 +331,14 @@ namespace Core {
                 if ($result['count'] > 0) {
                     Upload::$NEW_NAME_FULL = $result['filename'];
                 }
-            } catch (\Exception $e) {
-                throw new \Exception('Cant check for dupes in DB.', 500);
+            } catch (Exception) {
+                throw new Exception('Cant check for dupes in DB.', 500);
             }
         }
 
+        /**
+         * @throws Exception
+         */
         public function newIntoDB()
         {
             try {
@@ -444,8 +353,8 @@ namespace Core {
                 $q->bindValue(':date', time(), PDO::PARAM_STR);
                 $q->bindValue(':ip', Upload::$IP, PDO::PARAM_STR);
                 $q->execute();
-            } catch (\Exception $e) {
-                throw new \Exception('Cant insert into DB.', 500);
+            } catch (Exception) {
+                throw new Exception('Cant insert into DB.', 500);
             }
         }
     }
