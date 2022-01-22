@@ -2,7 +2,8 @@
 node_modules
 dist/
 build/
-*.xml
 package-lock.json
 uguu.sq3
-.idea/copyright/profiles_settings.xml
+*.xml
+.idea
+.phpdoc
