@@ -48,7 +48,8 @@ class Upload
             self::$FILE_NAME = $file['name'];
             self::$FILE_SIZE = $file['size'];
             self::$TEMP_FILE = $file['tmp_name'];
-            $result[] = [self::$FILE_NAME, self::$FILE_SIZE, self::$TEMP_FILE];
+            self::$SHA1 = sha1_file(self::$TEMP_FILE);
+            $result[] = [self::$FILE_NAME, self::$FILE_SIZE, self::$TEMP_FILE, self::$SHA1];
         }
         return $result;
     }
@@ -109,7 +110,6 @@ class Upload
     public function fileInfo()
     {
         if (isset($_FILES['files'])) {
-            self::$SHA1 = sha1_file(self::$TEMP_FILE);
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             self::$FILE_MIME = finfo_file($finfo, self::$TEMP_FILE);
             $extension = explode('.',self::$FILE_NAME,2);
