@@ -51,7 +51,6 @@ namespace Core {
 
         public static int $NAME_LENGTH;
         public static string $ID_CHARSET;
-        public static array $DOUBLE_DOTS;
         public static array $BLOCKED_EXTENSIONS;
         public static array $BLOCKED_MIME;
 
