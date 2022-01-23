@@ -24,11 +24,11 @@ $type = $_GET['output'] ?? 'json';
 $response = (new Core\Response($type));
 
 if (isset($_FILES['files'])) {
-    $uploads = (new Upload())->reFiles($_FILES['files']);
+    $uploads = Upload::reFiles($_FILES['files']);
 
     try {
         foreach ($uploads as $upload) {
-            $res[] = (new Upload())->uploadFile();
+            $res[] = Upload::uploadFile();
         }
         if (isset($res)) {
             $response->send($res);

@@ -87,7 +87,7 @@ namespace Core {
             } catch (Exception) {
                 throw new Exception('Cant populate settings.', 500);
             }
-            (new Database())->assemblePDO();
+            Database::assemblePDO();
         }
     }
 
@@ -283,7 +283,7 @@ namespace Core {
         /**
          * @throws Exception
          */
-        public function dbCheckNameExists()
+        public static function dbCheckNameExists()
         {
             try {
                 $q = Settings::$DB->prepare('SELECT COUNT(filename) FROM files WHERE filename = (:name)');
@@ -298,7 +298,7 @@ namespace Core {
         /**
          * @throws Exception
          */
-        public function checkFileBlacklist()
+        public static function checkFileBlacklist()
         {
             try {
                 $q = Settings::$DB->prepare('SELECT hash, COUNT(*) AS count FROM blacklist WHERE hash = (:hash)');
@@ -316,7 +316,7 @@ namespace Core {
         /**
          * @throws Exception
          */
-        public function antiDupe()
+        public static function antiDupe()
         {
             try {
                 $q = Settings::$DB->prepare(
@@ -327,7 +327,9 @@ namespace Core {
                 $q->execute();
                 $result = $q->fetch();
                 if ($result['count'] > 0) {
-                    return $result['filename'];
+                    Upload::$NEW_NAME_FULL = $result['filename'];
+                } else {
+                    Upload::generateName();
                 }
             } catch (Exception) {
                 throw new Exception('Cant check for dupes in DB.', 500);
@@ -337,7 +339,7 @@ namespace Core {
         /**
          * @throws Exception
          */
-        public function newIntoDB()
+        public static function newIntoDB()
         {
             try {
                 $q = Settings::$DB->prepare(

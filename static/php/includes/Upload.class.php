@@ -39,7 +39,7 @@ class Upload
     public static string $TEMP_FILE;
 
 
-    public function reFiles($files): array
+    public static function reFiles($files): array
     {
         $result = [];
         $files = self::diverseArray($files);
@@ -54,7 +54,7 @@ class Upload
         return $result;
     }
 
-    public function diverseArray($files): array
+    public static function diverseArray($files): array
     {
         $result = [];
 
@@ -69,13 +69,13 @@ class Upload
     /**
      * @throws Exception
      */
-    public function uploadFile(): array
+    public static function uploadFile(): array
     {
-        (new Settings())->loadConfig();
-        (new Upload())->fileInfo();
+        Settings::loadConfig();
+        self::fileInfo();
 
         if (Settings::$BLACKLIST_DB) {
-            (new Database())->checkFileBlacklist();
+            Database::checkFileBlacklist();
         }
 
         if (Settings::$FILTER_MODE) {
@@ -84,16 +84,11 @@ class Upload
         }
 
         if (Settings::$ANTI_DUPE) {
-            $result = (new Database())->antiDupe();
-            if (isset($result)) {
-                self::$NEW_NAME_FULL = $result;
-            } else {
-                (new Upload())->generateName();
-            }
+            Database::antiDupe();
         }
 
         if (!Settings::$ANTI_DUPE) {
-            (new Upload())->generateName();
+            self::generateName();
         }
 
         if (!is_dir(Settings::$FILES_ROOT)) {
@@ -108,7 +103,7 @@ class Upload
             throw new Exception('Failed to change file permissions', 500);
         }
 
-        (new Database())->newIntoDB();
+        Database::newIntoDB();
 
         if (Settings::$SSL) {
             $preURL = 'https://';
@@ -124,7 +119,7 @@ class Upload
         ];
     }
 
-    public function fileInfo()
+    public static function fileInfo()
     {
         if (isset($_FILES['files'])) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -144,7 +139,7 @@ class Upload
     /**
      * @throws Exception
      */
-    public function checkMimeBlacklist()
+    public static function checkMimeBlacklist()
     {
         if (in_array(self::$FILE_MIME, Settings::$BLOCKED_MIME)) {
             throw new Exception('Filetype not allowed.', 415);
@@ -157,7 +152,7 @@ class Upload
      *
      * @throws Exception
      */
-    public function checkExtensionBlacklist()
+    public static function checkExtensionBlacklist()
     {
         if (in_array(self::$FILE_EXTENSION, Settings::$BLOCKED_EXTENSIONS)) {
             throw new Exception('Filetype not allowed.', 415);
@@ -167,7 +162,7 @@ class Upload
     /**
      * @throws Exception
      */
-    public function generateName(): string
+    public static function generateName()
     {
         do {
             if (Settings::$FILES_RETRIES === 0) {
@@ -183,7 +178,6 @@ class Upload
                 self::$NEW_NAME_FULL = self::$NEW_NAME;
                 self::$NEW_NAME_FULL .= '.' . self::$FILE_EXTENSION;
             }
-        } while ((new Database())->dbCheckNameExists() > 0);
-        return self::$NEW_NAME_FULL;
+        } while (Database::dbCheckNameExists() > 0);
     }
 }
