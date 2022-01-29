@@ -45,7 +45,7 @@ class Upload
         $files = self::diverseArray($files);
 
         foreach ($files as $file) {
-            self::$FILE_NAME = $file['name'];
+            self::$FILE_NAME = strip_tags($file['name']);
             self::$FILE_SIZE = $file['size'];
             self::$TEMP_FILE = $file['tmp_name'];
             self::$SHA1 = sha1_file(self::$TEMP_FILE);

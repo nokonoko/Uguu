@@ -347,7 +347,7 @@ namespace Core {
                     'VALUES (:hash, :orig, :name, :size, :date, :ip)'
                 );
                 $q->bindValue(':hash', Upload::$SHA1, PDO::PARAM_STR);
-                $q->bindValue(':orig', strip_tags(Upload::$FILE_NAME), PDO::PARAM_STR);
+                $q->bindValue(':orig', Upload::$FILE_NAME, PDO::PARAM_STR);
                 $q->bindValue(':name', Upload::$NEW_NAME_FULL, PDO::PARAM_STR);
                 $q->bindValue(':size', Upload::$FILE_SIZE, PDO::PARAM_INT);
                 $q->bindValue(':date', time(), PDO::PARAM_STR);
