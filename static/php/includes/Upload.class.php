@@ -142,12 +142,10 @@ class Upload
             finfo_close($finfo);
 
             $extension = explode('.', self::$FILE_NAME);
-            if(substr_count(self::$FILE_NAME, '.') === 0) {
-                self::$FILE_EXTENSION = null;
-            } elseif(substr_count(self::$FILE_NAME, '.') > 1) {
-                self::$FILE_EXTENSION = $extension[count($extension)-2].'.'.$extension[count($extension)-1];
-            } else {
+            if(substr_count(self::$FILE_NAME, '.') > 0) {
                 self::$FILE_EXTENSION = $extension[count($extension)-1];
+            } else {
+                self::$FILE_EXTENSION = null;
             }
 
             if (Settings::$LOG_IP) {
