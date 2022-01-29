@@ -80,7 +80,9 @@ class Upload
 
         if (Settings::$FILTER_MODE) {
             self::checkMimeBlacklist();
-            self::checkExtensionBlacklist();
+            if(!is_null(self::$FILE_EXTENSION)){
+                self::checkExtensionBlacklist();
+            }
         }
 
         if (Settings::$ANTI_DUPE) {
@@ -140,8 +142,13 @@ class Upload
             finfo_close($finfo);
 
             $extension = explode('.', self::$FILE_NAME);
-            self::$FILE_EXTENSION = $extension[count($extension)-2].'.'.$extension[count($extension)-1];
-
+            if(substr_count(self::$FILE_NAME, '.') === 0) {
+                self::$FILE_EXTENSION = null;
+            } elseif(substr_count(self::$FILE_NAME, '.') > 1) {
+                self::$FILE_EXTENSION = $extension[count($extension)-2].'.'.$extension[count($extension)-1];
+            } else {
+                self::$FILE_EXTENSION = $extension[count($extension)-1];
+            }
 
             if (Settings::$LOG_IP) {
                 self::getIP();
@@ -189,10 +196,12 @@ class Upload
                 self::$NEW_NAME .= Settings::$ID_CHARSET[mt_rand(0, strlen(Settings::$ID_CHARSET))];
             }
 
-            if (isset(self::$FILE_EXTENSION)) {
-                self::$NEW_NAME_FULL = self::$NEW_NAME;
+            self::$NEW_NAME_FULL = self::$NEW_NAME;
+
+            if (!is_null(self::$FILE_EXTENSION)) {
                 self::$NEW_NAME_FULL .= '.' . self::$FILE_EXTENSION;
             }
+
         } while (Database::dbCheckNameExists() > 0);
     }
 }
