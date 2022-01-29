@@ -119,19 +119,34 @@ class Upload
         ];
     }
 
+    public static function getIP()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            self::$IP = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            self::$IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        if (!isset(self::$IP)) {
+            self::$IP = $_SERVER['REMOTE_ADDR'];
+        }
+    }
+
     public static function fileInfo()
     {
         if (isset($_FILES['files'])) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             self::$FILE_MIME = finfo_file($finfo, self::$TEMP_FILE);
-            $extension = explode('.', self::$FILE_NAME, 2);
-            self::$FILE_EXTENSION = $extension['1'];
             finfo_close($finfo);
 
+            $extension = explode('.', self::$FILE_NAME);
+            self::$FILE_EXTENSION = $extension[count($extension)-2].'.'.$extension[count($extension)-1];
+
+
             if (Settings::$LOG_IP) {
-                self::$IP = $_SERVER['REMOTE_ADDR'];
+                self::getIP();
             } else {
-                self::$IP = '0';
+                self::$IP = null;
             }
         }
     }
