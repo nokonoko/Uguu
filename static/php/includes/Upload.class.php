@@ -28,12 +28,12 @@ class Upload
 {
 
     public static string $FILE_NAME;
-    public static string $FILE_EXTENSION;
+    public static mixed $FILE_EXTENSION;
     public static string $FILE_MIME;
     public static string $SHA1;
     public static string $NEW_NAME;
     public static string $NEW_NAME_FULL;
-    public static string $IP;
+    public static mixed $IP;
 
     public static string $FILE_SIZE;
     public static string $TEMP_FILE;
