@@ -1,28 +1,10 @@
 - name: "install uguu"
   hosts: all
   become: yes
-  role:
+  roles:
     - ansible-role-uguu
 
   vars:
-    generateRobotstxt: ""
-    generateSitemap: ""
-    max_upload_size: ""
-    production: ""
-    siteName: ""
-    siteUrl: ""
-    abuseContact: ""
-    infoContact: ""
-    ServerCountryLocation: ""
-    SiteMetaInfo: ""
     paypalUrl: ""
     bitcoinAddress: ""
     flattrUrl: ""
-    LOG_IP: ""
-    DB_USER: ""
-    DB_PASS: ""
-    ANTI_DUPE: ""
-    FILES_RETRIES: ""
-    SSL: ""
-    NAME_LENGTH: ""
-    URL: ""

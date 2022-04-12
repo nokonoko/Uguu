@@ -7,6 +7,7 @@ NPM="npm"
 DESTDIR="./dist"
 PKG_VERSION := $( $(GREP) -Po '(?<="version": ")[^"]*' )
 TMPDIR := $(shell mktemp -d)
+HOSTS_FILE = $(HOSTS_FILE)
 # default modules
 MODULES="php"
 
@@ -61,6 +62,12 @@ endif
 
 install: installdirs
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
+
+submodule-update:
+	git submodule update
+
+deploy:
+	ansible-playbook -i $(HOSTS_FILE) ansible/site.yml
 
 dist:
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)
