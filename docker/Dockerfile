@@ -63,5 +63,8 @@ USER www-data
 # Expose port 80 from the container
 EXPOSE 80
 
+# Expose port 443 from the container
+EXPOSE 443
+
 # Load entrypoint
 ENTRYPOINT [ "bash", "/var/www/docker-entrypoint.sh" ]
