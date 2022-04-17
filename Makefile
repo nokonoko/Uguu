@@ -7,6 +7,9 @@ NPM="npm"
 DESTDIR="./dist"
 PKG_VERSION := $( $(GREP) -Po '(?<="version": ")[^"]*' )
 TMPDIR := $(shell mktemp -d)
+DOCKER_IMAGE = "$(shell basename $(CURDIR) | tr [:upper:] [:lower:])"
+DOCKER_TAG="$(DOCKER_TAG)"
+CONTAINER_NAME="$(CONTAINER_NAME)"
 # default modules
 MODULES="php"
 
@@ -78,6 +81,18 @@ uninstall:
 	
 npm_dependencies:
 	$(NPM) install
+
+
+build-image:
+		docker build -f docker/Dockerfile --build-arg VERSION=$(UGUU_RELEASE_VER) --no-cache -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+
+run-container:
+		docker run --name $(CONTAINER_NAME) -d -p 8080:80 --env-file docker/.env $(DOCKER_IMAGE):$(DOCKER_TAG)
+
+purge-container:
+	if docker images | grep $(DOCKER_IMAGE); then \
+	 	docker rm -f $(CONTAINER_NAME) && docker rmi $(DOCKER_IMAGE):$(DOCKER_TAG) || true;\
+	fi;		
 
 builddirs:
 	mkdir -p $(CURDIR)/build $(CURDIR)/build/img 
