@@ -34,7 +34,7 @@ Node is used to compile Uguu, after that it runs on PHP.
 
 Installation and configuration can be found at [Uguu Documentation](https://docs.uguu.se).
 
-If you need a admin panel check out [Moe Panel](https://github.com/pomf/MoePanel).
+If you need a admin panel check out [Moe Panel](https://git.pomf.se/Pomf/MoePanel).
 
 ## Getting help
 
