@@ -29,7 +29,7 @@ RUN tar xvf v${VERSION}.tar.gz
 RUN mkdir /var/www/uguu/dist && \
     mkdir /var/www/db && \
     mkdir /var/www/files
-    
+
 # Create the Sqlite DB
 RUN sqlite3 /var/www/db/uguu.sq3 -init /var/www/uguu/sqlite_schema.sql && \
     chown -R www-data:www-data /var/www && \
@@ -39,7 +39,7 @@ RUN sqlite3 /var/www/db/uguu.sq3 -init /var/www/uguu/sqlite_schema.sql && \
 RUN chmod a+x /var/www/uguu/checkdb.sh && \
     chmod a+x /var/www/uguu/checkfiles.sh && \
     sed -i 's#/path/to/files/#/var/www/uguu/files/#g' /var/www/uguu/checkfiles.sh && \
-    sed -i 's#/path/to/db/uguu.sq3#/var/www/db/uguu.sq3#g' /var/www/uguu/checkdb.sh 
+    sed -i 's#/path/to/db/uguu.sq3#/var/www/db/uguu.sq3#g' /var/www/uguu/checkdb.sh
 
 # Add scripts to cron
 RUN echo "0,30 * * * * bash /var/www/uguu/checkfiles.sh" >> /var/spool/cron/crontabs/www-data && \
@@ -52,7 +52,7 @@ COPY docker/uguu.conf /etc/nginx/http.d/
 COPY docker/ssl /etc/ssl
 
 # Copy Uguu config
-COPY dist.json /var/www/uguu/dist.json 
+COPY dist.json /var/www/uguu/dist.json
 
 # Give permissions to www-data
 RUN chown -R www-data:www-data /run /var/lib/php8 /var/lib/nginx /var/log/nginx /var/log/php8 /etc/nginx /etc/php8
