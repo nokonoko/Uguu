@@ -57,7 +57,7 @@ tests.
 
 ## Credits
 
-Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma Lejack & Eric Johansson (nekunekus) and with help from the open source community.
+Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma Lejack & Go Johansson (nekunekus) and with help from the open source community.
 
 ## License
 
