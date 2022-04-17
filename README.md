@@ -55,6 +55,8 @@ coding style guides. We use ESLint and PHPCS tools to enforce these standards.
 You can also help by sending us feature requests or writing documentation and
 tests.
 
+The Uguu repo has changed home and now resides at [Pomf Git](https://git.pomf.se/Pomf/Uguu).
+
 ## Credits
 
 Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma Lejack & Go Johansson (nekunekus) and with help from the open source community.
