@@ -87,7 +87,7 @@ build-image:
 		docker build -f docker/Dockerfile --build-arg VERSION=$(UGUU_RELEASE_VER) --no-cache -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
 run-container:
-		docker run --name $(CONTAINER_NAME) -d -p 8080:80 --env-file docker/.env $(DOCKER_IMAGE):$(DOCKER_TAG)
+		 docker run --name $(CONTAINER_NAME) -d -p 8080:80 -p 8081:443 --env-file docker/.env $(DOCKER_IMAGE):$(DOCKER_TAG)
 
 purge-container:
 	if docker images | grep $(DOCKER_IMAGE); then \
