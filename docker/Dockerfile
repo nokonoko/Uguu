@@ -12,7 +12,7 @@ WORKDIR  /var/www/
 
 COPY docker/docker-entrypoint.sh .
 
-ADD https://github.com/nokonoko/Uguu/archive/refs/tags/v${VERSION}.tar.gz v${VERSION}.tar.gz
+ADD https://git.pomf.se/Pomf/uguu/archive/v${VERSION}.tar.gz v${VERSION}.tar.gz
 
 RUN tar xvf v${VERSION}.tar.gz && \
     mv Uguu-${VERSION}/ uguu
