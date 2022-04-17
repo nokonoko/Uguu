@@ -1,6 +1,6 @@
 {
   "name": "uguu",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Kawaii file host",
   "homepage": "https://uguu.se/",
   "repository": {
@@ -12,7 +12,7 @@
     "Pomf Community <github.com/pomf/pomf>",
     "Uguu Community <github.com/nokonoko/uguu>"
   ],
-  "license": "MIT",
+  "license": "GPLV3",
   "bugs": {
     "url": "https://github.com/nokonoko/uguu/issues"
   },
