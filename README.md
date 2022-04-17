@@ -36,6 +36,10 @@ Installation and configuration can be found at [Uguu Documentation](https://docs
 
 If you need a admin panel check out [Moe Panel](https://git.pomf.se/Pomf/MoePanel).
 
+## Docker
+
+For Docker read [this guide](https://git.pomf.se/Pomf/uguu/wiki/Deploying-using-Docker).
+
 ## Getting help
 
 Hit me up at [@nekunekus](https://twitter.com/nekunekus) or email me at neku@pomf.se
