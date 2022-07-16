@@ -34,11 +34,7 @@ Node is used to compile Uguu, after that it runs on PHP.
 
 Installation and configuration can be found at [Uguu Documentation](https://docs.uguu.se).
 
-If you need a admin panel check out [Moe Panel](https://git.pomf.se/Pomf/MoePanel).
-
-## Docker
-
-For Docker read [this guide](https://git.pomf.se/Pomf/uguu/wiki/Deploying-using-Docker).
+If you need a admin panel check out [Moe Panel](https://github.com/Pomf/MoePanel).
 
 ## Getting help
 
@@ -54,8 +50,6 @@ coding style guides. We use ESLint and PHPCS tools to enforce these standards.
 
 You can also help by sending us feature requests or writing documentation and
 tests.
-
-The Uguu repo has changed home and now resides at [Pomf Git](https://git.pomf.se/Pomf/Uguu).
 
 ## Credits
 
