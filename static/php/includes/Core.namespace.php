@@ -350,7 +350,7 @@ namespace Core {
                 $q->bindValue(':orig', Upload::$FILE_NAME, PDO::PARAM_STR);
                 $q->bindValue(':name', Upload::$NEW_NAME_FULL, PDO::PARAM_STR);
                 $q->bindValue(':size', Upload::$FILE_SIZE, PDO::PARAM_INT);
-                $q->bindValue(':date', time(), PDO::PARAM_STR);
+                $q->bindValue(':date', time(), PDO::PARAM_INT);
                 $q->bindValue(':ip', Upload::$IP, PDO::PARAM_STR);
                 $q->execute();
             } catch (Exception) {

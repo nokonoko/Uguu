@@ -121,19 +121,6 @@ class Upload
         ];
     }
 
-    public static function getIP()
-    {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            self::$IP = $_SERVER['HTTP_CLIENT_IP'];
-        }
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            self::$IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-        if (!isset(self::$IP)) {
-            self::$IP = $_SERVER['REMOTE_ADDR'];
-        }
-    }
-
     public static function fileInfo()
     {
         if (isset($_FILES['files'])) {
@@ -149,7 +136,7 @@ class Upload
             }
 
             if (Settings::$LOG_IP) {
-                self::getIP();
+                self::$IP = $_SERVER['REMOTE_ADDR'];
             } else {
                 self::$IP = null;
             }

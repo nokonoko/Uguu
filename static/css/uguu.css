@@ -189,6 +189,9 @@ a.donate-btn:hover {
 .icon-flattr {
   background-image: url('img/flattr.png');
 }
+.icon-kofi {
+  background-image: url('img/kofi.png');
+}
 
 /**
  * NAVIGATION LINKS

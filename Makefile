@@ -4,8 +4,11 @@ TAR="tar"
 GREP="grep"
 NODE="node"
 NPM="npm"
-DESTDIR="./dist"
-PKG_VERSION := $( $(GREP) -Po '(?<="version": ")[^"]*' )
+NODEJQ="node_modules/node-jq/bin/jq"
+CONF="dist.json"
+DESTDIR = $(shell $(CURDIR)/$(NODEJQ) -r ".dest" $(CURDIR)/$(CONF))
+NPX="npx"
+PKG_VERSION = $(shell $(CURDIR)/$(NODEJQ) -r ".version" $(CURDIR)/package.json)
 TMPDIR := $(shell mktemp -d)
 DOCKER_IMAGE = "$(shell basename $(CURDIR) | tr [:upper:] [:lower:])"
 DOCKER_TAG="$(DOCKER_TAG)"
@@ -13,17 +16,19 @@ CONTAINER_NAME="$(CONTAINER_NAME)"
 # default modules
 MODULES="php"
 
-all: builddirs npm_dependencies swig htmlmin min-css min-js copy-img submodules
-	
-swig:
-	$(NODE) node_modules/swig/bin/swig.js render -j dist.json templates/faq.swig > $(CURDIR)/build/faq.html 
-	$(NODE) node_modules/swig/bin/swig.js render -j dist.json templates/index.swig > $(CURDIR)/build/index.html 
-	$(NODE) node_modules/swig/bin/swig.js render -j dist.json templates/tools.swig > $(CURDIR)/build/tools.html 
+pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
+noExt = $(shell echo $(i) | cut -d '.' -f1)
 
-htmlmin:
-	$(NODE) node_modules/htmlmin/bin/htmlmin $(CURDIR)/build/index.html -o $(CURDIR)/build/index.html 
-	$(NODE) node_modules/htmlmin/bin/htmlmin $(CURDIR)/build/faq.html -o $(CURDIR)/build/faq.html 
-	$(NODE) node_modules/htmlmin/bin/htmlmin $(CURDIR)/build/tools.html -o $(CURDIR)/build/tools.html 
+all: builddirs npm_dependencies ejs minify-all copy-img submodules
+
+ejs:
+	$(foreach i,$(pageList), \
+	$(NPX) ejs -f $(CURDIR)/$(CONF) $(CURDIR)/templates/$(i) -o $(CURDIR)/build/tmp/html/$(noExt).html;)
+
+minify-all:
+	$(NPX) minify-all-cli -s $(CURDIR)/build/tmp/html/ -d $(CURDIR)/build/html
+	$(NPX) minify-all-cli -s $(CURDIR)/static/js -d $(CURDIR)/build/js
+	$(NPX) minify-all-cli -s $(CURDIR)/static/css -d $(CURDIR)/build/css
 
 installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
@@ -34,15 +39,6 @@ endif
 ifneq (,$(findstring moe,$(MODULES)))
 	mkdir -p $(DESTDIR)/moe/{css,fonts,includes,js,login,panel/css/font,panel/css/images,register,templates}
 endif
-	
-min-css:
-	$(NODE) $(CURDIR)/node_modules/.bin/cleancss $(CURDIR)/static/css/uguu.css --output $(CURDIR)/build/uguu.min.css
-
-min-js:
-	echo "// @source https://github.com/nokonoko/uguu/tree/master/static/js" > $(CURDIR)/build/uguu.min.js 
-	echo "// @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat" >> $(CURDIR)/build/uguu.min.js
-	$(NODE) $(CURDIR)/node_modules/.bin/uglifyjs ./static/js/app.js >> $(CURDIR)/build/uguu.min.js 
-	echo "// @license-end" >> $(CURDIR)/build/uguu.min.js
 
 copy-img:
 	cp -v $(CURDIR)/static/img/*.png $(CURDIR)/build/img/
@@ -55,16 +51,17 @@ else
 	$(error The php submodule was not found)
 endif
 
-copy-moe:
-ifneq ($(wildcard $(CURDIR)/moe/.),)
-	cp -rv $(CURDIR)/moe $(CURDIR)/build/
-else
-	$(error The moe submodule was not found)
-endif
-
 install: installdirs
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
-
+	mv $(DESTDIR)/html/* $(DESTDIR)/
+	mv $(DESTDIR)/js/* $(DESTDIR)/
+	mv $(DESTDIR)/css/* $(DESTDIR)/
+	rm -rf $(DESTDIR)/html
+	rm -rf $(DESTDIR)/css
+	rm -rf $(DESTDIR)/js
+	rm -rf $(DESTDIR)/tmp
+	mv $(DESTDIR)/uguu.css $(DESTDIR)/uguu.min.css
+	mv $(DESTDIR)/app.js $(DESTDIR)/uguu.min.js
 dist:
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)
 	export DESTDIR
@@ -95,7 +92,7 @@ purge-container:
 	fi;		
 
 builddirs:
-	mkdir -p $(CURDIR)/build $(CURDIR)/build/img 
+	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/tmp $(CURDIR)/build/tmp/html
 ifneq (,$(findstring php,$(MODULES)))
 	mkdir -p $(CURDIR)/build/classes $(CURDIR)/build/includes
 endif

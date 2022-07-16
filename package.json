@@ -1,6 +1,6 @@
 {
   "name": "uguu",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Kawaii file host",
   "homepage": "https://uguu.se/",
   "repository": {
@@ -16,13 +16,9 @@
   "bugs": {
     "url": "https://github.com/nokonoko/uguu/issues"
   },
-  "devDependencies": {
-    "clean-css": "^5.1.2",
-    "clean-css-cli": "^5.3.0",
-    "uglify-js": "^3.13.9",
-    "swig": "^1.4.2"
-  },
   "dependencies": {
-    "htmlmin": "0.0.6"
+    "ejs": "^3.1.8",
+    "minify-all-cli": "^1.0.13",
+    "node-jq": "^2.3.3"
   }
 }
