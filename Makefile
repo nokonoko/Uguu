@@ -31,7 +31,7 @@ ejs:
 minify-all:
 	$(NPX) minify-all-cli -s $(CURDIR)/src/static/js -d $(CURDIR)/build/js
 	$(NPX) minify-all-cli -s $(CURDIR)/src/static/css -d $(CURDIR)/build/css
-	$(NPX) minify-all-cli -s $(CURDIR)/build/html/unmin/ -d $(CURDIR)/build/html/min/
+	$(NPX) minify-all-cli -s $(CURDIR)/build/html/unmin/ -d $(CURDIR)/build/html/min/ -h
 
 installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
