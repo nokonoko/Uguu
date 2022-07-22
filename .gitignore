@@ -1,10 +1,10 @@
 .DS_Store
 node_modules
-dist/
-build/
+dist
+build
+vendor
 package-lock.json
 uguu.sq3
-*.xml
 .idea
 .phpdoc
 .vscode
