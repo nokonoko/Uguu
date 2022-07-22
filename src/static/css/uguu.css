@@ -234,6 +234,7 @@ nav > ul > li:last-child:after {
   color: #891A18;
 }
 button.upload-clipboard-btn {
+  margin-left: 5px;
   height: 32px;
 }
 .error#upload-filelist .progress-percent {
