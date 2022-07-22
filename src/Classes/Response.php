@@ -58,22 +58,12 @@ class Response
 
     public function error($code, $desc): void
     {
-        $response = null;
-
-        switch ($this->type) {
-            case 'csv':
-                $response = $this->csvError($desc);
-                break;
-            case 'html':
-                $response = $this->htmlError($code, $desc);
-                break;
-            case 'json':
-                $response = $this->jsonError($code, $desc);
-                break;
-            case 'text':
-                $response = $this->textError($code, $desc);
-                break;
-        }
+        $response = match ($this->type) {
+            'csv' => $this->csvError($desc),
+            'html' => $this->htmlError($code, $desc),
+            'json' => $this->jsonError($code, $desc),
+            'text' => $this->textError($code, $desc),
+        };
         http_response_code($code);
         echo $response;
     }
@@ -105,22 +95,12 @@ class Response
 
     public function send($files): void
     {
-        $response = null;
-
-        switch ($this->type) {
-            case 'csv':
-                $response = $this->csvSuccess($files);
-                break;
-            case 'html':
-                $response = $this->htmlSuccess($files);
-                break;
-            case 'json':
-                $response = $this->jsonSuccess($files);
-                break;
-            case 'text':
-                $response = $this->textSuccess($files);
-                break;
-        }
+        $response = match ($this->type) {
+            'csv' => $this->csvSuccess($files),
+            'html' => $this->htmlSuccess($files),
+            'json' => $this->jsonSuccess($files),
+            'text' => $this->textSuccess($files),
+        };
 
         http_response_code(200); // "200 OK". Success.
         echo $response;

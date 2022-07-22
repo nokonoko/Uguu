@@ -86,11 +86,11 @@ class Upload extends Response
             $this->Connector->checkFileBlacklist($this->FILE_INFO);
         }
 
-        if ($this->Connector->CONFIG['FILTER_MODE'] and empty($this->FILE_INFO['EXTENSION'])) {
+        if ($this->Connector->CONFIG['FILTER_MODE'] && empty($this->FILE_INFO['EXTENSION'])) {
             $this->checkMimeBlacklist();
         }
 
-        if ($this->Connector->CONFIG['FILTER_MODE'] and !empty($this->FILE_INFO['EXTENSION'])) {
+        if ($this->Connector->CONFIG['FILTER_MODE'] && !empty($this->FILE_INFO['EXTENSION'])) {
             $this->checkMimeBlacklist();
             $this->checkExtensionBlacklist();
         }
