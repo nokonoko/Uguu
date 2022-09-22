@@ -64,6 +64,7 @@ install: installdirs
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
 
 submodule-update:
+	cd ansible/ansible-role-uguu
 	git submodule update
 
 deploy:
