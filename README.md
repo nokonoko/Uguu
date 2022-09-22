@@ -34,7 +34,7 @@ Node is used to compile Uguu, after that it runs on PHP.
 
 Installation and configuration can be found at [Uguu Documentation](https://docs.uguu.se).
 
-If you need a admin panel check out [Moe Panel](https://github.com/pomf/MoePanel).
+If you need a admin panel check out [Moe Panel](https://github.com/Pomf/MoePanel).
 
 ## Getting help
 
@@ -53,7 +53,7 @@ tests.
 
 ## Credits
 
-Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma Lejack & Eric Johansson (nekunekus) and with help from the open source community.
+Uguu is based on [Pomf](http://github.com/pomf/pomf) which was written by Emma Lejack & Go Johansson (nekunekus) and with help from the open source community.
 
 ## License
 

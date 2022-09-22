@@ -4,68 +4,63 @@ TAR="tar"
 GREP="grep"
 NODE="node"
 NPM="npm"
-DESTDIR="./dist"
-PKG_VERSION := $( $(GREP) -Po '(?<="version": ")[^"]*' )
-TMPDIR := $(shell mktemp -d)
 HOSTS_FILE = $(HOSTS_FILE)
+NODEJQ="node_modules/node-jq/bin/jq"
+SQLITE="sqlite3"
+CONF="src/config.json"
+PHP="php"
+CURL="curl"
+DESTDIR = $(shell $(CURDIR)/$(NODEJQ) -r ".dest" $(CURDIR)/$(CONF))
+NPX="npx"
+PKG_VERSION = $(shell $(CURDIR)/$(NODEJQ) -r ".version" $(CURDIR)/package.json)
+TMPDIR = $(shell mktemp -d)
+DOCKER_IMAGE = "$(shell basename $(CURDIR) | tr [:upper:] [:lower:])"
+DOCKER_TAG="$(DOCKER_TAG)"
+CONTAINER_NAME="$(CONTAINER_NAME)"
 # default modules
 MODULES="php"
 
-all: builddirs npm_dependencies swig htmlmin min-css min-js copy-img submodules
-	
-swig:
-	$(NODE) node_modules/swig/bin/swig.js render -j dist.json templates/faq.swig > $(CURDIR)/build/faq.html 
-	$(NODE) node_modules/swig/bin/swig.js render -j dist.json templates/index.swig > $(CURDIR)/build/index.html 
-	$(NODE) node_modules/swig/bin/swig.js render -j dist.json templates/tools.swig > $(CURDIR)/build/tools.html 
+pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
+noExt = $(shell echo $(i) | cut -d '.' -f1)
 
-htmlmin:
-	$(NODE) node_modules/htmlmin/bin/htmlmin $(CURDIR)/build/index.html -o $(CURDIR)/build/index.html 
-	$(NODE) node_modules/htmlmin/bin/htmlmin $(CURDIR)/build/faq.html -o $(CURDIR)/build/faq.html 
-	$(NODE) node_modules/htmlmin/bin/htmlmin $(CURDIR)/build/tools.html -o $(CURDIR)/build/tools.html 
+all: builddirs npm_dependencies composer ejs minify-all copy-img copy-php
+
+ejs:
+	$(foreach i,$(pageList), \
+	$(NPX) ejs -f $(CURDIR)/$(CONF) $(CURDIR)/src/templates/$(i) -o $(CURDIR)/build/html/unmin/$(noExt).html;)
+
+minify-all:
+	$(NPX) minify-all-cli -s $(CURDIR)/src/static/js -d $(CURDIR)/build/js
+	$(NPX) minify-all-cli -s $(CURDIR)/src/static/css -d $(CURDIR)/build/css
+	$(NPX) minify-all-cli -s $(CURDIR)/build/html/unmin/ -d $(CURDIR)/build/html/min/ -h
 
 installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img/grills
-ifneq (,$(findstring php,$(MODULES)))
-	mkdir -p $(DESTDIR)/includes
-endif
-ifneq (,$(findstring moe,$(MODULES)))
-	mkdir -p $(DESTDIR)/moe/{css,fonts,includes,js,login,panel/css/font,panel/css/images,register,templates}
-endif
-	
-min-css:
-	$(NODE) $(CURDIR)/node_modules/.bin/cleancss $(CURDIR)/static/css/uguu.css --output $(CURDIR)/build/uguu.min.css
-
-min-js:
-	echo "// @source https://github.com/nokonoko/uguu/tree/master/static/js" > $(CURDIR)/build/uguu.min.js 
-	echo "// @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat" >> $(CURDIR)/build/uguu.min.js
-	$(NODE) $(CURDIR)/node_modules/.bin/uglifyjs ./static/js/app.js >> $(CURDIR)/build/uguu.min.js 
-	echo "// @license-end" >> $(CURDIR)/build/uguu.min.js
 
 copy-img:
-	cp -v $(CURDIR)/static/img/*.png $(CURDIR)/build/img/
-	cp -R $(CURDIR)/static/img/grills $(CURDIR)/build/img/
+	$(NPX) imagemin $(CURDIR)/src/static/img/*.png -o=$(CURDIR)/build/img/
+	$(NPX) imagemin $(CURDIR)/src/static/img/grills/*.png --plugin=pngquant -o=$(CURDIR)/build/img/grills/
 
 copy-php:
-ifneq ($(wildcard $(CURDIR)/static/php/.),)
-	cp -rv $(CURDIR)/static/php/* $(CURDIR)/build/
-else
-	$(error The php submodule was not found)
-endif
-
-copy-moe:
-ifneq ($(wildcard $(CURDIR)/moe/.),)
-	cp -rv $(CURDIR)/moe $(CURDIR)/build/
-else
-	$(error The moe submodule was not found)
-endif
+	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
 
 install: installdirs
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
+	mv $(DESTDIR)/html/min/* $(DESTDIR)/
+	mv $(DESTDIR)/js/* $(DESTDIR)/
+	mv $(DESTDIR)/css/* $(DESTDIR)/
+	mv $(DESTDIR)/php/* $(DESTDIR)/
+	rm -rf $(DESTDIR)/html
+	rm -rf $(DESTDIR)/css
+	rm -rf $(DESTDIR)/js
+	rm -rf $(DESTDIR)/php
+	mv $(DESTDIR)/uguu.css $(DESTDIR)/uguu.min.css
+	mv $(DESTDIR)/uguu.js $(DESTDIR)/uguu.min.js
 
 submodule-update:
 	cd ansible/ansible-role-uguu
-	git submodule update
+	git submodule update --remote
 
 deploy:
 	ansible-playbook -i $(HOSTS_FILE) ansible/site.yml
@@ -77,30 +72,39 @@ dist:
 	$(TAR) cJf uguu-$(PKG_VERSION).tar.xz $(DESTDIR)
 	rm -rf $(TMPDIR)
 	
+
 clean:
 	rm -rvf $(CURDIR)/node_modules 
 	rm -rvf $(CURDIR)/build
 	
+
 uninstall:
 	rm -rvf $(DESTDIR)/
 	
+
 npm_dependencies:
 	$(NPM) install
 
-builddirs:
-	mkdir -p $(CURDIR)/build $(CURDIR)/build/img 
-ifneq (,$(findstring php,$(MODULES)))
-	mkdir -p $(CURDIR)/build/classes $(CURDIR)/build/includes
-endif
-ifneq (,$(findstring moe,$(MODULES)))
-	mkdir -p $(CURDIR)/build/moe/{css,fonts,includes,js,login,panel/css/font,panel/css/images,register,templates}
-endif
+composer:
+	$(CURL) -o composer-setup.php https://raw.githubusercontent.com/composer/getcomposer.org/main/web/installer
+	$(PHP) composer-setup.php --quiet
+	rm composer-setup.php
+	php composer.phar update
+	php composer.phar install
 
-submodules:
-	$(info The following modules will be enabled: $(MODULES))
-ifneq (,$(findstring php,$(MODULES)))
-	$(MAKE) copy-php
-endif
-ifneq (,$(findstring moe,$(MODULES)))
-	$(MAKE) copy-moe
-endif
+build-image:
+		tar --exclude='./uguuForDocker.tar.gz' --exclude='./vendor' --exclude='./node_modules' -czf uguuForDocker.tar.gz .
+		mv uguuForDocker.tar.gz docker/
+		docker build -f docker/Dockerfile --build-arg VERSION=$(UGUU_RELEASE_VER) --no-cache -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+
+run-container:
+		 docker run --name $(CONTAINER_NAME) -d -p 8080:80 -p 8081:443 $(DOCKER_IMAGE):$(DOCKER_TAG)
+
+purge-container:
+	if docker images | grep $(DOCKER_IMAGE); then \
+	 	docker rm -f $(CONTAINER_NAME) && docker rmi $(DOCKER_IMAGE):$(DOCKER_TAG) || true;\
+	fi;		
+
+builddirs:
+	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php
+

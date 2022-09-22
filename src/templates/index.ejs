@@ -1,0 +1,15 @@
+<%- include('./src/templates/partials/header.ejs'); -%>
+<div class="container">
+    <div class="jumbotron">
+        <%- include('./src/templates/partials/lead.ejs'); -%>
+        <%- include('./src/templates/partials/upload_form.ejs'); -%>
+    </div>
+
+    <% if (malwareBanner) { %>
+        <%- include('./src/templates/partials/malware_banner.ejs'); -%>
+    <% } %>
+
+    <% if (donationBanner) { %>
+        <%- include('./src/templates/partials/donation_banner.ejs'); -%>
+    <% } %>
+<%- include('./src/templates/partials/footer.ejs'); -%>
