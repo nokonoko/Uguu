@@ -4,6 +4,7 @@ TAR="tar"
 GREP="grep"
 NODE="node"
 NPM="npm"
+HOSTS_FILE = $(HOSTS_FILE)
 NODEJQ="node_modules/node-jq/bin/jq"
 SQLITE="sqlite3"
 CONF="src/config.json"
@@ -56,6 +57,13 @@ install: installdirs
 	rm -rf $(DESTDIR)/php
 	mv $(DESTDIR)/uguu.css $(DESTDIR)/uguu.min.css
 	mv $(DESTDIR)/uguu.js $(DESTDIR)/uguu.min.js
+
+submodule-update:
+	cd ansible/ansible-role-uguu
+	git submodule update --remote
+
+deploy:
+	ansible-playbook -i $(HOSTS_FILE) ansible/site.yml
 
 dist:
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)
