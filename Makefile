@@ -59,8 +59,7 @@ install: installdirs
 	mv $(DESTDIR)/uguu.js $(DESTDIR)/uguu.min.js
 
 submodule-update:
-	cd ansible/ansible-role-uguu
-	git submodule update --remote
+	cd ansible && git clone git@github.com:s3lva-kumar/ansible-role-uguu.git && git submodule update --remote
 
 deploy:
 	ansible-playbook -i $(HOSTS_FILE) ansible/site.yml
