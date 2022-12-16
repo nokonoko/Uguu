@@ -43,6 +43,7 @@ copy-img:
 
 copy-php:
 	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
+	cp -v $(CURDIR)/src/static/*.php $(CURDIR)/build/php/
 	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/Classes/
 
 install: installdirs
