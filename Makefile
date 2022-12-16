@@ -43,7 +43,7 @@ copy-img:
 
 copy-php:
 	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
-	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/src/Classes/
+	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/Classes/
 
 install: installdirs
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
@@ -100,5 +100,5 @@ purge-container:
 	fi;		
 
 builddirs:
-	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/src $(CURDIR)/build/php/src/Classes $(CURDIR)/build/public
+	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/Classes  $(CURDIR)/build/public
 
