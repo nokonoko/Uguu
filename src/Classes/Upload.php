@@ -18,7 +18,7 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
     
-    namespace Pomf\Uguu\Classes;
+    namespace Pomf\Uguu;
     
     use Exception;
     

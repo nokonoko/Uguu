@@ -18,12 +18,15 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
     
-    namespace Pomf\Uguu;
+    namespace Pomf\Uguu\Classes;
     
     use Exception;
-    use Pomf\Uguu\Classes\Response;
+    use Pomf\Uguu\Response;
+    use Pomf\Uguu\Upload;
     
-    class UploadGateway extends Classes\Upload
+    use function Pomf\Uguu\count;
+    
+    class UploadGateway extends Upload
     {
         /**
          * It handles the file uploads.

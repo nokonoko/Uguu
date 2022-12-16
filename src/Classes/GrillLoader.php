@@ -18,9 +18,11 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
     
-    namespace Pomf\Uguu;
+    namespace Pomf\Uguu\Classes;
     
-    class GrillLoader extends Classes\CuteGrills
+    use Pomf\Uguu\CuteGrills;
+    
+    class GrillLoader extends CuteGrills
     {
         public function __construct()
         {
