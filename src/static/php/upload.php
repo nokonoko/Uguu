@@ -24,7 +24,6 @@
     
     try {
         (new UploadGateway())->handleFile($_GET['output'], $_FILES['files']);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         throw new Exception($e->getMessage(), 500);
     }

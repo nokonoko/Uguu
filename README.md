@@ -1,8 +1,8 @@
 # Uguu
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nokonoko_Uguu&metric=alert_status)](https://sonarcloud.io/dashboard?id=nokonoko_Uguu)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Documentation Status](https://docs.uguu.se/img/flat.svg)](https://docs.uguu.se)
-
 
 # What is Uguu?
 
@@ -14,10 +14,10 @@ Uguu is a simple lightweight temporary file hosting and sharing platform, but ca
 - A minimal, modern web interface
 - Drag & Drop & Paste supported
 - Upload API with multiple response choices
-  - JSON
-  - HTML
-  - Text
-  - CSV
+    - JSON
+    - HTML
+    - Text
+    - CSV
 - Supports [ShareX](https://getsharex.com/) and other screenshot tools
 
 ### Demo
@@ -26,7 +26,7 @@ See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
-Tested and working with Nginx + PHP-8.0/8.1 + SQLite/MySQL. 
+Tested and working with Nginx + PHP-8.0/8.1 + SQLite/MySQL.
 
 Node is used to compile Uguu, after that it runs on PHP.
 
@@ -50,6 +50,14 @@ coding style guides. We use ESLint and PHPCS tools to enforce these standards.
 
 You can also help by sending us feature requests or writing documentation and
 tests.
+
+## Upcoming Features
+
+* PostgreSQL Support
+* S3 Bucket Support
+* Azure File Storage Support
+* Temporal/RR Support
+*
 
 ## Credits
 
