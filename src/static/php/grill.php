@@ -1,26 +1,5 @@
 <?php
     
-    function checkConfig()
-    {
-        if (!file_exists(__DIR__ . '/../config.json')) {
-            throw new Exception('Cant read settings file.', 500);
-        }
-        try {
-            $settings = json_decode(
-               file_get_contents(__DIR__ . '/../config.json'),
-               true,
-            );
-            if ($settings['PHP_ERRORS']) {
-                error_reporting(E_ALL);
-                ini_set('display_errors', 1);
-            }
-        }
-        catch (Exception) {
-            throw new Exception('Cant populate settings.', 500);
-        }
-    }
-    
-    checkConfig();
     /**
      * Uguu
      *

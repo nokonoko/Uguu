@@ -39,7 +39,6 @@
   "FILES_URL": "https://files.domain.com",
   "NAME_LENGTH": 8,
   "ID_CHARSET": "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ",
-  "PHP_ERRORS": true,
   "BLOCKED_EXTENSIONS": [
     "exe",
     "scr",

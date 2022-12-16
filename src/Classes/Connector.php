@@ -35,18 +35,18 @@
          */
         public function __construct()
         {
-            if (!file_exists(__DIR__ . '../config.json')) {
+            if (!file_exists(__DIR__ . '/../config.json')) {
                 throw new Exception('Cant read settings file.', 500);
             }
             try {
                 $this->CONFIG = json_decode(
-                   file_get_contents(__DIR__ . '../config.json'),
+                   file_get_contents(__DIR__ . '/../config.json'),
                    true,
                 );
                 $this->assemble();
             }
-            catch (Exception) {
-                throw new Exception('Cant populate settings.', 500);
+            catch (Exception $e) {
+                throw new Exception($e->getMessage(), 500);
             }
         }
         
