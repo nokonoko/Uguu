@@ -28,12 +28,16 @@ class Upload extends Response
     public array $FILE_INFO;
     public array $fingerPrintInfo;
     private mixed $Connector;
-
-
+    
     /**
-     * @throws Exception
+     * Takes an array of files, and returns an array of arrays containing the file's temporary name, name, size, SHA1 hash, extension, and MIME type
+     *
+     * @param $files array The files array from the $_FILES superglobal.
+     *
+     * @return array An array of arrays.
+     * @throws \Exception
      */
-    public function reFiles($files): array
+    public function reFiles(array $files): array
     {
         $this->Connector = new Connector();
         $this->Connector->setDB($this->Connector->DB);
@@ -61,7 +65,34 @@ class Upload extends Response
         }
         return $result;
     }
-    public function diverseArray($files): array
+    /**
+     * Takes an array of arrays and returns an array of arrays with the keys and values swapped
+     *
+     * @param $files array an array of arrays
+     *
+     * @return array ```
+     * array:2 [▼
+     *   0 => array:2 [▼
+     *     'TEMP_NAME' => 'example'
+     *     'NAME' => 'example'
+     *     'SIZE' => 'example'
+     *     'SHA1' => 'example'
+     *     'EXTENSION' => 'example'
+     *     'MIME' => 'example'
+     *
+     *   ]
+     *   1 => array:2 [▼
+     *     'TEMP_NAME' => 'example'
+     *     'NAME' => 'example'
+     *     'SIZE' => 'example'
+     *     'SHA1' => 'example'
+     *     'EXTENSION' => 'example'
+     *     'MIME' => 'example'
+     *   ]
+     * ]
+     * ```
+     */
+    public function diverseArray(array $files): array
     {
         $result = [];
         foreach ($files as $key1 => $value1) {
@@ -71,9 +102,12 @@ class Upload extends Response
         }
         return $result;
     }
-
+    
     /**
-     * @throws Exception
+     * Takes a file, checks if it's blacklisted, moves it to the file storage, and then logs it to the database
+     *
+     * @return array An array containing the hash, name, url, and size of the file.
+     * @throws \Exception
      */
     public function uploadFile(): array
     {
@@ -123,26 +157,52 @@ class Upload extends Response
             'size' => $this->FILE_INFO['SIZE']
         ];
     }
-
-    public function fingerPrint($files_amount): void
+    
+    /**
+     * Takes the amount of files that are being uploaded, and creates a fingerprint of the user's IP address, user agent, and the amount of files being uploaded
+     *
+     * @param $files_amount int The amount of files that are being uploaded.
+     *
+     * @throws \Exception
+     */
+    public function fingerPrint(int $files_amount): void
     {
-        $this->fingerPrintInfo = [
-            'timestamp' => time(),
-            'useragent' => $_SERVER['HTTP_USER_AGENT'],
-            'ip' => $_SERVER['REMOTE_ADDR'],
-            'ip_hash' => hash('sha1', $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']),
-            'files_amount' => $files_amount
-        ];
+        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+            $USER_AGENT = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_ENCODED);
+            $this->fingerPrintInfo = [
+                'timestamp' => time(),
+                'useragent' => $USER_AGENT,
+                'ip' => $_SERVER['REMOTE_ADDR'],
+                'ip_hash' => hash('sha1', $_SERVER['REMOTE_ADDR'] . $USER_AGENT),
+                'files_amount' => $files_amount
+            ];
+        } else {
+            throw new Exception('Invalid user agent.', 500);
+        }
     }
 
 
-    public function fileMIME($file): string
+    /**
+     * Returns the MIME type of a file
+     *
+     * @param $file array The file to be checked.
+     *
+     * @return string The MIME type of the file.
+     */
+    public function fileMIME(array $file): string
     {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        return finfo_file($finfo, $file['tmp_name']);
+        $FILE_INFO = finfo_open(FILEINFO_MIME_TYPE);
+        return finfo_file($FILE_INFO, $file['tmp_name']);
     }
 
-    public function fileExtension($file): ?string
+    /**
+     * Takes a file and returns the file extension
+     *
+     * @param $file array The file you want to get the extension from.
+     *
+     * @return ?string The file extension of the file.
+     */
+    public function fileExtension(array $file): ?string
     {
         $extension = explode('.', $file['name']);
         if (substr_count($file['name'], '.') > 0) {
@@ -151,10 +211,11 @@ class Upload extends Response
             return null;
         }
     }
-
-
+    
     /**
-     * @throws Exception
+     * > Check if the file's MIME type is in the blacklist
+     *
+     * @throws \Exception
      */
     public function checkMimeBlacklist(): void
     {
@@ -162,12 +223,11 @@ class Upload extends Response
             throw new Exception('Filetype not allowed.', 415);
         }
     }
-
+    
     /**
-     * Check if file extension is blacklisted
-     * if it does throw an exception.
+     * > Check if the file extension is in the blacklist
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function checkExtensionBlacklist(): void
     {
@@ -175,14 +235,19 @@ class Upload extends Response
             throw new Exception('Filetype not allowed.', 415);
         }
     }
-
+    
     /**
-     * @throws Exception
+     * Generates a random string of characters, checks if it exists in the database, and if it does, it generates another one
+     *
+     * @param $extension string The file extension.
+     * @param $hash      string The hash of the file.
+     *
+     * @return string A string
+     * @throws \Exception
      */
-    public function generateName($extension, $hash): string
+    public function generateName(string $extension, string $hash): string
     {
-        $a = $this->Connector->antiDupe($hash);
-        if ($a === true) {
+        if ($this->Connector->antiDupe($hash)) {
             do {
                 if ($this->Connector->CONFIG['FILES_RETRIES'] === 0) {
                     throw new Exception('Gave up trying to find an unused name!', 500);
@@ -194,13 +259,13 @@ class Upload extends Response
                     [mt_rand(0, strlen($this->Connector->CONFIG['ID_CHARSET']))];
                 }
 
-                if (!is_null($extension)) {
+                if (!empty($extension)) {
                     $NEW_NAME .= '.' . $extension;
                 }
             } while ($this->Connector->dbCheckNameExists($NEW_NAME) > 0);
             return $NEW_NAME;
         } else {
-            return $a;
+            return $this->Connector->antiDupe($hash);
         }
     }
 }

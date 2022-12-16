@@ -25,9 +25,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Pomf\Uguu\UploadGateway;
 
-$Upload = new UploadGateway();
 try {
-    $Upload->handleFile($_GET['output'], $_FILES['files']);
+    (new UploadGateway())->handleFile($_GET['output'], $_FILES['files']);
 } catch (Exception $e) {
     throw new Exception($e->getMessage(), 500);
 }

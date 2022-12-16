@@ -43,19 +43,25 @@ copy-img:
 
 copy-php:
 	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
+	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/classes/
 
 install: installdirs
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
-	mv $(DESTDIR)/html/min/* $(DESTDIR)/
-	mv $(DESTDIR)/js/* $(DESTDIR)/
-	mv $(DESTDIR)/css/* $(DESTDIR)/
+	cp -rv $(CURDIR)/vendor $(DESTDIR)/
+	cp $(CURDIR)/src/config.json $(DESTDIR)/
+	mv $(DESTDIR)/html/min/* $(DESTDIR)/public/
+	mv $(DESTDIR)/js/* $(DESTDIR)/public/
+	mv $(DESTDIR)/css/* $(DESTDIR)/public/
 	mv $(DESTDIR)/php/* $(DESTDIR)/
 	rm -rf $(DESTDIR)/html
 	rm -rf $(DESTDIR)/css
 	rm -rf $(DESTDIR)/js
 	rm -rf $(DESTDIR)/php
-	mv $(DESTDIR)/uguu.css $(DESTDIR)/uguu.min.css
-	mv $(DESTDIR)/uguu.js $(DESTDIR)/uguu.min.js
+	mv $(DESTDIR)/public/uguu.css $(DESTDIR)/public/uguu.min.css
+	mv $(DESTDIR)/public/uguu.js $(DESTDIR)/public/uguu.min.js
+	mv $(DESTDIR)/img $(DESTDIR)/public/
+	mv $(DESTDIR)/grill.php $(DESTDIR)/public/
+	mv $(DESTDIR)/upload.php $(DESTDIR)/public/
 
 dist:
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)
@@ -98,5 +104,5 @@ purge-container:
 	fi;		
 
 builddirs:
-	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php
+	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/classes $(CURDIR)/build/public
 

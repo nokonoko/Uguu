@@ -28,16 +28,25 @@ class Database
 {
     private PDO $DB;
 
-    public function setDB($DB): void
+    /**
+     * Sets the value of the DB variable.
+     *
+     * @param $DB PDO The database connection.
+     */
+    public function setDB(PDO $DB): void
     {
         $this->DB = $DB;
     }
-
-
+    
     /**
-     * @throws Exception
+     * Checks if a file name exists in the database
+     *
+     * @param $name string The name of the file.
+     *
+     * @return int The number of rows that match the query.
+     * @throws \Exception
      */
-    public function dbCheckNameExists($name): string
+    public function dbCheckNameExists(string $name): int
     {
         try {
             $q = $this->DB->prepare('SELECT COUNT(filename) FROM files WHERE filename = (:name)');
@@ -48,11 +57,15 @@ class Database
             throw new Exception('Cant check if name exists in DB.', 500);
         }
     }
-
+    
     /**
-     * @throws Exception
+     * Checks if the file is blacklisted
+     *
+     * @param $FILE_INFO array An array containing the following:
+     *
+     * @throws \Exception
      */
-    public function checkFileBlacklist($FILE_INFO): void
+    public function checkFileBlacklist(array $FILE_INFO): void
     {
         try {
             $q = $this->DB->prepare('SELECT hash, COUNT(*) AS count FROM blacklist WHERE hash = (:hash)');
@@ -66,11 +79,15 @@ class Database
             throw new Exception('Cant check blacklist DB.', 500);
         }
     }
-
+    
     /**
-     * @throws Exception
+     * Checks if the file already exists in the database
+     *
+     * @param $hash string The hash of the file you want to check for.
+     *
+     * @throws \Exception
      */
-    public function antiDupe($hash): bool | array | string
+    public function antiDupe(string $hash): bool | array | string
     {
         if (!$this->CONFIG['ANTI_DUPE']) {
             return true;
@@ -92,11 +109,16 @@ class Database
             throw new Exception('Cant check for dupes in DB.', 500);
         }
     }
-
+    
     /**
-     * @throws Exception
+     * Inserts a new file into the database
+     *
+     * @param $FILE_INFO       array
+     * @param $fingerPrintInfo array
+     *
+     * @throws \Exception
      */
-    public function newIntoDB($FILE_INFO, $fingerPrintInfo): void
+    public function newIntoDB(array $FILE_INFO, array $fingerPrintInfo): void
     {
         try {
             $q = $this->DB->prepare(
@@ -116,7 +138,12 @@ class Database
     }
 
 
-    public function createRateLimit($fingerPrintInfo): void
+    /**
+     * Creates a new row in the database with the information provided
+     *
+     * @param $fingerPrintInfo array
+     */
+    public function createRateLimit(array $fingerPrintInfo): void
     {
         $q = $this->DB->prepare(
             'INSERT INTO timestamp (iphash, files, time)' .
@@ -129,7 +156,14 @@ class Database
         $q->execute();
     }
 
-    public function updateRateLimit($fCount, $iStamp, $fingerPrintInfo): void
+    /**
+     * Update the rate limit table with the new file count and timestamp
+     *
+     * @param $fCount          int The number of files uploaded by the user.
+     * @param $iStamp          boolean A boolean value that determines whether or not to update the timestamp.
+     * @param $fingerPrintInfo array An array containing the following keys:
+     */
+    public function updateRateLimit(int $fCount, bool $iStamp, array $fingerPrintInfo): void
     {
         if ($iStamp) {
             $q = $this->DB->prepare(
@@ -149,7 +183,15 @@ class Database
 
 
 
-    public function checkRateLimit($fingerPrintInfo): bool
+    /**
+     * Checks if the user has uploaded more than 100 files in the last minute, if so it returns true, if not it updates the database with the new file count and
+     * timestamp
+     *
+     * @param $fingerPrintInfo array An array containing the following:
+     *
+     * @return bool A boolean value.
+     */
+    public function checkRateLimit(array $fingerPrintInfo): bool
     {
         $q = $this->DB->prepare(
             'SELECT files, time, iphash, COUNT(*) AS count FROM ratelimit WHERE iphash = (:iphash)'

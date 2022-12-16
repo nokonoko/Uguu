@@ -25,6 +25,9 @@ class CuteGrills
 {
     public array $GRILLS;
 
+    /**
+     * Loads the list of grills, then redirects to a random grill
+     */
     public function showGrills(): void
     {
         $this->loadGrills();
@@ -38,6 +41,9 @@ class CuteGrills
         }
     }
 
+    /**
+     * Loads the images from the `img/grills/` directory into the `GRILLS` array
+     */
     public function loadGrills(): void
     {
         $this->GRILLS = array_slice(scandir('img/grills/'), 2);

@@ -28,18 +28,20 @@ class Connector extends Database
 {
     public PDO $DB;
     public array $CONFIG;
-
+    
     /**
-     * @throws Exception
+     * Reads the config.json file and populates the CONFIG property with the settings
+     *
+     * @throws \Exception
      */
     public function __construct()
     {
-        if (!file_exists(__DIR__ . '/../config.json')) {
+        if (!file_exists(__DIR__ . '../config.json')) {
             throw new Exception('Cant read settings file.', 500);
         }
         try {
             $this->CONFIG = json_decode(
-                file_get_contents(__DIR__ . '/../config.json'),
+                file_get_contents(__DIR__ . '../config.json'),
                 true
             );
             $this->assemble();
@@ -47,9 +49,11 @@ class Connector extends Database
             throw new Exception('Cant populate settings.', 500);
         }
     }
-
+    
     /**
-     * @throws Exception
+     * > Tries to connect to the database
+     *
+     * @throws \Exception
      */
     public function assemble()
     {
