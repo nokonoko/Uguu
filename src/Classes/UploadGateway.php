@@ -21,10 +21,6 @@
     namespace Pomf\Uguu\Classes;
     
     use Exception;
-    use Pomf\Uguu\Response;
-    use Pomf\Uguu\Upload;
-    
-    use function Pomf\Uguu\count;
     
     class UploadGateway extends Upload
     {

@@ -18,7 +18,7 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
     
-    namespace Pomf\Uguu;
+    namespace Pomf\Uguu\Classes;
     
     use Exception;
     use PDO;

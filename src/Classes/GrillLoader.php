@@ -20,8 +20,6 @@
     
     namespace Pomf\Uguu\Classes;
     
-    use Pomf\Uguu\CuteGrills;
-    
     class GrillLoader extends CuteGrills
     {
         public function __construct()
