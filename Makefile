@@ -22,7 +22,7 @@ MODULES="php"
 pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
 noExt = $(shell echo $(i) | cut -d '.' -f1)
 
-all: builddirs npm_dependencies composer ejs minify-all copy-img copy-php
+all: builddirs npm_dependencies ejs minify-all copy-img copy-php
 
 ejs:
 	$(foreach i,$(pageList), \
@@ -43,12 +43,11 @@ copy-img:
 
 copy-php:
 	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
-	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/classes/
+	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/includes/Classes/
 
 install: installdirs
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
-	cp -rv $(CURDIR)/vendor $(DESTDIR)/
-	cp $(CURDIR)/src/config.json $(DESTDIR)/
+	cp $(CURDIR)/src/*.json $(DESTDIR)/
 	mv $(DESTDIR)/html/min/* $(DESTDIR)/public/
 	mv $(DESTDIR)/js/* $(DESTDIR)/public/
 	mv $(DESTDIR)/css/* $(DESTDIR)/public/
@@ -62,6 +61,10 @@ install: installdirs
 	mv $(DESTDIR)/img $(DESTDIR)/public/
 	mv $(DESTDIR)/grill.php $(DESTDIR)/public/
 	mv $(DESTDIR)/upload.php $(DESTDIR)/public/
+	cd $(DESTDIR)/ && $(CURL) -o composer-setup.php https://raw.githubusercontent.com/composer/getcomposer.org/main/web/installer
+	cd $(DESTDIR)/ && $(PHP) composer-setup.php --quiet
+	cd $(DESTDIR)/ && rm composer-setup.php
+	cd $(DESTDIR)/ && php composer.phar update && php composer.phar install && php composer.phar dump-autoload
 
 dist:
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)
@@ -83,13 +86,6 @@ uninstall:
 npm_dependencies:
 	$(NPM) install
 
-composer:
-	$(CURL) -o composer-setup.php https://raw.githubusercontent.com/composer/getcomposer.org/main/web/installer
-	$(PHP) composer-setup.php --quiet
-	rm composer-setup.php
-	php composer.phar update
-	php composer.phar install
-
 build-image:
 		tar --exclude='./uguuForDocker.tar.gz' --exclude='./vendor' --exclude='./node_modules' -czf uguuForDocker.tar.gz .
 		mv uguuForDocker.tar.gz docker/
@@ -104,5 +100,5 @@ purge-container:
 	fi;		
 
 builddirs:
-	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/classes $(CURDIR)/build/public
+	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/includes $(CURDIR)/build/php/includes/Classes $(CURDIR)/build/public
 
