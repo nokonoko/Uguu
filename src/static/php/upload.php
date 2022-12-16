@@ -41,7 +41,7 @@
     checkConfig();
     require_once __DIR__ . '/../vendor/autoload.php';
     
-    use Pomf\Uguu\UploadGateway;
+    use Uguu\UploadGateway;
     
     try {
         (new UploadGateway())->handleFile($_GET['output'], $_FILES['files']);

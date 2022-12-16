@@ -18,10 +18,10 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
     
-    namespace Pomf\Uguu;
+    namespace Uguu;
     
     use Exception;
-    use Pomf\Uguu\Classes\Response;
+    use Uguu\Classes\Response;
     
     class UploadGateway extends Classes\Upload
     {
@@ -38,7 +38,6 @@
             $type = 'json' ?? $output;
             $response = (new Response($type));
             if (!empty($_FILES['files'])) {
-                
                 $files = $this->reFiles($files);
                 try {
                     $this->fingerPrint(count($files));
@@ -53,7 +52,6 @@
                 catch (Exception $e) {
                     $response->error($e->getCode(), $e->getMessage());
                 }
-                
             } else {
                 $response->error(400, 'No input file(s)');
             }
