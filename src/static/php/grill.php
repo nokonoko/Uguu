@@ -41,6 +41,6 @@
      */
     require_once __DIR__ . '/../vendor/autoload.php';
     
-    use Pomf\GrillLoader;
+    use Pomf\Uguu\GrillLoader;
     
     new GrillLoader();

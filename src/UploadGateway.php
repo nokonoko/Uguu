@@ -18,10 +18,10 @@
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
     
-    namespace Uguu;
+    namespace Pomf\Uguu;
     
     use Exception;
-    use Uguu\Classes\Response;
+    use Pomf\Uguu\Classes\Response;
     
     class UploadGateway extends Classes\Upload
     {
