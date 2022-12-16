@@ -2,12 +2,12 @@
     
     function checkConfig()
     {
-        if (!file_exists(__DIR__ . '../config.json')) {
+        if (!file_exists(__DIR__ . '/../config.json')) {
             throw new Exception('Cant read settings file.', 500);
         }
         try {
             $settings = json_decode(
-               file_get_contents(__DIR__ . '../config.json'),
+               file_get_contents(__DIR__ . '/../config.json'),
                true,
             );
             if ($settings['PHP_ERRORS']) {
