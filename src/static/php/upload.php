@@ -46,7 +46,7 @@
         $response->error(400, 'No input file(s)');
     }
     if (isset($_GET['output']) and !empty($_GET['output'])) {
-        $resType = filter_var($_GET['output'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $resType = strtolower(preg_replace('/[^a-zA-Z]/', '', $_GET['output']));
     } else {
         $resType = 'json';
     }
