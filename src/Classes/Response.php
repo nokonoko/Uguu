@@ -55,7 +55,6 @@
                 default:
                     header('Content-Type: application/json; charset=UTF-8');
                     $this->type = 'json';
-                    $this->error(400, 'Invalid response type. Valid options are: csv, html, json, text.');
                     break;
             }
         }
