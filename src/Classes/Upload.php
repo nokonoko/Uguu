@@ -246,9 +246,9 @@
                         throw new Exception('Gave up trying to find an unused name!', 500);
                     }
                     $NEW_NAME = '';
-                    for ($i = 0; $i < $this->Connector->CONFIG['NAME_LENGTH']; ++$i) {
-                        $NEW_NAME .= $this->Connector->CONFIG['ID_CHARSET']
-                        [mt_rand(0, strlen($this->Connector->CONFIG['ID_CHARSET']))];
+                    $count = strlen($this->Connector->CONFIG['ID_CHARSET']);
+                    while ($this->Connector->CONFIG['NAME_LENGTH']--) {
+                        $NEW_NAME .= $this->Connector->CONFIG['ID_CHARSET'][mt_rand(0, $count - 1)];
                     }
                     if (!empty($extension)) {
                         $NEW_NAME .= '.' . $extension;

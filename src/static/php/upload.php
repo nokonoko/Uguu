@@ -20,10 +20,34 @@
     
     require_once __DIR__ . '/../vendor/autoload.php';
     
-    use Pomf\Uguu\Classes\UploadGateway;
+    use Pomf\Uguu\Classes\Upload;
+    use Pomf\Uguu\Classes\Response;
     
-    try {
-        (new UploadGateway())->handleFile($_GET['output'], $_FILES['files']);
-    } catch (Exception $e) {
-        throw new Exception($e->getMessage(), 500);
+    function handleFile(string $outputFormat, array $files)
+    {
+        $upload = new Upload($outputFormat);
+        $files = $upload->reFiles($files);
+        try {
+            $upload->fingerPrint(count($files));
+            $res = [];
+            foreach ($files as $ignored) {
+                $res[] = $upload->uploadFile();
+            }
+            if (!empty($res)) {
+                $upload->send($res);
+            }
+        } catch (Exception $e) {
+            $upload->error($e->getCode(), $e->getMessage());
+        }
     }
+    
+    if (!isset($_FILES['files']) or empty($_FILES['files'])) {
+        $response = new Response('json');
+        $response->error(400, 'No input file(s)');
+    }
+    if (isset($_GET['output']) and !empty($_GET['output'])) {
+        $resType = filter_var($_GET['output'], FILTER_SANITIZE_SPECIAL_CHARS);
+    } else {
+        $resType = 'json';
+    }
+    handleFile($resType, $_FILES['files']);

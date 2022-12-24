@@ -22,14 +22,14 @@
     
     class Response
     {
-        public mixed $type;
+        public string $type;
         
         /**
          * Takes a string as an argument and sets the header to the appropriate content type
          *
          * @param $response_type string The type of response you want to return. Valid options are: csv, html, json, text.
          */
-        public function __construct(string $response_type = "json")
+        public function __construct(string $response_type)
         {
             switch ($response_type) {
                 case 'csv':
