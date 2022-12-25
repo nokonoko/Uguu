@@ -1,4 +1,8 @@
 <?php
+    
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     /**
      * Uguu
      *
@@ -17,37 +21,54 @@
      * You should have received a copy of the GNU General Public License
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
-    
     require_once __DIR__ . '/../vendor/autoload.php';
     
     use Pomf\Uguu\Classes\Upload;
     use Pomf\Uguu\Classes\Response;
-    
-    function handleFile(string $outputFormat, array $files)
-    {
-        $upload = new Upload($outputFormat);
-        $files = $upload->reFiles($files);
-        try {
-            $upload->fingerPrint(count($files));
-            $res = [];
-            foreach ($files as $ignored) {
-                $res[] = $upload->uploadFile();
-            }
-            if (!empty($res)) {
-                $upload->send($res);
-            }
-        } catch (Exception $e) {
-            $upload->error($e->getCode(), $e->getMessage());
+
+    /**
+     * It takes a string and an array as arguments, creates a new Upload object,
+     * calls the reFiles method on the Upload object, calls the fingerPrint method on
+     * the Upload object, calls the uploadFile method on the Upload object,
+     * calls the send method on the Upload object, and calls the error method on the
+     * Upload object
+     *
+     * @param $outputFormat string The format of the output, json or xml
+     * @param $files        array The file to be uploaded, which is an array.
+     *
+     * @throws \Exception
+     */
+function handleFile(string $outputFormat, array $files): void
+{
+    $upload = new Upload($outputFormat);
+    $files = $upload->reFiles($files);
+    try {
+        $upload->fingerPrint(count($files));
+        $res = [];
+        foreach ($files as $ignored) {
+            $res[] = $upload->uploadFile();
         }
+        if (!empty($res)) {
+            $upload->send($res);
+        }
+    } catch (Exception $e) {
+        $upload->error($e->getCode(), $e->getMessage());
     }
+}
     
-    if (!isset($_FILES['files']) or empty($_FILES['files'])) {
-        $response = new Response('json');
-        $response->error(400, 'No input file(s)');
-    }
-    if (isset($_GET['output']) and !empty($_GET['output'])) {
-        $resType = strtolower(preg_replace('/[^a-zA-Z]/', '', $_GET['output']));
-    } else {
-        $resType = 'json';
-    }
+    $response = new Response('json');
+
+if (!isset($_FILES['files']) or empty($_FILES['files'])) {
+    $response->error(400, 'No input file(s)');
+}
+if (isset($_GET['output']) and !empty($_GET['output'])) {
+    $resType = strtolower(preg_replace('/[^a-zA-Z]/', '', $_GET['output']));
+} else {
+    $resType = 'json';
+}
+
+try {
     handleFile($resType, $_FILES['files']);
+} catch (Exception $e) {
+    $response->error($e->getCode(), $e->getMessage());
+}

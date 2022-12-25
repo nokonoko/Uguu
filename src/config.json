@@ -3,7 +3,7 @@
     "allowErrors": false
   },
   "dest": "dist",
-  "pkgVersion": "1.6.3",
+  "pkgVersion": "1.6.4",
   "pages": [
     "index.ejs",
     "faq.ejs",
@@ -39,6 +39,13 @@
   "FILES_URL": "https://files.domain.com",
   "NAME_LENGTH": 8,
   "ID_CHARSET": "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ",
+  "DOUBLE_DOTS_EXTENSIONS": [
+    "tar.bz2",
+    "tar.gz",
+    "min.css",
+    "min.js",
+    "conf.bak"
+  ],
   "BLOCKED_EXTENSIONS": [
     "exe",
     "scr",
