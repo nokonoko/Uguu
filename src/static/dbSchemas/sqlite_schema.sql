@@ -28,4 +28,10 @@ CREATE TABLE `ratelimit` (
 ,  `time` integer default NULL
 ,  `files` integer default NULL
 );
+CREATE TABLE `ratelimit`(
+  `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT
+,  `iphash` char(40) default NULL
+,  `files` integer  default NULL
+,  `time` integer default NULL
+);
 END TRANSACTION;
