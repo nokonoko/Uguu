@@ -126,7 +126,16 @@ class Upload extends Response
     {
         switch (true) {
             case $this->Connector->CONFIG['RATE_LIMIT']:
-                $this->Connector->checkRateLimit($this->fingerPrintInfo);
+                if (
+                    $this->Connector->checkRateLimit(
+                        $this->fingerPrintInfo,
+                        (int) $this->Connector->CONFIG['RATE_LIMIT_TIMEOUT'],
+                        (int) $this->Connector->CONFIG['RATE_LIMIT_FILES']
+                    )
+                ) {
+                    throw new Exception('Rate limit, please wait ' . $this->Connector->CONFIG['RATE_LIMIT_TIMEOUT'] .
+                       ' seconds before uploading again.', 500);
+                }
                 // Continue
             case $this->Connector->CONFIG['BLACKLIST_DB']:
                 $this->Connector->checkFileBlacklist($this->FILE_INFO);
@@ -274,7 +283,6 @@ class Upload extends Response
      * and if it does, it generates another one
      *
      * @param $extension string The file extension.
-     * @param $hash      string The hash of the file.
      *
      * @return string A string
      * @throws \Exception
@@ -293,7 +301,7 @@ class Upload extends Response
             if (!empty($extension)) {
                 $NEW_NAME .= '.' . $extension;
             }
-        } while ($this->Connector->dbCheckNameExists($NEW_NAME) > 0);
+        } while ($this->Connector->dbCheckNameExists($NEW_NAME));
             return $NEW_NAME;
     }
 }

@@ -1,8 +1,5 @@
 <?php
-    
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+
     /**
      * Uguu
      *
@@ -21,8 +18,9 @@
      * You should have received a copy of the GNU General Public License
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
+
     require_once __DIR__ . '/../vendor/autoload.php';
-    
+
     use Pomf\Uguu\Classes\Upload;
     use Pomf\Uguu\Classes\Response;
 
@@ -40,10 +38,11 @@
      */
 function handleFile(string $outputFormat, array $files): void
 {
+    $fCount = count($files['size']);
     $upload = new Upload($outputFormat);
     $files = $upload->reFiles($files);
     try {
-        $upload->fingerPrint(count($files));
+        $upload->fingerPrint($fCount);
         $res = [];
         foreach ($files as $ignored) {
             $res[] = $upload->uploadFile();
@@ -52,10 +51,10 @@ function handleFile(string $outputFormat, array $files): void
             $upload->send($res);
         }
     } catch (Exception $e) {
-        $upload->error($e->getCode(), $e->getMessage());
+        $upload->error(500, $e->getMessage());
     }
 }
-    
+
     $response = new Response('json');
 
 if (!isset($_FILES['files']) or empty($_FILES['files'])) {
