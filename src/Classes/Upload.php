@@ -147,9 +147,6 @@ class Upload extends Response
                 $this->checkMimeBlacklist();
                 $this->checkExtensionBlacklist();
                 // Continue
-            case !$this->Connector->CONFIG['LOG_IP']:
-                $this->fingerPrintInfo['ip'] = null;
-                // Continue
         }
         if (!is_dir($this->Connector->CONFIG['FILES_ROOT'])) {
             throw new Exception('File storage path not accessible.', 500);
@@ -191,10 +188,14 @@ class Upload extends Response
     {
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
             $USER_AGENT = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_ENCODED);
+            $ip = null;
+            if ($this->Connector->CONFIG['LOG_IP']) {
+                $ip = $_SERVER['REMOTE_ADDR'];
+            }
             $this->fingerPrintInfo = [
                'timestamp'    => time(),
                'useragent'    => $USER_AGENT,
-               'ip'           => $_SERVER['REMOTE_ADDR'],
+               'ip'           => $ip,
                'ip_hash'      => hash('sha1', $_SERVER['REMOTE_ADDR'] . $USER_AGENT),
                'files_amount' => $files_amount,
             ];
