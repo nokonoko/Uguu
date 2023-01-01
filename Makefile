@@ -19,9 +19,6 @@ TMPDIR = $(shell mktemp -d)
 DOCKER_IMAGE = "$(shell basename $(CURDIR) | tr [:upper:] [:lower:])"
 DOCKER_TAG = "$(DOCKER_TAG)"
 CONTAINER_NAME = "$(CONTAINER_NAME)"
-# default modules
-MODULES="php"
-
 pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
 noExt = $(shell echo $(i) | cut -d '.' -f1)
 
@@ -91,11 +88,13 @@ npm_dependencies:
 	$(NPM) install
 
 build-container-no-cache:
-		tar --exclude='./uguuForDocker.tar.gz' --exclude='./vendor' --exclude='./node_modules' --exclude='./build' --exclude='./dist' --exclude='./.git' -czf uguuForDocker.tar.gz .
+		rm uguuForDocker.tar.gz
+		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz .
 		mv uguuForDocker.tar.gz docker/
 		docker build -f docker/Dockerfile --build-arg VERSION=$(PKG_VERSION) --no-cache -t uguu:$(PKG_VERSION) .
 
 build-container:
+		rm uguuForDocker.tar.gz
 		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz .
 		mv uguuForDocker.tar.gz docker/
 		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(FILESDOMAIN) --build-arg MAX_SIZE=$(MAXSIZE) -t uguu:$(PKG_VERSION) .
