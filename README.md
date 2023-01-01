@@ -10,15 +10,19 @@ Uguu is a simple lightweight temporary file hosting and sharing platform, but ca
 
 ## Features
 
-- One click uploading, no registration required
-- A minimal, modern web interface
-- Drag & Drop & Paste supported
-- Upload API with multiple response choices
+- One click uploading, no registration required.
+- A minimal, modern web interface.
+- Drag & Drop & Paste supported.
+- Upload API with multiple response choices:
     - JSON
     - HTML
     - Text
     - CSV
-- Supports [ShareX](https://getsharex.com/) and other screenshot tools
+- Supports [ShareX](https://getsharex.com/) and other screenshot tools.
+- File extension & MIME black/whitelisting.
+- Upload rate limiting.
+- File (hash) blacklisting.
+- Run bare or as a container.
 
 ### Demo
 
@@ -26,7 +30,7 @@ See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
-Tested and working with Nginx + PHP-8.0/8.1 + SQLite/MySQL.
+Tested and working with Nginx + PHP-8.1 + SQLite/MySQL.
 
 Node is used to compile Uguu, after that it runs on PHP.
 
@@ -57,7 +61,6 @@ tests.
 * S3 Bucket Support
 * Azure File Storage Support
 * Temporal/RR Support
-*
 
 ## Credits
 

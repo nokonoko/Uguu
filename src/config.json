@@ -3,7 +3,7 @@
     "allowErrors": false
   },
   "dest": "dist",
-  "pkgVersion": "1.6.5",
+  "pkgVersion": "1.6.6",
   "pages": [
     "index.ejs",
     "faq.ejs",
@@ -13,6 +13,8 @@
   "expireTime": "48H",
   "siteName": "Uguu",
   "subTitle": "wahooo",
+  "DOMAIN": "domain.com",
+  "FILE_DOMAIN": "files.domain.com",
   "siteUrl": "https://domain.com",
   "abuseContact": "abuse@example.com",
   "infoContact": "info@example.com",
