@@ -34,8 +34,8 @@ ejs:
 	"node_modules/minify/bin/minify.js" $(CURDIR)/src/static/js/uguu.js > $(CURDIR)/build/js/uguu.min.js
 	"node_modules/minify/bin/minify.js" $(CURDIR)/src/static/css/uguu.css > $(CURDIR)/build/css/uguu.min.css
 	"node_modules/minify/bin/minify.js" $(CURDIR)/build/html/unmin/faq.html > $(CURDIR)/build/html/min/faq.html
-	"node_modules/minify/bin/minify.js" $(CURDIR)/build/html/unmin/tools.html > $(CURDIR)/build/html/min/index.html
 	"node_modules/minify/bin/minify.js" $(CURDIR)/build/html/unmin/tools.html > $(CURDIR)/build/html/min/tools.html
+	"node_modules/minify/bin/minify.js" $(CURDIR)/build/html/unmin/index.html > $(CURDIR)/build/html/min/index.html
 
 installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
@@ -100,7 +100,7 @@ build-container:
 		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(FILESDOMAIN) -t uguu:$(PKG_VERSION) .
 
 run-container:
-		docker run --name uguu -d -p 8080:80 -p 8081:443 uguu:$(PKG_VERSION)
+		docker run --name uguu -d -p 80:80 -p 443:443 uguu:$(PKG_VERSION)
 		docker exec -it uguu /bin/bash service nginx start
 		docker exec -it uguu /bin/bash service php8.1-fpm start
 
