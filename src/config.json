@@ -10,7 +10,7 @@
     "tools.ejs"
   ],
   "max_upload_size": 128,
-  "expireTime": "48H",
+  "expireTime": "48",
   "siteName": "Uguu",
   "subTitle": "wahooo",
   "DOMAIN": "domain.com",

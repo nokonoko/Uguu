@@ -19,12 +19,18 @@ RUN apt-get install -y build-essential nginx-full php8.1-fpm php8.1 sqlite3 php8
 # Set ENV values for configuration
 ARG DOMAIN
 ENV DOMAIN=$DOMAIN
+
 ARG FILE_DOMAIN
 ENV FILE_DOMAIN=$FILE_DOMAIN
+
 ARG CONTACT_EMAIL
 ENV CONTACT_EMAIL=$CONTACT_EMAIL
+
 ARG MAX_SIZE
 ENV MAX_SIZE=$MAX_SIZE
+
+ARG EXPIRE_TIME
+ENV EXPIRE_TIME=$EXPIRE_TIME
 
 # Set default workdir
 WORKDIR  /var/www/
@@ -58,6 +64,10 @@ RUN chmod a+x /var/www/uguu/src/static/scripts/checkdb.sh && \
 # Copy Nginx Server conf
 COPY docker/nginx/uguu.conf /etc/nginx/sites-enabled/uguu.conf
 COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
+
+# Modify expire time
+RUN sed -i "s#XXX#${EXPIRE_TIME}#g" /var/www/uguu/src/static/scripts/checkfiles.sh
+RUN sed -i "s#XXX#${EXPIRE_TIME}#g" /var/www/uguu/src/static/scripts/checkdb.sh
 
 # Modify nginx values
 RUN sed -i "s#XMAINDOMAINX#${DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
