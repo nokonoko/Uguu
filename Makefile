@@ -88,14 +88,12 @@ npm_dependencies:
 	$(NPM) install
 
 build-container-no-cache:
-		rm uguuForDocker.tar.gz
-		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz .
+		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz src docker Makefile package.json package-lock.json
 		mv uguuForDocker.tar.gz docker/
 		docker build -f docker/Dockerfile --build-arg VERSION=$(PKG_VERSION) --no-cache -t uguu:$(PKG_VERSION) .
 
 build-container:
-		rm uguuForDocker.tar.gz
-		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz .
+		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz src docker Makefile package.json package-lock.json
 		mv uguuForDocker.tar.gz docker/
 		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(FILESDOMAIN) --build-arg MAX_SIZE=$(MAXSIZE) -t uguu:$(PKG_VERSION) .
 
