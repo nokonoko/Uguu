@@ -24,6 +24,8 @@ ARG FILE_DOMAIN
 ENV FILE_DOMAIN=$FILE_DOMAIN
 ARG CONTACT_EMAIL
 ENV CONTACT_EMAIL=$CONTACT_EMAIL
+ARG MAX_SIZE
+ENV MAX_SIZE=$MAX_SIZE
 
 # Set default workdir
 WORKDIR  /var/www/
@@ -56,12 +58,16 @@ RUN chmod a+x /var/www/uguu/src/static/scripts/checkdb.sh && \
 
 # Copy Nginx Server conf
 COPY docker/nginx/uguu.conf /etc/nginx/sites-enabled/uguu.conf
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
+# Modify nginx values
 RUN sed -i "s#XMAINDOMAINX#${DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
 RUN sed -i "s#XFILESDOMAINX#${FILE_DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
+RUN sed -i "s#client_max_body_size 128M#$client_max_body_size {MAX_SIZE}M#g" /etc/nginx/nginx.conf
 
-# Copy SSL certs
-#COPY docker/ssl /etc/ssl
+# Modify php-fpm values
+RUN sed -i "s#post_max_size = 8M#post_max_size = ${MAX_SIZE}M#g" /etc/php/8.1/fpm/php.ini
+RUN sed -i "s#upload_max_filesize = 2M#upload_max_filesize = ${MAX_SIZE}M#g" /etc/php/8.1/fpm/php.ini
 
 # Copy Uguu config
 COPY src/config.json /var/www/uguu/config.json

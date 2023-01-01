@@ -12,6 +12,7 @@ CURL = "curl"
 DESTDIR = $(shell $(CURDIR)/$(NODEJQ) -r ".dest" $(CURDIR)/$(CONF))
 SITEDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".DOMAIN" $(CURDIR)/$(CONF))
 FILESDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".FILE_DOMAIN" $(CURDIR)/$(CONF))
+MAXSIZE = $(shell $(CURDIR)/$(NODEJQ) -r ".max_upload_size" $(CURDIR)/$(CONF))
 CONTACT_EMAIL = $(shell $(CURDIR)/$(NODEJQ) -r ".infoContact" $(CURDIR)/$(CONF))
 PKG_VERSION = $(shell $(CURDIR)/$(NODEJQ) -r ".version" $(CURDIR)/package.json)
 TMPDIR = $(shell mktemp -d)
@@ -97,7 +98,7 @@ build-container-no-cache:
 build-container:
 		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz .
 		mv uguuForDocker.tar.gz docker/
-		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(FILESDOMAIN) -t uguu:$(PKG_VERSION) .
+		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(FILESDOMAIN) --build-arg MAX_SIZE=$(MAXSIZE) -t uguu:$(PKG_VERSION) .
 
 run-container:
 		docker run --name uguu -d -p 80:80 -p 443:443 uguu:$(PKG_VERSION)
