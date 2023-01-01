@@ -101,8 +101,6 @@ build-container:
 
 run-container:
 		docker run --name uguu -d -p 80:80 -p 443:443 uguu:$(PKG_VERSION)
-		docker exec -it uguu /bin/bash service nginx start
-		docker exec -it uguu /bin/bash service php8.1-fpm start
 
 purge-containers:
 	if docker images | grep uguu; then \
