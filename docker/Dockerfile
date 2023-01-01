@@ -17,6 +17,14 @@ RUN apt-get install -y build-essential nginx-full php8.1-fpm php8.1 sqlite3 php8
                        php8.1-mcrypt php8.1-mysql php8.1-xdebug php8.1-zip \
                        php8.1-common php8.1-readline php8.1-bcmath php8.1-common php8.1-xml
 
+
+ARG DOMAIN
+ENV DOMAIN=$DOMAIN
+ARG FILE_DOMAIN
+ENV FILE_DOMAIN=$FILE_DOMAIN
+ARG CONTACT_EMAIL
+ENV CONTACT_EMAIL=$CONTACT_EMAIL
+
 # Set default workdir
 WORKDIR  /var/www/
 
@@ -49,7 +57,8 @@ RUN chmod a+x /var/www/uguu/src/static/scripts/checkdb.sh && \
 # Copy Nginx Server conf
 COPY docker/nginx/uguu.conf /etc/nginx/sites-enabled/uguu.conf
 
-#RUN sed -i 's#XXX#$()#g' /var/www/uguu/src/static/scripts/checkfiles.sh
+RUN sed -i "s#XMAINDOMAINX#${DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
+RUN sed -i "s#XFILESDOMAINX#${FILE_DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
 
 # Copy SSL certs
 #COPY docker/ssl /etc/ssl
@@ -69,12 +78,6 @@ EXPOSE 443
 
 #RUN cd /var/www/uguu && make && make install
 
-ARG DOMAIN
-ENV DOMAIN=$DOMAIN
-ARG FILE_DOMAIN
-ENV FILE_DOMAIN=$FILE_DOMAIN
-ARG CONTACT_EMAIL
-ENV CONTACT_EMAIL=$CONTACT_EMAIL
 RUN curl -o acmeinstall.sh https://get.acme.sh
 RUN chmod a+x acmeinstall.sh
 RUN ./acmeinstall.sh

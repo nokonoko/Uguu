@@ -95,7 +95,7 @@ build-container-no-cache:
 		docker build -f docker/Dockerfile --build-arg VERSION=$(PKG_VERSION) --no-cache -t uguu:$(PKG_VERSION) .
 
 build-container:
-		tar --exclude='./uguuForDocker.tar.gz' --exclude='./vendor' --exclude='./node_modules' --exclude='./build' --exclude='./dist' --exclude='./.git' -czf uguuForDocker.tar.gz .
+		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz .
 		mv uguuForDocker.tar.gz docker/
 		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(FILESDOMAIN) -t uguu:$(PKG_VERSION) .
 
