@@ -63,7 +63,7 @@ COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 # Modify nginx values
 RUN sed -i "s#XMAINDOMAINX#${DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
 RUN sed -i "s#XFILESDOMAINX#${FILE_DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
-RUN sed -i "s#client_max_body_size 128M#$client_max_body_size {MAX_SIZE}M#g" /etc/nginx/nginx.conf
+RUN sed -i "s#client_max_body_size 128M#client_max_body_size ${MAX_SIZE}M#g" /etc/nginx/nginx.conf
 
 # Modify php-fpm values
 RUN sed -i "s#post_max_size = 8M#post_max_size = ${MAX_SIZE}M#g" /etc/php/8.1/fpm/php.ini
