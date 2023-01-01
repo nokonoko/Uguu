@@ -170,7 +170,7 @@ class Upload extends Response
         return [
            'hash' => $this->FILE_INFO['SHA1'],
            'name' => $this->FILE_INFO['NAME'],
-           'url'  => $this->Connector->CONFIG['FILES_URL'] . '/' . $this->FILE_INFO['NEW_NAME'],
+           'url'  => 'https://' . $this->Connector->CONFIG['FILE_DOMAIN'] . '/' . $this->FILE_INFO['NEW_NAME'],
            'size' => $this->FILE_INFO['SIZE'],
         ];
     }

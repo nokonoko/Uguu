@@ -3,7 +3,7 @@
     "allowErrors": false
   },
   "dest": "dist",
-  "pkgVersion": "1.6.5",
+  "pkgVersion": "1.6.6",
   "pages": [
     "index.ejs",
     "faq.ejs",
@@ -13,7 +13,8 @@
   "expireTime": "48H",
   "siteName": "Uguu",
   "subTitle": "wahooo",
-  "siteUrl": "https://domain.com",
+  "DOMAIN": "domain.com",
+  "FILE_DOMAIN": "files.domain.com",
   "abuseContact": "abuse@example.com",
   "infoContact": "info@example.com",
   "ServerCountryLocation": "Sweden",
@@ -26,7 +27,7 @@
   "kofiUrl": "",
   "malwareBanner": false,
   "DB_MODE": "sqlite",
-  "DB_PATH": "/var/www/db/uguu.sq3",
+  "DB_PATH": "/var/www/db/uguuDB.sq3",
   "DB_USER": "NULL",
   "DB_PASS": "NULL",
   "LOG_IP": false,
@@ -38,7 +39,6 @@
   "RATE_LIMIT_FILES": 100,
   "FILES_ROOT": "/var/www/files/",
   "FILES_RETRIES": 15,
-  "FILES_URL": "https://files.domain.com",
   "NAME_LENGTH": 8,
   "ID_CHARSET": "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ",
   "DOUBLE_DOTS_EXTENSIONS": [

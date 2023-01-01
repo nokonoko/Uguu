@@ -10,3 +10,4 @@ uguu.sq3
 .vscode
 composer.phar
 composer.lock
+docker/uguuForDocker.tar.gz
