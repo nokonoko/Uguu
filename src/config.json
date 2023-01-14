@@ -3,7 +3,7 @@
     "allowErrors": false
   },
   "dest": "dist",
-  "pkgVersion": "1.6.6",
+  "pkgVersion": "1.6.7",
   "pages": [
     "index.ejs",
     "faq.ejs",

@@ -48,7 +48,7 @@ class Upload extends Response
             $hash = sha1_file($file['tmp_name']);
             $this->FILE_INFO = [
                'TEMP_NAME' => $file['tmp_name'],
-               'NAME'      => strip_tags($file['name']),
+               'NAME'      => strip_tags($this->checkNameLength($file['name'])),
                'SIZE'      => $file['size'],
                'SHA1'      => $hash,
                'EXTENSION' => $this->fileExtension($file),
@@ -251,7 +251,8 @@ class Upload extends Response
         return match ($dotCount) {
             0 => null,
             1 => end($extension),
-            2 => $this->doubleDotExtension($extension)
+            2 => $this->doubleDotExtension($extension),
+            default => end($extension)
         };
     }
 
@@ -276,6 +277,14 @@ class Upload extends Response
     {
         if (in_array($this->FILE_INFO['EXTENSION'], $this->Connector->CONFIG['BLOCKED_EXTENSIONS'])) {
             throw new Exception('Filetype not allowed.', 415);
+        }
+    }
+    
+    public function checkNameLength(string $fileName): string {
+        if (strlen($fileName) > 250) {
+            return substr($fileName, 0, 250);
+        } else {
+            return $fileName;
         }
     }
 
