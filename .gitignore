@@ -8,3 +8,6 @@ uguu.sq3
 .idea
 .phpdoc
 .vscode
+composer.phar
+composer.lock
+docker/uguuForDocker.tar.gz

@@ -1,0 +1,27 @@
+{
+  "name": "pomf/uguu",
+  "description": "Uguu is a simple lightweight temporary file host with support for drop, paste, click and API uploading.",
+  "type": "library",
+  "license": "GPL-3.0",
+  "autoload": {
+    "psr-4": {
+      "Pomf\\Uguu\\": "./",
+      "Pomf\\Uguu\\Classes\\": "./Classes"
+    }
+  },
+  "authors": [
+    {
+      "name": "Go Johansson (neku)",
+      "email": "neku@pomf.se"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "ext-fileinfo": "*",
+    "ext-pdo": "*"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "classmap-authoritative": true
+  }
+}

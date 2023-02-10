@@ -1,26 +1,36 @@
-FROM php:8.1-alpine
+FROM --platform=linux/amd64 debian:bullseye-slim
 
-ARG VERSION
+# Install needed software
+RUN apt-get update
+RUN apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 curl cron socat
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/sury-php.list
+RUN curl -fsSL  https://packages.sury.org/php/apt.gpg| gpg --dearmor -o /etc/apt/trusted.gpg.d/sury-keyring.gpg
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN curl -o nodejssetup.sh https://deb.nodesource.com/setup_19.x
+RUN chmod a+x nodejssetup.sh
+RUN ./nodejssetup.sh
+RUN apt-get install -y nodejs gcc g++ make
+RUN apt-get install -y build-essential nginx-full php8.1-fpm php8.1 sqlite3 php8.1-sqlite3 \
+                       php8.1-curl php8.1-cli php8.1-lz4 \
+                       php8.1-mcrypt php8.1-mysql php8.1-xdebug php8.1-zip \
+                       php8.1-common php8.1-readline php8.1-bcmath php8.1-common php8.1-xml
 
+# Set ENV values for configuration
+ARG DOMAIN
+ENV DOMAIN=$DOMAIN
 
-RUN apk add --no-cache $PHPIZE_DEPS \
-	php-fpm zlib-dev libzip-dev libgomp; \
-	docker-php-ext-install intl pcntl gd exif zip pdo mysql dom; \
-    apk del $PHPIZE_DEPS; \
-    rm -rf /tmp/pear;
+ARG FILE_DOMAIN
+ENV FILE_DOMAIN=$FILE_DOMAIN
 
-# Install the needed software
-RUN apk add --no-cache sqlite nodejs git npm bash build-base supervisor curl wget nginx
-#php8-fileinfo php8-pdo php8-tokenizer php8-dom php8-iconv php8-xml php8-simplexml \
-#php8-sqlite3 php8-opcache php8-mbstring php8-phar php8-openssl
+ARG CONTACT_EMAIL
+ENV CONTACT_EMAIL=$CONTACT_EMAIL
 
-# Create the www-data user and group
-#RUN set -x ; \
-#  addgroup -g 82 -S www-data ; \
-#  adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
+ARG MAX_SIZE
+ENV MAX_SIZE=$MAX_SIZE
 
-# Copy supervisor conf file
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ARG EXPIRE_TIME
+ENV EXPIRE_TIME=$EXPIRE_TIME
 
 # Set default workdir
 WORKDIR  /var/www/
@@ -37,9 +47,13 @@ RUN mkdir /var/www/files && \
     mkdir /var/www/db
 
 # Create the Sqlite DB
-RUN sqlite3 /var/www/db/uguu.sq3 -init /var/www/uguu/src/static/dbSchemas/sqlite_schema.sql && \
+RUN sqlite3 /var/www/db/uguuDB.sq3 -init /var/www/uguu/src/static/dbSchemas/sqlite_schema.sql "" && \
     chown -R www-data:www-data /var/www && \
     chmod -R 775 /var/www/
+
+# Add scripts to cron
+RUN echo "0,30 * * * * bash /var/www/uguu/src/static/scripts/checkfiles.sh" >> /var/spool/cron/crontabs/www-data && \
+    echo "0,30 * * * * bash /var/www/uguu/src/static/scripts/checkdb.sh" >> /var/spool/cron/crontabs/www-data
 
 # Fix script paths
 RUN chmod a+x /var/www/uguu/src/static/scripts/checkdb.sh && \
@@ -47,35 +61,36 @@ RUN chmod a+x /var/www/uguu/src/static/scripts/checkdb.sh && \
     sed -i 's#/path/to/files/#/var/www/uguu/files/#g' /var/www/uguu/src/static/scripts/checkfiles.sh && \
     sed -i 's#/path/to/db/uguu.sq3#/var/www/db/uguu.sq3#g' /var/www/uguu/src/static/scripts/checkdb.sh
 
-# Add scripts to cron
-RUN echo "0,30 * * * * bash /var/www/uguu/src/static/scripts/checkfiles.sh" >> /var/spool/cron/crontabs/www-data && \
-    echo "0,30 * * * * bash /var/www/uguu/src/static/scripts/checkdb.sh" >> /var/spool/cron/crontabs/www-data
-
 # Copy Nginx Server conf
-COPY docker/nginx/uguu.conf /etc/nginx/http.d/
+COPY docker/nginx/uguu.conf /etc/nginx/sites-enabled/uguu.conf
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Copy SSL certs
-COPY docker/ssl /etc/ssl
+# Modify expire time
+RUN sed -i "s#XXX#${EXPIRE_TIME}#g" /var/www/uguu/src/static/scripts/checkfiles.sh
+RUN sed -i "s#XXX#${EXPIRE_TIME}#g" /var/www/uguu/src/static/scripts/checkdb.sh
 
-# Copy PHP config
-COPY docker/php/php.ini /etc/php8/
-COPY docker/php/www.conf /etc/php8/php-fpm.d/
-RUN mkdir /var/run/php
+# Modify nginx values
+RUN sed -i "s#XMAINDOMAINX#${DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
+RUN sed -i "s#XFILESDOMAINX#${FILE_DOMAIN}#g" /etc/nginx/sites-enabled/uguu.conf
+RUN sed -i "s#client_max_body_size 128M#client_max_body_size ${MAX_SIZE}M#g" /etc/nginx/nginx.conf
+
+# Modify php-fpm values
+RUN sed -i "s#post_max_size = 8M#post_max_size = ${MAX_SIZE}M#g" /etc/php/8.1/fpm/php.ini
+RUN sed -i "s#upload_max_filesize = 2M#upload_max_filesize = ${MAX_SIZE}M#g" /etc/php/8.1/fpm/php.ini
 
 # Copy Uguu config
 COPY src/config.json /var/www/uguu/config.json
-
-# Give permissions to www-data
-RUN chown -R www-data:www-data /run /var/lib/nginx /var/log/nginx /etc/nginx /etc/php8 /var/log/php8 /var/run/php
-
-# Change user to www-data
-USER www-data
 
 # Expose port 80 from the container
 EXPOSE 80
 
 # Expose port 443 from the container
 EXPOSE 443
+
+# Install acme.sh
+RUN curl -o acmeinstall.sh https://get.acme.sh
+RUN chmod a+x acmeinstall.sh
+RUN ./acmeinstall.sh
 
 # Load entrypoint
 ENTRYPOINT [ "bash", "/var/www/docker-entrypoint.sh" ]

@@ -24,3 +24,12 @@ CREATE TABLE `blacklist` (
   `time` int(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
+
+CREATE TABLE `ratelimit`
+(
+    `id`     int(20) unsigned NOT NULL auto_increment,
+    `iphash` char(40) DEFAULT NULL,
+    `files`  int(15)  default NULL,
+    `time`   int(15)  DEFAULT NULL,
+    PRIMARY KEY (`id`)
+);
