@@ -25,3 +25,11 @@ CREATE TABLE ratelimit
     files  integer not null,
     time   integer not null
 );
+
+CREATE TABLE accounts
+(
+    id     serial PRIMARY KEY,
+    email text    NOT NULL,
+    pass  text not null,
+    level   integer not null
+);
