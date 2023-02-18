@@ -3,12 +3,13 @@
     "allowErrors": false
   },
   "dest": "dist",
-  "pkgVersion": "1.6.7",
+  "pkgVersion": "1.7.0",
   "pages": [
     "index.ejs",
     "faq.ejs",
     "tools.ejs"
   ],
+  "DEBUG": false,
   "max_upload_size": 128,
   "expireTime": "48",
   "siteName": "Uguu",

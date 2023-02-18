@@ -12,7 +12,7 @@ RUN chmod a+x nodejssetup.sh
 RUN ./nodejssetup.sh
 RUN apt-get install -y nodejs gcc g++ make
 RUN apt-get install -y build-essential nginx-full php8.1-fpm php8.1 sqlite3 php8.1-sqlite3 \
-                       php8.1-curl php8.1-cli php8.1-lz4 \
+                       php8.1-curl php8.1-cli php8.1-lz4 php8.1-pgsql \
                        php8.1-mcrypt php8.1-mysql php8.1-xdebug php8.1-zip \
                        php8.1-common php8.1-readline php8.1-bcmath php8.1-common php8.1-xml
 

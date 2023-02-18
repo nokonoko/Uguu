@@ -2,7 +2,7 @@
     /**
      * Uguu
      *
-     * @copyright Copyright (c) 2022 Go Johansson (nokonoko) <neku@pomf.se>
+     * @copyright Copyright (c) 2022-2023 Go Johansson (nokonoko) <neku@pomf.se>
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU General Public License as published by
@@ -20,52 +20,58 @@
     
     namespace Pomf\Uguu\Classes;
     
-    use Exception;
     use PDO;
     
     class Connector extends Database
     {
         public PDO $DB;
+        public string $dbType;
         public array $CONFIG;
+        public Response $response;
         
-        /**
-         * Reads the config.json file and populates the CONFIG property with the settings
-         *
-         * @throws \Exception
-         */
-        public function __construct()
+        public function errorHandler(int $errno, string $errstr):void
         {
-            if (!file_exists(__DIR__ . '/../config.json')) {
-                throw new Exception('Cant read settings file.', 500);
+            if ($this->CONFIG['DEBUG']) {
+                $this->response->error(500, 'Server error: ' . $errstr);
+            } else {
+                $this->response->error(500, 'Server error.');
             }
-            try {
-                $this->CONFIG = json_decode(
-                   file_get_contents(__DIR__ . '/../config.json'),
-                   true,
-                );
-                $this->assemble();
-            }
-            catch (Exception $e) {
-                throw new Exception($e->getMessage(), 500);
+        }
+        
+        public function fatalErrorHandler():void
+        {
+            if (!is_null($e = error_get_last())) {
+                if ($this->CONFIG['DEBUG']) {
+                    $this->response->error(500, 'FATAL Server error: ' . print_r($e, true));
+                } else {
+                    $this->response->error(500, 'Server error.');
+                }
             }
         }
         
         /**
-         * > Tries to connect to the database
+         * Reads the config.json file and populates the CONFIG property with the settings
+         * Also assembles the PDO DB connection and registers error handlers.
          *
-         * @throws \Exception
          */
-        public function assemble()
+        public function __construct()
         {
-            try {
-                $this->DB = new PDO(
-                   $this->CONFIG['DB_MODE'] . ':' . $this->CONFIG['DB_PATH'],
-                   $this->CONFIG['DB_USER'],
-                   $this->CONFIG['DB_PASS']
-                );
+            $this->response = new Response('json');
+            if (!file_exists(__DIR__ . '/../config.json')) {
+                $this->response->error(500, 'Cant read settings file.');
             }
-            catch (Exception) {
-                throw new Exception('Cant connect to DB.', 500);
-            }
+            $this->CONFIG = json_decode(
+               file_get_contents(__DIR__ . '/../config.json'),
+               true,
+            );
+            ini_set('display_errors', 0);
+            set_error_handler([$this, "errorHandler"]);
+            register_shutdown_function([$this, "fatalErrorHandler"]);
+            $this->dbType = $this->CONFIG['DB_MODE'];
+            $this->DB = new PDO(
+               $this->CONFIG['DB_MODE'] . ':' . $this->CONFIG['DB_PATH'],
+               $this->CONFIG['DB_USER'],
+               $this->CONFIG['DB_PASS']
+            );
         }
     }

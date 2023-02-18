@@ -30,7 +30,7 @@ See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
-Tested and working with Nginx + PHP-8.1 + SQLite/MySQL.
+Tested and working with Nginx + PHP-8.1 + SQLite/MySQL/PostgreSQL.
 
 Node is used to compile Uguu, after that it runs on PHP.
 
@@ -57,7 +57,6 @@ tests.
 
 ## Upcoming Features
 
-* PostgreSQL Support
 * S3 Bucket Support
 * Azure File Storage Support
 * Temporal/RR Support
