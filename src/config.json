@@ -28,7 +28,7 @@
   "kofiUrl": "",
   "malwareBanner": false,
   "DB_MODE": "sqlite",
-  "DB_PATH": "/var/www/db/uguuDB.sq3",
+  "DB_PATH": "/var/www/db/uguu.sq3",
   "DB_USER": "NULL",
   "DB_PASS": "NULL",
   "LOG_IP": false,
