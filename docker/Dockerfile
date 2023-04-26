@@ -47,7 +47,7 @@ RUN mkdir /var/www/files && \
     mkdir /var/www/db
 
 # Create the Sqlite DB
-RUN sqlite3 /var/www/db/uguuDB.sq3 -init /var/www/uguu/src/static/dbSchemas/sqlite_schema.sql "" && \
+RUN sqlite3 /var/www/db/uguu.sq3 -init /var/www/uguu/src/static/dbSchemas/sqlite_schema.sql "" && \
     chown -R www-data:www-data /var/www && \
     chmod -R 775 /var/www/
 
