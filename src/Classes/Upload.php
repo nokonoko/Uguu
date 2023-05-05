@@ -247,16 +247,18 @@
          *
          * @return string The file extension of the file.
          */
-        public function fileExtension(array $file):string
+        public function fileExtension(array $file):?string
         {
+            if(str_contains($file['name'], '.')){
             $extension = explode('.', $file['name']);
-            $dotCount = substr_count($file['name'], '.');
+            $dotCount = substr_count($file['name'], '.');    
             return match ($dotCount) {
-                0 => null,
                 1 => end($extension),
                 2 => $this->doubleDotExtension($extension),
                 default => end($extension)
             };
+            }
+            return "NOEXT";
         }
         
         /**
@@ -309,7 +311,7 @@
                     $index = rand(0, strlen($this->Connector->CONFIG['ID_CHARSET']) - 1);
                     $NEW_NAME .= $this->Connector->CONFIG['ID_CHARSET'][$index];
                 }
-                if (!empty($extension)) {
+                if ($extension != "NOEXT") {
                     $NEW_NAME .= '.' . $extension;
                 }
             } while ($this->Connector->dbCheckNameExists($NEW_NAME));
