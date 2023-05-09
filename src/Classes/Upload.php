@@ -17,8 +17,10 @@
      * You should have received a copy of the GNU General Public License
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
-    
     namespace Pomf\Uguu\Classes;
+    require '../vendor/autoload.php';
+    use Aws\S3\S3Client;
+    use Aws\Exception\AwsException;
     
     class Upload extends Response
     {
@@ -152,28 +154,47 @@
             // If its not a dupe then skip checking if file can be written and
             // skip inserting it into the DB.
             if (!$this->FILE_INFO['DUPE']) {
-                if (!is_dir($this->Connector->CONFIG['FILES_ROOT'])) {
-                    $this->Connector->response->error(500, 'File storage path not accessible.');
+                if (!$this->Connector->CONFIG['FILES_OBJ']) {
+                    if (!is_dir($this->Connector->CONFIG['FILES_ROOT'])) {
+                        $this->Connector->response->error(500, 'File storage path not accessible.');
+                    }
+                    if (
+                    !move_uploaded_file(
+                        $this->FILE_INFO['TEMP_NAME'],
+                        $this->Connector->CONFIG['FILES_ROOT'] .
+                        $this->FILE_INFO['FILENAME'],
+                    )
+                    ) {
+                        $this->Connector->response->error(500, 'Failed to move file to destination.');
+                    }
+                    if (!chmod($this->Connector->CONFIG['FILES_ROOT'] . $this->FILE_INFO['FILENAME'], 0644)) {
+                        $this->Connector->response->error(500, 'Failed to change file permissions.');
+                    }
+                    $this->Connector->newIntoDB($this->FILE_INFO, $this->fingerPrintInfo);
+                    $url = 'https://' . $this->Connector->CONFIG['FILE_DOMAIN'] . '/' . $this->FILE_INFO['FILENAME'];
+                    }
+                // S3/Object Store upload
+                else {
+                    $s3Client = new S3Client([
+                        'profile' => $this->Connector->CONFIG['FILES_OBJ_PROFILE'],
+                        'region' => $this->Connector->CONFIG['FILES_OBJ_REGION'],
+                        'version' => "2006-03-01"
+                    ]);
+                    $result = $s3Client->putObject([
+                        'Bucket' => $this->Connector->CONFIG['FILES_OBJ_BUCKET'],
+                        'Key' => $this->FILE_INFO['FILENAME'],
+                        'SourceFile' => $this->FILE_INFO['TEMP_NAME'],
+                        'ContentType' => $this->FILE_INFO['MIME'],
+                        'ContentDisposition' => 'inline; filename=' . $this->FILE_INFO['FILENAME']
+                    ]);
+                    $url = $s3Client->getObjectUrl($this->Connector->CONFIG['FILES_OBJ_BUCKET'], $this->FILE_INFO['FILENAME']);
                 }
-                if (
-                   !move_uploaded_file(
-                      $this->FILE_INFO['TEMP_NAME'],
-                      $this->Connector->CONFIG['FILES_ROOT'] .
-                      $this->FILE_INFO['FILENAME'],
-                   )
-                ) {
-                    $this->Connector->response->error(500, 'Failed to move file to destination.');
-                }
-                if (!chmod($this->Connector->CONFIG['FILES_ROOT'] . $this->FILE_INFO['FILENAME'], 0644)) {
-                    $this->Connector->response->error(500, 'Failed to change file permissions.');
-                }
-                $this->Connector->newIntoDB($this->FILE_INFO, $this->fingerPrintInfo);
             }
             return [
                'hash'     => $this->FILE_INFO['SHA1'],
                'name'     => $this->FILE_INFO['NAME'],
                'filename' => $this->FILE_INFO['FILENAME'],
-               'url'      => 'https://' . $this->Connector->CONFIG['FILE_DOMAIN'] . '/' . $this->FILE_INFO['FILENAME'],
+               'url'      => $url,
                'size'     => $this->FILE_INFO['SIZE'],
                'dupe'     => $this->FILE_INFO['DUPE'],
             ];

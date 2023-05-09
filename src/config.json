@@ -38,6 +38,10 @@
   "RATE_LIMIT": false,
   "RATE_LIMIT_TIMEOUT": 60,
   "RATE_LIMIT_FILES": 100,
+  "FILES_OBJ": false,
+  "FILES_OBJ_BUCKET": "my_bucket",
+  "FILES_OBJ_REGION": "my_aws_region",
+  "FILES_OBJ_PROFILE": "default",
   "FILES_ROOT": "/var/www/files/",
   "FILES_RETRIES": 15,
   "NAME_LENGTH": 8,
@@ -75,3 +79,4 @@
     "image/svg+xml"
   ]
 }
+
