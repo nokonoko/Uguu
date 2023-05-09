@@ -28,6 +28,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "uguu_lc_policy" {
 
 resource "aws_s3_bucket_public_access_block" "uguu_public_block_policy" {
   bucket = aws_s3_bucket.uguu_bucket.id
+  block_public_acls = true
+  ignore_public_acls = true
+  block_public_policy = false
+  restrict_public_buckets = false
 }
 
 resource "aws_s3_bucket_policy" "uguu_bucket_policy" {

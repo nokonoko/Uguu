@@ -11,3 +11,5 @@ uguu.sq3
 composer.phar
 composer.lock
 docker/uguuForDocker.tar.gz
+.terraform*
+terraform.tfstate
