@@ -247,7 +247,7 @@
          *
          * @return string The file extension of the file.
          */
-        public function fileExtension(array $file):?string
+        public function fileExtension(array $file):string | bool
         {
             if(str_contains($file['name'], '.')){
             $extension = explode('.', $file['name']);
@@ -258,7 +258,7 @@
                 default => end($extension)
             };
             }
-            return "NOEXT";
+            return false;
         }
         
         /**
@@ -311,7 +311,7 @@
                     $index = rand(0, strlen($this->Connector->CONFIG['ID_CHARSET']) - 1);
                     $NEW_NAME .= $this->Connector->CONFIG['ID_CHARSET'][$index];
                 }
-                if ($extension != "NOEXT") {
+                if ($extension) {
                     $NEW_NAME .= '.' . $extension;
                 }
             } while ($this->Connector->dbCheckNameExists($NEW_NAME));
