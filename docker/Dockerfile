@@ -58,7 +58,7 @@ RUN echo "0,30 * * * * bash /var/www/uguu/src/static/scripts/checkfiles.sh" >> /
 # Fix script paths
 RUN chmod a+x /var/www/uguu/src/static/scripts/checkdb.sh && \
     chmod a+x /var/www/uguu/src/static/scripts/checkfiles.sh && \
-    sed -i 's#/path/to/files/#/var/www/uguu/files/#g' /var/www/uguu/src/static/scripts/checkfiles.sh && \
+    sed -i 's#/path/to/files/#/var/www/files/#g' /var/www/uguu/src/static/scripts/checkfiles.sh && \
     sed -i 's#/path/to/db/uguu.sq3#/var/www/db/uguu.sq3#g' /var/www/uguu/src/static/scripts/checkdb.sh
 
 # Copy Nginx Server conf
