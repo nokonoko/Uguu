@@ -44,7 +44,7 @@
                    'TEMP_NAME' => $file['tmp_name'],
                    'NAME'      => strip_tags($this->checkNameLength($file['name'])),
                    'SIZE'      => $file['size'],
-                   'SHA1'      => sha1_file($file['tmp_name']),
+                   'XXH'      => hash('xxh3', $file['tmp_name']),
                    'EXTENSION' => $this->fileExtension($file),
                    'MIME'      => $this->fileMIME($file),
                    'DUPE'      => false,
@@ -53,7 +53,7 @@
                 // Check if anti dupe is enabled
                 if ($this->Connector->CONFIG['ANTI_DUPE']) {
                     // Check if hash exists in DB, if it does return the name of the file
-                    $dupeResult = $this->Connector->antiDupe($this->FILE_INFO['SHA1']);
+                    $dupeResult = $this->Connector->antiDupe($this->FILE_INFO['XXH']);
                     if ($dupeResult['result']) {
                         $this->FILE_INFO['FILENAME'] = $dupeResult['name'];
                         $this->FILE_INFO['DUPE'] = true;
@@ -67,7 +67,7 @@
                    $this->FILE_INFO['TEMP_NAME'],
                    $this->FILE_INFO['NAME'],
                    $this->FILE_INFO['SIZE'],
-                   $this->FILE_INFO['SHA1'],
+                   $this->FILE_INFO['XXH'],
                    $this->FILE_INFO['EXTENSION'],
                    $this->FILE_INFO['MIME'],
                    $this->FILE_INFO['DUPE'],
@@ -88,7 +88,7 @@
          *     'TEMP_NAME' => 'example'
          *     'NAME' => 'example'
          *     'SIZE' => 'example'
-         *     'SHA1' => 'example'
+         *     'XXH' => 'example'
          *     'EXTENSION' => 'example'
          *     'MIME' => 'example'
          *
@@ -97,7 +97,7 @@
          *     'TEMP_NAME' => 'example'
          *     'NAME' => 'example'
          *     'SIZE' => 'example'
-         *     'SHA1' => 'example'
+         *     'XXH' => 'example'
          *     'EXTENSION' => 'example'
          *     'MIME' => 'example'
          *   ]
@@ -139,7 +139,7 @@
                     }
                 // Continue
                 case $this->Connector->CONFIG['BLACKLIST_DB']:
-                    $this->Connector->checkFileBlacklist($this->FILE_INFO['SHA1']);
+                    $this->Connector->checkFileBlacklist($this->FILE_INFO['XXH']);
                 // Continue
                 case $this->Connector->CONFIG['FILTER_MODE'] && empty($this->FILE_INFO['EXTENSION']):
                     $this->checkMimeBlacklist();
@@ -170,7 +170,7 @@
                 $this->Connector->newIntoDB($this->FILE_INFO, $this->fingerPrintInfo);
             }
             return [
-               'hash'     => $this->FILE_INFO['SHA1'],
+               'hash'     => $this->FILE_INFO['XXH'],
                'name'     => $this->FILE_INFO['NAME'],
                'filename' => $this->FILE_INFO['FILENAME'],
                'url'      => 'https://' . $this->Connector->CONFIG['FILE_DOMAIN'] . '/' . $this->FILE_INFO['FILENAME'],
