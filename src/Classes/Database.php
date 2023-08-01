@@ -90,7 +90,7 @@
                'INSERT INTO files (hash, originalname, filename, size, date, ip)' .
                'VALUES (:hash, :orig, :name, :size, :date, :ip)',
             );
-            $q->bindValue(':hash', $FILE_INFO['SHA1']);
+            $q->bindValue(':hash', $FILE_INFO['XXH']);
             $q->bindValue(':orig', $FILE_INFO['NAME']);
             $q->bindValue(':name', $FILE_INFO['FILENAME']);
             $q->bindValue(':size', $FILE_INFO['SIZE'], PDO::PARAM_INT);
