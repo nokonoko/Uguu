@@ -18,7 +18,8 @@
   "minimum-stability": "stable",
   "require": {
     "ext-fileinfo": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "aws/aws-sdk-php": "^3.269"
   },
   "config": {
     "optimize-autoloader": true,
