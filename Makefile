@@ -50,7 +50,7 @@ copy-php:
 	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/Classes/
 
 install: installdirs
-        rm -rf $(DESTDIR)/*
+	rm -rf $(DESTDIR)/*
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
 	cp $(CURDIR)/src/*.json $(DESTDIR)/
 	mv $(DESTDIR)/html/min/* $(DESTDIR)/public/
