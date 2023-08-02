@@ -2,7 +2,6 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nokonoko_Uguu&metric=alert_status)](https://sonarcloud.io/dashboard?id=nokonoko_Uguu)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Documentation Status](https://docs.uguu.se/img/flat.svg)](https://docs.uguu.se)
 
 # What is Uguu?
 
@@ -26,7 +25,7 @@ Uguu is a simple lightweight temporary file hosting and sharing platform, but ca
 
 ### Demo
 
-See the real world site at [uguu.se](https://uguu.se).
+See the real world site at [uguu.se](https://uguu.se). (down right now)
 
 ## Requirements
 
@@ -36,7 +35,7 @@ Node is used to compile Uguu, after that it runs on PHP.
 
 ## Installation
 
-Installation and configuration can be found at [Uguu Documentation](https://docs.uguu.se).
+Installation and configuration can be found at [Uguu Documentation](https://github.com/nokonoko/Uguu/wiki/Uguu-Configuration-&-Installation).
 
 If you need a admin panel check out [Moe Panel](https://github.com/Pomf/MoePanel).
 
