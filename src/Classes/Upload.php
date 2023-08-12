@@ -245,7 +245,7 @@
          *
          * @param $file array The file you want to get the extension from.
          *
-         * @return string The file extension of the file.
+         * @return string | bool The file extension of the file.
          */
         public function fileExtension(array $file):string | bool
         {
@@ -253,7 +253,6 @@
             $extension = explode('.', $file['name']);
             $dotCount = substr_count($file['name'], '.');    
             return match ($dotCount) {
-                1 => end($extension),
                 2 => $this->doubleDotExtension($extension),
                 default => end($extension)
             };

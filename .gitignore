@@ -11,3 +11,4 @@ uguu.sq3
 composer.phar
 composer.lock
 docker/uguuForDocker.tar.gz
+!/.php-cs-fixer.cache
