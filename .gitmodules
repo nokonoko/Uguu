@@ -1,0 +1,3 @@
+[submodule "ansible/ansible-role-uguu"]
+	path = ansible/ansible-role-uguu
+	url = https://github.com/s3lva-kumar/ansible-role-uguu

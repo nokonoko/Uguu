@@ -1,14 +1,15 @@
-MAKE = "make"
-INSTALL = "install"
-TAR = "tar"
-GREP = "grep"
-NODE = "node"
-NPM = "npm"
-NODEJQ = "node_modules/node-jq/bin/jq"
-SQLITE = "sqlite3"
-CONF = "src/config.json"
-PHP = "php"
-CURL = "curl"
+MAKE="make"
+INSTALL="install"
+TAR="tar"
+GREP="grep"
+NODE="node"
+NPM="npm"
+HOSTS_FILE = $(HOSTS_FILE)
+NODEJQ="node_modules/node-jq/bin/jq"
+SQLITE="sqlite3"
+CONF="src/config.json"
+PHP="php"
+CURL="curl"
 DESTDIR = $(shell $(CURDIR)/$(NODEJQ) -r ".dest" $(CURDIR)/$(CONF))
 SITEDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".DOMAIN" $(CURDIR)/$(CONF))
 FILESDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".FILE_DOMAIN" $(CURDIR)/$(CONF))
@@ -68,6 +69,12 @@ install: installdirs
 	cd $(DESTDIR)/ && $(PHP) composer-setup.php --quiet
 	cd $(DESTDIR)/ && rm composer-setup.php
 	cd $(DESTDIR)/ && php composer.phar update && php composer.phar install && php composer.phar dump-autoload
+
+submodule-update:
+	cd ansible && git clone git@github.com:s3lva-kumar/ansible-role-uguu.git && git submodule update --remote
+
+deploy:
+	ansible-playbook -i $(HOSTS_FILE) ansible/site.yml
 
 dist:
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)

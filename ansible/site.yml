@@ -1,0 +1,10 @@
+- name: "install uguu"
+  hosts: all
+  become: yes
+  roles:
+    - ansible-role-uguu
+
+  vars:
+    paypalUrl: ""
+    bitcoinAddress: ""
+    flattrUrl: ""
