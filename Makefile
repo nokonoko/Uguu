@@ -9,7 +9,7 @@ SQLITE = "sqlite3"
 CONF = "src/config.json"
 PHP = "php"
 CURL = "curl"
-DESTDIR = $(shell $(CURDIR)/$(NODEJQ) -r ".dest" $(CURDIR)/$(CONF))
+DESTDIR = $(shell $(CURDIR)/$(NODEJQ) -r '.dest // "" | select(. != "") // "dist"' $(CURDIR)/$(CONF))
 SITEDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".DOMAIN" $(CURDIR)/$(CONF))
 FILESDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".FILE_DOMAIN" $(CURDIR)/$(CONF))
 MAXSIZE = $(shell $(CURDIR)/$(NODEJQ) -r ".max_upload_size" $(CURDIR)/$(CONF))
