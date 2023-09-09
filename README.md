@@ -25,7 +25,7 @@ Uguu is a simple lightweight temporary file hosting and sharing platform, but ca
 
 ### Demo
 
-See the real world site at [uguu.se](https://uguu.se). (down right now)
+See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
