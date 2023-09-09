@@ -23,18 +23,18 @@ CONTAINER_NAME = "$(CONTAINER_NAME)"
 pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
 noExt = $(shell echo $(i) | cut -d '.' -f1)
 
-all: builddirs npm_dependencies ejs "node_modules/minify/bin/minify.js"-all copy-img copy-php
+all: builddirs npm_dependencies ejs minify copy-img copy-php
 
 ejs:
 	$(foreach i,$(pageList), \
 	"node_modules/ejs/bin/cli.js" -f $(CURDIR)/$(CONF) $(CURDIR)/src/templates/$(i) -o $(CURDIR)/build/html/unmin/$(noExt).html;)
 
-"node_modules/minify/bin/minify.js"-all:
-	"node_modules/minify/bin/minify.js" $(CURDIR)/src/static/js/uguu.js > $(CURDIR)/build/js/uguu.min.js
-	"node_modules/minify/bin/minify.js" $(CURDIR)/src/static/css/uguu.css > $(CURDIR)/build/css/uguu.min.css
-	"node_modules/minify/bin/minify.js" $(CURDIR)/build/html/unmin/faq.html > $(CURDIR)/build/html/min/faq.html
-	"node_modules/minify/bin/minify.js" $(CURDIR)/build/html/unmin/tools.html > $(CURDIR)/build/html/min/tools.html
-	"node_modules/minify/bin/minify.js" $(CURDIR)/build/html/unmin/index.html > $(CURDIR)/build/html/min/index.html
+minify:
+	node-minify --compressor uglify-es --input $(CURDIR)/src/static/js/uguu.js --output $(CURDIR)/build/js/uguu.min.js
+	node-minify --compressor cssnano --input $(CURDIR)/src/static/css/uguu.css --output $(CURDIR)/build/css/uguu.min.css
+	node-minify --compressor html-minifier --input $(CURDIR)/build/html/unmin/faq.html --output $(CURDIR)/build/html/min/faq.html
+	node-minify --compressor html-minifier --input $(CURDIR)/build/html/unmin/api.html --output $(CURDIR)/build/html/min/api.html
+	node-minify --compressor html-minifier --input $(CURDIR)/build/html/unmin/index.html --output $(CURDIR)/build/html/min/index.html
 
 installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img

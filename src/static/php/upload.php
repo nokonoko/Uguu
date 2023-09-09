@@ -39,9 +39,8 @@
             $upload->send($res);
         }
     }
-    
-    $response = new Response('json');
     $resType = (isset($_GET['output']) and !empty($_GET['output'])) ? strtolower(preg_replace('/[^a-zA-Z]/', '', $_GET['output'])) : 'json';
+    $response = new Response($resType);
     if (!isset($_FILES['files']) or empty($_FILES['files'])) {
         $response->error(400, 'No input file(s)');
     }
