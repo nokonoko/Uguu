@@ -37,6 +37,15 @@ class expireChecker
         }
     }
 
+    public function cleanRateLimitDB(): void {
+        $query = match ($this->dbType) {
+            'pgsql' => 'DELETE FROM ratelimit WHERE time < EXTRACT(epoch from NOW() - INTERVAL \'24 HOURS\')',
+            default => 'DELETE FROM ratelimit WHERE time <= strftime(\'%s\', datetime(\'now\', \'-24 HOURS\'));'
+        };
+        $q = $this->DB->prepare($query);
+        $q->execute();
+        $q->closeCursor();
+    }
     public function deleteFiles(array $filenames): void {
         foreach ($filenames as $filename) {
             unlink($this->CONFIG['FILES_ROOT'] . $filename);

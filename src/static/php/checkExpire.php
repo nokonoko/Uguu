@@ -24,7 +24,7 @@ use Pomf\Uguu\Classes\expireChecker;
 
 $check = new expireChecker();
 $dbResult = $check->checkDB();
-
+$check->cleanRateLimitDB();
 if(empty($dbResult['ids'])){
     echo "No file(s) expired, nothing to do.";
 } else {
