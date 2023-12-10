@@ -6,7 +6,7 @@
     <div class="alert alert-info">
         <section>
             <p>You may POST an array of files to&nbsp;<b><%= DOMAIN %>/upload.php</b>, by default you will get a json response.</p>
-            <p>For example using Curl: <b>curl -i -F files[]=@yourfile.jpeg <%= DOMAIN %>/upload.php</b></p>
+            <p>For example using Curl: <kbd>curl -i -F files[]=@yourfile.jpeg <%= DOMAIN %>/upload.php</kbd></p>
             <p>If you want a response in something else than json you add a flag to specify what format you want, for example&nbsp;<b><%= DOMAIN %>/upload.php?output=csv</b>.</p>
             <p>Valid response types are: json, csv, text, html and gyazo.</p>
         </section>
