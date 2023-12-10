@@ -398,19 +398,15 @@ progress[value]::-webkit-progress-bar {
 .js #upload-btn {
   display: inline-block !important;
 }
-
 /*
  * inline command block
  */
 kbd {
   padding: 0.1875rem 0.375rem;
+  font-size: 13px;
   color: #FFFFFF;
   background-color: #444444;
   border-radius: 0.25rem;
-}
-kbd kbd {
-  padding: 0;
-  font-size: 1em;
 }
 kbd:before {
   content: "$ "
