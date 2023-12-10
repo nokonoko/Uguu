@@ -404,9 +404,8 @@ progress[value]::-webkit-progress-bar {
  */
 kbd {
   padding: 0.1875rem 0.375rem;
-  font-size: 0.875em;
   color: #FFFFFF;
-  background-color: #333333;
+  background-color: #444444;
   border-radius: 0.25rem;
 }
 kbd kbd {
