@@ -1,6 +1,6 @@
 {
   "dest": "dist",
-  "pkgVersion": "1.8.2",
+  "pkgVersion": "1.8.3",
   "pages": [
     "index.ejs",
     "faq.ejs",
@@ -23,7 +23,7 @@
   "donationBanner": false,
   "paypalUrl": "",
   "bitcoinAddress": "",
-  "flattrUrl": "",
+  "ethereumAddress": "",
   "kofiUrl": "",
   "malwareBanner": false,
   "DB_MODE": "sqlite",

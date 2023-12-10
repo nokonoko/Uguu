@@ -12,6 +12,13 @@
                 </a>
         <% } %>
 
+            <% if (ethereumAddress) { %>
+                <a class="donate-btn donate-ethereum" href="ethereum:<%= ethereumAddress %>" target="_BLANK">
+            <span class="icon icon-bitcoin"></span>
+                                Ethereum
+        </a>
+            <% } %>
+
             <% if (paypalUrl) { %>
                 <a class="donate-btn donate-paypal" href="<%= paypalUrl %>" target="_BLANK">
                     <span class="icon icon-paypal"></span>
@@ -19,12 +26,6 @@
                 </a>
             <% } %>
 
-            <% if (flattrUrl) { %>
-                <a class="donate-btn donate-flattr" href="<%= flattrUrl %>" target="_BLANK">
-                    <span class="icon icon-flattr"></span>
-                                        Flattr
-                </a>
-            <% } %>
             <% if (kofiUrl) { %>
                 <a class="donate-btn donate-kofi" href="<%= kofiUrl %>" target="_BLANK">
                     <span class="icon icon-kofi"></span>
