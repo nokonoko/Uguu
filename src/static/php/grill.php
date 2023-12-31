@@ -1,9 +1,18 @@
 <?php
-    
-    /**
+    /*
      * Uguu
      *
-     * @copyright Copyright (c) 2022-2023 Go Johansson (nokonoko) <neku@pomf.se>
+     * @copyright Copyright (c) 2022-2024 Go Johansson (nokonoko) <neku@pomf.se>
+     *
+     * Note that this was previously distributed under the MIT license 2015-2022.
+     *
+     * If you are a company that wants to use Uguu I urge you to contact me to
+     * solve any potential license issues rather then using pre-2022 code.
+     *
+     * A special thanks goes out to the open source community around the world
+     * for supporting and being the backbone of projects like Uguu.
+     *
+     * This project can be found at <https://github.com/nokonoko/Uguu>.
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU General Public License as published by
@@ -18,6 +27,7 @@
      * You should have received a copy of the GNU General Public License
      * along with this program.  If not, see <https://www.gnu.org/licenses/>.
      */
+    
     require_once __DIR__ . '/../vendor/autoload.php';
     
     use Pomf\Uguu\Classes\GrillLoader;

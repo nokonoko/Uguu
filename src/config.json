@@ -1,6 +1,6 @@
 {
   "dest": "dist",
-  "pkgVersion": "1.8.3",
+  "pkgVersion": "1.8.4",
   "pages": [
     "index.ejs",
     "faq.ejs",
@@ -48,7 +48,7 @@
     "min.js",
     "conf.bak"
   ],
-  "BLOCKED_EXTENSIONS": [
+  "FILTER_EXTENSIONS": [
     "exe",
     "scr",
     "com",
@@ -63,7 +63,7 @@
     "phtml",
     "svg"
   ],
-  "BLOCKED_MIME": [
+  "FILTER_MIME": [
     "application/msword",
     "text/html",
     "application/x-dosexec",

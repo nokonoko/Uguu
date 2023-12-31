@@ -12,3 +12,4 @@ composer.phar
 composer.lock
 docker/uguuForDocker.tar.gz
 !/.php-cs-fixer.cache
+test.php
