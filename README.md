@@ -29,7 +29,7 @@ See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
-Tested and working with Nginx + PHP-8.1 + SQLite/MySQL/PostgreSQL + Node.js 18 or higher.
+Tested and working with Nginx + PHP-8.3 + SQLite/MySQL/PostgreSQL + Node.js 18 or higher.
 
 Node.js is used to compile Uguu, after that it runs on PHP.
 
@@ -47,18 +47,12 @@ Hit me up at [@nekunekus](https://twitter.com/nekunekus) or email me at neku@pom
 
 We'd really like if you can take some time to make sure your coding style is
 consistent with the project. Uguu follows [PHP
-PSR-12](https://www.php-fig.org/psr/psr-12/) and [Airbnb JavaScript
+PSR-2](https://www.php-fig.org/psr/psr-12/) and [Airbnb JavaScript
 (ES5)](https://github.com/airbnb/javascript/tree/es5-deprecated/es5) (`airbnb/legacy`)
 coding style guides. We use ESLint and PHPCS tools to enforce these standards.
 
 You can also help by sending us feature requests or writing documentation and
 tests.
-
-## Upcoming Features
-
-* S3 Bucket Support
-* Azure File Storage Support
-* Temporal/RR Support
 
 ## Credits
 
