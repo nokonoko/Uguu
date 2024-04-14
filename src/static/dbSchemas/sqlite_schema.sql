@@ -28,4 +28,8 @@ CREATE TABLE `ratelimit` (
 ,  `time` integer default NULL
 ,  `files` integer default NULL
 );
+CREATE INDEX files_hash_idx ON files (hash);
+CREATE INDEX files_name_idx ON files (filename);
+CREATE INDEX ratelimit_iphash_idx ON ratelimit (iphash);
+CREATE INDEX blacklist_hash_idx ON blacklist (hash);
 END TRANSACTION;

@@ -29,6 +29,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/**
+ * Takes the amount of files that are being uploaded, and creates a fingerprint of the user's IP address,
+ * user agent, and the amount of files being uploaded.
+ *
+ * @param int $files_amount The amount of files that are being uploaded.
+ */
+
 namespace Pomf\Uguu\Classes;
 
 class Upload extends Response
@@ -36,7 +43,7 @@ class Upload extends Response
     public array $FILE_INFO;
     public array $fingerPrintInfo;
     private mixed $Connector;
-        
+
     /**
      * Resolves and processes an array of files, performing various checks and operations on each file.
      *
@@ -64,11 +71,11 @@ class Upload extends Response
      * *             - 'dupe'      : Indicates if the uploaded file is a duplicate.
      * *             - 'filename'  : The final filename of the uploaded file.
      */
-    public function reFiles(array $files):array
+    public function reFiles(array $files): array
     {
         $this->Connector = new Connector();
         $result = [];
-        $files = $this->diverseArray($files);
+        $files = $this->transposeArray($files);
         foreach ($files as $file) {
             $this->FILE_INFO = [
                'TEMP_NAME' => $file['tmp_name'],
@@ -106,25 +113,28 @@ class Upload extends Response
         }
         return $result;
     }
-        
+
     /**
-     * Rearranges a multidimensional array by exchanging the keys of the first and second level.
+     * Transposes a 2-dimensional array.
      *
-     * @param array $files The multidimensional array to be rearranged.
+     * Transposes the given 2-dimensional array, where the rows of the input array become the columns
+     * of the transposed array.
      *
-     * @return array The rearranged array with exchanged keys of the first and second level.
+     * @param array $inputArray The input 2-dimensional array to transpose.
+     *
+     * @return array The transposed array, with exchanged keys of the first and second level.
      */
-    public function diverseArray(array $files):array
+    public function transposeArray(array $inputArray): array
     {
-        $result = [];
-        foreach ($files as $key1 => $value1) {
-            foreach ($value1 as $key2 => $value2) {
-                $result[$key2][$key1] = $value2;
+        $transposedArray = [];
+        foreach ($inputArray as $key1 => $nestedArray) {
+            foreach ($nestedArray as $key2 => $nestedValue) {
+                $transposedArray[$key2][$key1] = $nestedValue;
             }
         }
-        return $result;
+        return $transposedArray;
     }
-        
+
     /**
      * Performs various checks (if enabled), insert info into database, moves file to storage
      * location, then returns an array of file information.
@@ -140,7 +150,7 @@ class Upload extends Response
      *               - size     : The size of the uploaded file
      *               - dupe     : Boolean indicating whether the file is a duplicate
      */
-    public function uploadFile():array
+    public function uploadFile(): array
     {
         if ($this->Connector->CONFIG['RATE_LIMIT']) {
             if (
@@ -180,17 +190,22 @@ class Upload extends Response
             if (!is_dir($this->Connector->CONFIG['FILES_ROOT'])) {
                 $this->Connector->response->error(500, 'File storage path not accessible.');
             }
-            if (
-                !move_uploaded_file(
-                    $this->FILE_INFO['TEMP_NAME'],
-                    $this->Connector->CONFIG['FILES_ROOT'] .
-                      $this->FILE_INFO['FILENAME'],
-                )
-            ) {
-                $this->Connector->response->error(500, 'Failed to move file to destination.');
+            if (!is_writable($this->Connector->CONFIG['FILES_ROOT'])) {
+                $this->Connector->response->error(500, 'File storage path not writeable.');
             }
-            if (!chmod($this->Connector->CONFIG['FILES_ROOT'] . $this->FILE_INFO['FILENAME'], 0644)) {
-                $this->Connector->response->error(500, 'Failed to change file permissions.');
+            if(!$this->Connector->CONFIG['BENCHMARK_MODE']) {
+                if (
+                    !move_uploaded_file(
+                        $this->FILE_INFO['TEMP_NAME'],
+                        $this->Connector->CONFIG['FILES_ROOT'] .
+                      $this->FILE_INFO['FILENAME'],
+                    )
+                ) {
+                    $this->Connector->response->error(500, 'Failed to move file to destination.');
+                }
+                if (!chmod($this->Connector->CONFIG['FILES_ROOT'] . $this->FILE_INFO['FILENAME'], 0644)) {
+                    $this->Connector->response->error(500, 'Failed to change file permissions.');
+                }
             }
             $this->Connector->newIntoDB($this->FILE_INFO, $this->fingerPrintInfo);
         }
@@ -203,7 +218,7 @@ class Upload extends Response
            'dupe'     => $this->FILE_INFO['DUPE'],
         ];
     }
-        
+
     /**
      * Takes the amount of files that are being uploaded, and creates a fingerprint of the user's IP address,
      * user agent, and the amount of files being uploaded.
@@ -211,7 +226,7 @@ class Upload extends Response
      * @param $files_amount int The amount of files that are being uploaded.
      *
      */
-    public function fingerPrint(int $files_amount):void
+    public function fingerPrint(int $files_amount): void
     {
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
             $USER_AGENT = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_ENCODED);
@@ -220,7 +235,7 @@ class Upload extends Response
                 $ip = $_SERVER['REMOTE_ADDR'];
             }
             $this->fingerPrintInfo = [
-               'timestamp'    => time(),
+               'timestamp'    => $this->Connector->currentTime,
                'useragent'    => $USER_AGENT,
                'ip'           => $ip,
                'ip_hash'      => hash('xxh3', $_SERVER['REMOTE_ADDR'] . $USER_AGENT),
@@ -230,7 +245,7 @@ class Upload extends Response
             $this->Connector->response->error(500, 'Invalid user agent.');
         }
     }
-        
+
     /**
      * Returns the MIME type of a file
      *
@@ -238,12 +253,12 @@ class Upload extends Response
      *
      * @return string The MIME type of the file.
      */
-    public function fileMIME(array $file):string
+    public function fileMIME(array $file): string
     {
         $FILE_INFO = finfo_open(FILEINFO_MIME_TYPE);
         return finfo_file($FILE_INFO, $file['tmp_name']);
     }
-        
+
     /**
      * Determines the double dot file extension from the given file.
      *
@@ -255,7 +270,7 @@ class Upload extends Response
      *
      * @return string The extracted extension.
      */
-    public function doubleDotExtension(array $extension):string
+    public function doubleDotExtension(array $extension): string
     {
         $doubleDotArray = array_slice($extension, -2, 2);
         $doubleDot = strtolower(preg_replace('/[^a-zA-Z.]/', '', join('.', $doubleDotArray)));
@@ -264,7 +279,7 @@ class Upload extends Response
         }
         return end($extension);
     }
-        
+
     /**
      * Determines the file extension from the given file.
      *
@@ -280,7 +295,7 @@ class Upload extends Response
      *
      * @return string|bool The file extension if it exists, or false if the file name does not contain a dot.
      */
-    public function fileExtension(array $file):string|bool
+    public function fileExtension(array $file): string|bool
     {
         if (str_contains($file['name'], '.')) {
             $extension = explode('.', $file['name']);
@@ -292,7 +307,7 @@ class Upload extends Response
         }
         return false;
     }
-        
+
     /**
      * Checks if the MIME type of the uploaded file is in the blacklist.
      *
@@ -300,13 +315,13 @@ class Upload extends Response
      * is not allowed.
      *
      */
-    public function checkMimeBlacklist():void
+    public function checkMimeBlacklist(): void
     {
         if (in_array($this->FILE_INFO['MIME'], $this->Connector->CONFIG['FILTER_MIME'])) {
             $this->Connector->response->error(415, 'Filetype not allowed');
         }
     }
-        
+
     /**
      * Checks if the MIME type of the uploaded file is in the whitelist.
      *
@@ -314,13 +329,13 @@ class Upload extends Response
      * is not allowed.
      *
      */
-    public function checkMimeWhitelist():void
+    public function checkMimeWhitelist(): void
     {
         if (!in_array($this->FILE_INFO['MIME'], $this->Connector->CONFIG['FILTER_MIME'])) {
             $this->Connector->response->error(415, 'Filetype not allowed');
         }
     }
-        
+
     /**
      * Checks if the extension of the uploaded file is in the blacklist.
      *
@@ -328,13 +343,13 @@ class Upload extends Response
      * is not allowed.
      *
      */
-    public function checkExtensionBlacklist():void
+    public function checkExtensionBlacklist(): void
     {
         if (in_array($this->FILE_INFO['EXTENSION'], $this->Connector->CONFIG['FILTER_EXTENSIONS'])) {
             $this->Connector->response->error(415, 'Filetype not allowed');
         }
     }
-        
+
     /**
      * Checks if the extension of the uploaded file is in the whitelist.
      *
@@ -342,13 +357,13 @@ class Upload extends Response
      * is not allowed.
      *
      */
-    public function checkExtensionWhitelist():void
+    public function checkExtensionWhitelist(): void
     {
         if (!in_array($this->FILE_INFO['EXTENSION'], $this->Connector->CONFIG['FILTER_EXTENSIONS'])) {
             $this->Connector->response->error(415, 'Filetype not allowed');
         }
     }
-        
+
     /**
      * Checks if the length of the given filename exceeds 250 characters.
      *
@@ -359,14 +374,14 @@ class Upload extends Response
      *
      * @return string The filename, either unchanged or truncated if its length exceeds 250 characters.
      */
-    public function checkNameLength(string $fileName):string
+    public function checkNameLength(string $fileName): string
     {
         if (strlen($fileName) > 250) {
             return substr($fileName, 0, 250);
         }
         return $fileName;
     }
-        
+
     /**
      * Generates a unique name for a file.
      *
@@ -381,7 +396,7 @@ class Upload extends Response
      *
      * @return string The generated unique name for the file.
      */
-    public function generateName(string $extension):string
+    public function generateName(string $extension): string
     {
         do {
             if ($this->Connector->CONFIG['FILES_RETRIES'] === 0) {

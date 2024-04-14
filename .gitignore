@@ -5,7 +5,6 @@ build
 vendor
 package-lock.json
 uguu.sq3
-.idea
 .phpdoc
 .vscode
 composer.phar

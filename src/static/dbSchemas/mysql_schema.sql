@@ -33,3 +33,8 @@ CREATE TABLE `ratelimit`
     `time`   int(15)  DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+CREATE INDEX files_hash_idx ON files (hash);
+CREATE INDEX files_name_idx ON files (filename);
+CREATE INDEX ratelimit_iphash_idx ON ratelimit (iphash);
+CREATE INDEX blacklist_hash_idx ON blacklist (hash);

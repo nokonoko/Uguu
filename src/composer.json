@@ -9,6 +9,11 @@
       "Pomf\\Uguu\\Classes\\": "./Classes"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Pomf\\Uguu\\Benchmarks\\": "./Benchmarks"
+    }
+  },
   "authors": [
     {
       "name": "Go Johansson (neku)",
@@ -19,6 +24,9 @@
   "require": {
     "ext-fileinfo": "*",
     "ext-pdo": "*"
+  },
+  "require-dev": {
+    "phpbench/phpbench": "^1.0"
   },
   "config": {
     "optimize-autoloader": true,

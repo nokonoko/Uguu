@@ -36,12 +36,14 @@ use Random\Randomizer;
 class Connector extends Database
 {
     public PDO $DB;
+    public Redis $keyDB;
     public string $dbType;
-    public array $CONFIG;
+    public mixed $CONFIG;
     public Response $response;
     public Randomizer $randomizer;
-        
-    public function errorHandler(int $errno, string $errstr):void
+    public int $currentTime;
+
+    public function errorHandler(int $errno, string $errstr): void
     {
         if ($this->CONFIG['DEBUG']) {
             $this->response->error(500, 'Server error: ' . $errstr);
@@ -49,8 +51,8 @@ class Connector extends Database
             $this->response->error(500, 'Server error.');
         }
     }
-        
-    public function fatalErrorHandler():void
+
+    public function fatalErrorHandler(): void
     {
         if (!is_null($e = error_get_last())) {
             if ($this->CONFIG['DEBUG']) {
@@ -60,7 +62,7 @@ class Connector extends Database
             }
         }
     }
-        
+
     /**
      * Reads the config.json file and populates the CONFIG property with the settings
      * Also assembles the PDO DB connection and registers error handlers.
@@ -85,6 +87,8 @@ class Connector extends Database
             $this->CONFIG['DB_USER'],
             $this->CONFIG['DB_PASS'],
         );
+
         $this->randomizer = new Randomizer();
+        $this->currentTime = time();
     }
 }

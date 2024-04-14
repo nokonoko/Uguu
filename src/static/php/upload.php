@@ -32,7 +32,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Pomf\Uguu\Classes\Upload;
 use Pomf\Uguu\Classes\Response;
 
-function handleFiles(string $outputFormat, array $files):void
+function handleFiles(string $outputFormat, array $files): void
 {
     $upload = new Upload($outputFormat);
     $files = $upload->reFiles($files);

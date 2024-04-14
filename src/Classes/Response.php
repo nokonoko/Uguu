@@ -27,13 +27,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-    
+
 namespace Pomf\Uguu\Classes;
 
 class Response
 {
     public string $type;
-        
+
     /**
      * Takes a string as an argument and sets the header to the appropriate content type
      *
@@ -55,6 +55,9 @@ class Response
                 header('Content-Type: application/json; charset=UTF-8');
                 $this->type = $response_type;
                 break;
+            case 'benchmark':
+                $this->type = $response_type;
+                break;
             case 'gyazo':
                 header('Content-Type: text/plain; charset=UTF-8');
                 $this->type = 'text';
@@ -69,32 +72,33 @@ class Response
                 break;
         }
     }
-        
+
     /**
      * Returns a string based on the type of response requested
      *
      * @param $code mixed The HTTP status code to return.
      * @param $desc string The description of the error.
      */
-    public function error(int $code, string $desc):string
+    public function error(int $code, string $desc): string
     {
         $response = match ($this->type) {
             'csv' => $this->csvError($desc),
             'html' => $this->htmlError($code, $desc),
             'json' => $this->jsonError($code, $desc),
+            'benchmark' => $this->jsonError($code, $desc),
             'text' => $this->textError($code, $desc),
         };
         http_response_code($code);
         echo $response;
         exit(1);
     }
-        
+
     /* Returning a string that contains the error message. */
-    private static function csvError(string $description):string
+    private static function csvError(string $description): string
     {
         return '"error"' . "\r\n" . "\"$description\"" . "\r\n";
     }
-        
+
     /**
      * Returns a string containing an HTML paragraph element with the error code and description
      *
@@ -103,11 +107,11 @@ class Response
      *
      * @return string A string.
      */
-    private static function htmlError(int|string $code, string $description):string
+    private static function htmlError(int|string $code, string $description): string
     {
         return '<p>ERROR: (' . $code . ') ' . $description . '</p>';
     }
-        
+
     /**
      * Returns a JSON string with the error code and description
      *
@@ -116,7 +120,7 @@ class Response
      *
      * @return bool|string A JSON string
      */
-    private static function jsonError(int|string $code, string $description):bool|string
+    private static function jsonError(int|string $code, string $description): bool|string
     {
         return json_encode([
            'success'     => false,
@@ -124,7 +128,7 @@ class Response
            'description' => $description,
         ], JSON_PRETTY_PRINT);
     }
-        
+
     /**
      * Returns a string that contains the error code and description
      *
@@ -133,11 +137,11 @@ class Response
      *
      * @return string A string with the error code and description.
      */
-    private static function textError(int|string $code, string $description):string
+    private static function textError(int|string $code, string $description): string
     {
         return 'ERROR: (' . $code . ') ' . $description;
     }
-        
+
     /**
      * "If the type is csv, then call the csvSuccess function,
      * if the type is html, then call the htmlSuccess function, etc."
@@ -146,18 +150,21 @@ class Response
      *
      * @param $files array An array of file objects.
      */
-    public function send(array $files):void
+    public function send(array $files): void
     {
         $response = match ($this->type) {
             'csv' => $this->csvSuccess($files),
             'html' => $this->htmlSuccess($files),
             'json' => $this->jsonSuccess($files),
+            'benchmark' => true,
             'text' => $this->textSuccess($files),
         };
         http_response_code(200); // "200 OK". Success.
-        echo $response;
+        if($this->type != 'benchmark') {
+            echo $response;
+        }
     }
-        
+
     /**
      * Takes an array of files and returns a CSV string
      *
@@ -165,7 +172,7 @@ class Response
      *
      * @return string A string of the files in the array.
      */
-    private static function csvSuccess(array $files):string
+    private static function csvSuccess(array $files): string
     {
         $result = '"name","url","hash","size"' . "\r\n";
         foreach ($files as $file) {
@@ -176,7 +183,7 @@ class Response
         }
         return $result;
     }
-        
+
     /**
      * Takes an array of files and returns a string of HTML links
      *
@@ -184,7 +191,7 @@ class Response
      *
      * @return string the result of the foreach loop.
      */
-    private static function htmlSuccess(array $files):string
+    private static function htmlSuccess(array $files): string
     {
         $result = '';
         foreach ($files as $file) {
@@ -192,7 +199,7 @@ class Response
         }
         return $result;
     }
-        
+
     /**
      * Returns a JSON string that contains a success message and the files that were uploaded
      *
@@ -200,14 +207,14 @@ class Response
      *
      * @return bool|string A JSON string
      */
-    private static function jsonSuccess(array $files):bool|string
+    private static function jsonSuccess(array $files): bool|string
     {
         return json_encode([
            'success' => true,
            'files'   => $files,
         ], JSON_PRETTY_PRINT);
     }
-        
+
     /**
      * Takes an array of files and returns a string of URLs
      *
@@ -215,7 +222,7 @@ class Response
      *
      * @return string the url of the file.
      */
-    private static function textSuccess(array $files):string
+    private static function textSuccess(array $files): string
     {
         $result = '';
         foreach ($files as $file) {

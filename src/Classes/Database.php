@@ -27,14 +27,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-    
+
 namespace Pomf\Uguu\Classes;
 
 use PDO;
-    
+
 class Database
 {
-    public function dbCheckNameExists(string $name):bool
+    public function dbCheckNameExists(string $name): bool
     {
         $query = match ($this->dbType) {
             'pgsql' => 'SELECT EXISTS(SELECT id FROM files WHERE filename = (:name)), filename FROM files WHERE filename = (:name) LIMIT 1',
@@ -52,8 +52,8 @@ class Database
         }
         return false;
     }
-        
-    public function checkFileBlacklist(string $hash):void
+
+    public function checkFileBlacklist(string $hash): void
     {
         $query = match ($this->dbType) {
             'pgsql' => 'SELECT EXISTS(SELECT id FROM blacklist WHERE hash = (:hash)), hash FROM blacklist WHERE hash = (:hash) LIMIT 1',
@@ -70,8 +70,8 @@ class Database
             $this->response->error(415, 'File blacklisted.');
         }
     }
-        
-    public function antiDupe(string $hash):array
+
+    public function antiDupe(string $hash): array
     {
         $query = match ($this->dbType) {
             'pgsql' => 'SELECT EXISTS(SELECT id FROM files WHERE hash = (:hash)), filename FROM files WHERE hash = (:hash) LIMIT 1',
@@ -93,8 +93,8 @@ class Database
             ];
         }
     }
-        
-    public function newIntoDB(array $FILE_INFO, array $fingerPrintInfo):void
+
+    public function newIntoDB(array $FILE_INFO, array $fingerPrintInfo): void
     {
         $q = $this->DB->prepare(
             'INSERT INTO files (hash, originalname, filename, size, date, ip)' .
@@ -109,8 +109,8 @@ class Database
         $q->execute();
         $q->closeCursor();
     }
-        
-    public function createRateLimit(array $fingerPrintInfo):void
+
+    public function createRateLimit(array $fingerPrintInfo): void
     {
         $q = $this->DB->prepare(
             'INSERT INTO ratelimit (iphash, files, time)' .
@@ -122,8 +122,8 @@ class Database
         $q->execute();
         $q->closeCursor();
     }
-        
-    public function updateRateLimit(int $fCount, bool $iStamp, array $fingerPrintInfo):void
+
+    public function updateRateLimit(int $fCount, bool $iStamp, array $fingerPrintInfo): void
     {
         if ($iStamp) {
             $q = $this->DB->prepare(
@@ -140,17 +140,17 @@ class Database
         $q->execute();
         $q->closeCursor();
     }
-        
-    public function compareTime(int $timestamp, int $seconds_d):bool
+
+    public function compareTime(int $timestamp, int $seconds_d): bool
     {
-        $diff = time() - $timestamp;
+        $diff = $this->currentTime - $timestamp;
         if ($diff > $seconds_d) {
             return true;
         }
         return false;
     }
-        
-    public function checkRateLimit(array $fingerPrintInfo, int $rateTimeout, int $fileLimit):bool
+
+    public function checkRateLimit(array $fingerPrintInfo, int $rateTimeout, int $fileLimit): bool
     {
         $query = match ($this->dbType) {
             'pgsql' => 'SELECT EXISTS(SELECT id FROM ratelimit WHERE iphash = (:iphash)), id, iphash, files, time FROM ratelimit WHERE iphash = (:iphash) LIMIT 1',

@@ -47,9 +47,8 @@ Hit me up at [@nekunekus](https://twitter.com/nekunekus) or email me at neku@pom
 
 We'd really like if you can take some time to make sure your coding style is
 consistent with the project. Uguu follows [PHP
-PSR-2](https://www.php-fig.org/psr/psr-12/) and [Airbnb JavaScript
-(ES5)](https://github.com/airbnb/javascript/tree/es5-deprecated/es5) (`airbnb/legacy`)
-coding style guides. We use ESLint and PHPCS tools to enforce these standards.
+PSR-12](https://www.php-fig.org/psr/psr-12/)
+coding style guides. We use PHPCS tools to enforce these standards.
 
 You can also help by sending us feature requests or writing documentation and
 tests.

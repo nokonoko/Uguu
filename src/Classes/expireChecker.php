@@ -27,11 +27,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-    
+
 namespace Pomf\Uguu\Classes;
 
 use PDO;
-    
+
 class expireChecker
 {
     public PDO $DB;
@@ -42,8 +42,7 @@ class expireChecker
      * @var \Pomf\Uguu\Classes\Response
      */
     private Response $response;
-    
-    public function checkDB():bool|array
+    public function checkDB(): bool|array
     {
         if (is_int($this->CONFIG['expireTime'])) {
             $this->timeUnit = strtoupper($this->CONFIG['expireTimeUnit']);
@@ -71,8 +70,8 @@ class expireChecker
             return false;
         }
     }
-        
-    public function cleanRateLimitDB():void
+
+    public function cleanRateLimitDB(): void
     {
         $query = match ($this->dbType) {
             'pgsql' => 'DELETE FROM ratelimit WHERE time < EXTRACT(epoch from NOW() - INTERVAL \'24 HOURS\')',
@@ -82,15 +81,15 @@ class expireChecker
         $q->execute();
         $q->closeCursor();
     }
-        
-    public function deleteFiles(array $filenames):void
+
+    public function deleteFiles(array $filenames): void
     {
         foreach ($filenames as $filename) {
             unlink($this->CONFIG['FILES_ROOT'] . $filename);
         }
     }
-        
-    public function deleteFromDB(array $ids):void
+
+    public function deleteFromDB(array $ids): void
     {
         foreach ($ids as $id) {
             $query = match ($this->dbType) {
@@ -103,7 +102,7 @@ class expireChecker
             $q->closeCursor();
         }
     }
-        
+
     /**
      * Reads the config.json file and populates the CONFIG property with the settings
      * Also assembles the PDO DB connection and registers error handlers.

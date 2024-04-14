@@ -23,7 +23,7 @@ CONTAINER_NAME = "$(CONTAINER_NAME)"
 pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
 noExt = $(shell echo $(i) | cut -d '.' -f1)
 
-all: builddirs npm_dependencies ejs minify copy-img copy-php
+all: builddirs npm_dependencies ejs minify copy-img copy-php copy-benchmarks
 
 ejs:
 	$(foreach i,$(pageList), \
@@ -48,6 +48,11 @@ copy-img:
 copy-php:
 	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
 	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/Classes/
+
+copy-benchmarks:
+	cp -v $(CURDIR)/src/Benchmarks/*.php $(CURDIR)/build/php/Benchmarks/
+	cp -v $(CURDIR)/src/Benchmarks/file.jpg $(CURDIR)/build/php/Benchmarks/
+	cp -v $(CURDIR)/src/Benchmarks/runBenchmark.sh $(CURDIR)/build/php/Benchmarks/
 
 install: installdirs
 	rm -rf $(DESTDIR)/*
@@ -111,5 +116,5 @@ remove-container:
 	docker rm -f uguu
 
 builddirs:
-	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/Classes  $(CURDIR)/build/public
+	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/Classes $(CURDIR)/build/php/Benchmarks $(CURDIR)/build/php/Benchmarks/tmp  $(CURDIR)/build/public
 

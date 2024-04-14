@@ -28,32 +28,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Pomf\Uguu\Classes;
+$finder = (new PhpCsFixer\Finder())
+       ->in(__DIR__)
+       ->exclude([
+          'dist',
+          'build',
+          'node_modules'
+       ])
+;
 
-class CuteGrills
-{
-    public array $GRILLS;
-    /**
-     * Loads the list of grills, then redirects to a random grill
-     */
-    public function showGrills(): void
-    {
-        $this->loadGrills();
-        if (!headers_sent()) {
-            header(
-                'Location: /img/grills/' .
-                   $this->GRILLS[array_rand($this->GRILLS)],
-                true,
-                303,
-            );
-        }
-    }
-
-    /**
-     * Loads the images from the `img/grills/` directory into the `GRILLS` array
-     */
-    public function loadGrills(): void
-    {
-        $this->GRILLS = array_slice(scandir('img/grills/'), 2);
-    }
-}
+return (new PhpCsFixer\Config())
+   ->setRules([
+      '@PSR12'       => true,
+      'strict_param' => true,
+   ])
+   ->setFinder($finder)
+;
