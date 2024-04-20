@@ -209,11 +209,11 @@ class Upload extends Response
             }
             $this->Connector->newIntoDB($this->FILE_INFO, $this->fingerPrintInfo);
         }
-		if (substr($_SERVER['HTTP_HOST'], -6) === '.onion') {
-			$proper_url = 'http://' . $this->Connector->CONFIG['FILE_ONION_DOMAIN'];
-		} else {
-			$proper_url = 'https://' . $this->Connector->CONFIG['FILE_DOMAIN'];
-		}
+        if (substr($_SERVER['HTTP_HOST'], -6) === '.onion') {
+            $proper_url = 'http://' . $this->Connector->CONFIG['FILE_ONION_DOMAIN'];
+        } else {
+            $proper_url = 'https://' . $this->Connector->CONFIG['FILE_DOMAIN'];
+        }
         return [
            'hash'     => $this->FILE_INFO['XXH'],
            'name'     => $this->FILE_INFO['NAME'],
