@@ -15,6 +15,7 @@
   "subTitle": "Temporary file hosting",
   "DOMAIN": "dev.uguu.se",
   "FILE_DOMAIN": "files.dev.uguu.se",
+  "FILE_ONION_DOMAIN": "zkaan2xfbuxia2wpf7ofnkbz6r5zdbbvxbunvp5g2iebopbfc4iqmbad.onion",
   "abuseContact": "abuse@email.com",
   "infoContact": "info@email.com",
   "ServerCountryLocation": "Sweden",
