@@ -102,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 copy.className = 'upload-clipboard-btn';
 
                 const glyph = document.createElement('img');
-                glyph.src = 'img/glyphicons-512-copy.png';
                 copy.appendChild(glyph);
 
                 url.appendChild(copy);

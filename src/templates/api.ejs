@@ -1,16 +1,17 @@
-<%- include('./partials/header.ejs'); -%>
-<div class="container">
-    <div class="jumbotron">
-        <h1><%= siteName %> API</h1>
-    </div>
-    <div class="alert alert-info">
-        <section>
-            <h3>Endpoint</h3>
-            <p>You may POST an array of files to&nbsp;<b>https://<%= DOMAIN %>/upload.php</b>, by default you will get a json response.</p>
-            <p>If you want a response in something else than json you add a flag to specify what format you want, for example&nbsp;<b>https://<%= DOMAIN %>/upload.php?output=csv</b>.</p>
-            <p>Valid response types are: json, csv, text, html and gyazo.</p>
-            <h3>Curl Example</h3>
-            <p><kbd>curl -i -F files[]=@yourfile.jpeg https://<%= DOMAIN %>/upload.php</kbd></p>
-        </section>
-    </div>
-<%- include('./partials/footer.ejs'); -%>
+<%- include('./partials/header.ejs'); %>
+<div class="grill-wrapper" id="grill">
+    <div class="container">
+        <div class="jumbotron">
+            <h1><%= siteName %> API</h1>
+        </div>
+        <div class="alert alert-info">
+            <section>
+                <h3>Endpoint</h3>
+                <p>You may POST an array of files to&nbsp;<b>https://<%= DOMAIN %>/upload</b>, by default you will get a json response.</p>
+                <p>If you want a response in something else than json you add a flag to specify what format you want, for example&nbsp;<b>https://<%= DOMAIN %>/upload?output=csv</b>.</p>
+                <p>Valid response types are: json, csv, text, html and gyazo.</p>
+                <h3>Curl Example</h3>
+                <p><kbd>curl -i -F files[]=@yourfile.jpeg https://<%= DOMAIN %>/upload</kbd></p>
+            </section>
+        </div>
+<%- include('./partials/footer.ejs'); %>

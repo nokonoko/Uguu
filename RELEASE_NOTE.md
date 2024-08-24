@@ -1,44 +1,20 @@
-## Uguu 1.8.6
+## Uguu 1.8.7
 
 ### Whats new
 
-* Includes INDEX creation in the dbSchemas files, this greatly improves performance when performing filename generation, antidupe, blacklist or rate-limit checks against the database,
-  especially on big databases. It's recommended you follow the instructions below on how to add INDEX.
-* time() is called once in connector to get a timestamp instead of multiple times.
-* The function `diverseArray` is now called `transposeArray`, the variables within the function are also renamed to make it easier to understand.
-* The function `uploadFile` performs a check if `BENCHMARK_MODE` is set in the configuration, if it is the file will not be uploaded.
-* Benchmarking capbility added.
-* Docs updated with how to use [Benchmarking](https://github.com/nokonoko/Uguu/wiki/Benchmarking) and also a [Optimization Guide](https://github.com/nokonoko/Uguu/wiki/Optimization).
+* Donation icons and copy icon have been replaced by SVG loaded in uguu.css to reduce amount of requests and data transfer needed when loading page.
+* Preloading improvements for CSS and JS.
+* "grillLoader" has been replaced with loading the grills via JS, which is controlled via the "GRILLS" array in `config.json` upon compilation.
+* Upon compilation all assets will be pre-compressed using gzip so Nginx can serve them without having to compress them on runtime.
+* Updated Nginx examples: faster TLS handshake, php extension re-write, allowing Nginx to serve pre-compressed assets.
+* CSS fixes and improvements, better accessibility on mobile devices.
+* The API no longer returns the original filename when uploading, since this can leak sensitive information.
+* Assets such as the background image and the grills come pre-compressed in the AVIF format which further reduces load size, if a browser doesnt support AVIF it will fall back to PNG.
+* Other minor things.
 
 ### Breaking changes
 
-* config.json must include the `"BENCHMARK_MODE"` value, should be set to `false` when not benchmarking, otherwise file(s) will not be uploaded.
+* `config.json` needs to be updated.
+* Nginx config needs to be updated.
 
-### Add INDEX to an existing Uguu installation
-
-#### SQLite
-
-```
-CREATE INDEX files_hash_idx ON files (hash);
-CREATE INDEX files_name_idx ON files (filename);
-CREATE INDEX ratelimit_iphash_idx ON ratelimit (iphash);
-CREATE INDEX blacklist_hash_idx ON blacklist (hash);
-```
-
-#### PostgreSQL
-
-```
-CREATE INDEX files_hash_idx ON files (hash);
-CREATE INDEX files_name_idx ON files (filename);
-CREATE INDEX ratelimit_iphash_idx ON ratelimit (iphash);
-CREATE INDEX blacklist_hash_idx ON blacklist (hash);
-```
-
-#### MySQL
-
-```
-CREATE INDEX files_hash_idx ON files (hash);
-CREATE INDEX files_name_idx ON files (filename);
-CREATE INDEX ratelimit_iphash_idx ON ratelimit (iphash);
-CREATE INDEX blacklist_hash_idx ON blacklist (hash);
-```
+Recommended to do a clean install for this release, you may keep your existing database and all of your config.json settings.

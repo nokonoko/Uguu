@@ -28,6 +28,8 @@ all: builddirs npm_dependencies ejs minify copy-img copy-php copy-benchmarks
 ejs:
 	$(foreach i,$(pageList), \
 	"node_modules/ejs/bin/cli.js" -f $(CURDIR)/$(CONF) $(CURDIR)/src/templates/$(i) -o $(CURDIR)/build/html/unmin/$(noExt).html;)
+	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/faq.html
+	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/api.html
 
 minify:
 	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor uglify-es --input $(CURDIR)/src/static/js/uguu.js --output $(CURDIR)/build/js/uguu.min.js
@@ -41,6 +43,8 @@ installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img/grills
 
 copy-img:
+	cp -v $(CURDIR)/src/static/img/*.avif $(CURDIR)/build/img/
+	cp -v $(CURDIR)/src/static/img/grills/*.avif $(CURDIR)/build/img/grills/
 	"node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/*.png -o=$(CURDIR)/build/img/
 	"node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/grills/*.png --plugin=pngquant -o=$(CURDIR)/build/img/grills/
 
@@ -67,12 +71,12 @@ install: installdirs
 	rm -rf $(DESTDIR)/js
 	rm -rf $(DESTDIR)/php
 	mv $(DESTDIR)/img $(DESTDIR)/public/
-	mv $(DESTDIR)/grill.php $(DESTDIR)/public/
 	mv $(DESTDIR)/upload.php $(DESTDIR)/public/
 	cd $(DESTDIR)/ && $(CURL) -o composer-setup.php https://raw.githubusercontent.com/composer/getcomposer.org/main/web/installer
 	cd $(DESTDIR)/ && $(PHP) composer-setup.php --quiet
 	cd $(DESTDIR)/ && rm composer-setup.php
 	cd $(DESTDIR)/ && php composer.phar update && php composer.phar install && php composer.phar dump-autoload
+	bash ./compress.sh "$(DESTDIR)/public/"
 
 dist:
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)

@@ -1,13 +1,13 @@
 {
   "dest": "dist",
-  "pkgVersion": "1.8.6",
+  "pkgVersion": "1.8.7",
   "pages": [
     "index.ejs",
     "faq.ejs",
     "api.ejs"
   ],
   "DEBUG": false,
-  "BENCHMARK_MODE": true,
+  "BENCHMARK_MODE": false,
   "max_upload_size": 128,
   "expireTime": 8,
   "expireTimeUnit": "hours",
@@ -73,5 +73,26 @@
     "application/x-executable",
     "application/x-mach-binary",
     "image/svg+xml"
+  ],
+  "GRILLS": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20"
   ]
 }

@@ -1,15 +1,16 @@
-<%- include('./partials/header.ejs'); -%>
-<div class="container">
-    <div class="jumbotron">
-        <%- include('./partials/lead.ejs'); -%>
-        <%- include('./partials/upload_form.ejs'); -%>
-    </div>
+<%- include('./partials/header.ejs'); %>
+<div class="grill-wrapper" id="grill">
+    <div class="container">
+        <div class="jumbotron">
+            <%- include('./partials/lead.ejs'); %>
+            <%- include('./partials/upload_form.ejs'); %>
+        </div>
 
-    <% if (malwareBanner) { %>
-        <%- include('./partials/malware_banner.ejs'); -%>
-    <% } %>
+        <% if (malwareBanner) { %>
+            <%- include('./partials/malware_banner.ejs'); %>
+        <% } %>
 
-    <% if (donationBanner) { %>
-        <%- include('./partials/donation_banner.ejs'); -%>
-    <% } %>
-<%- include('./partials/footer.ejs'); -%>
+        <% if (donationBanner) { %>
+            <%- include('./partials/donation_banner.ejs'); %>
+        <% } %>
+<%- include('./partials/footer.ejs'); %>
