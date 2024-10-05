@@ -43,6 +43,8 @@ installdirs:
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img/grills
 
 copy-img:
+	mkdir -p $(CURDIR)/build/img/grills
+	mkdir -p $(CURDIR)/build/img
 	cp -v $(CURDIR)/src/static/img/*.avif $(CURDIR)/build/img/
 	cp -v $(CURDIR)/src/static/img/grills/*.avif $(CURDIR)/build/img/grills/
 	"node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/*.png -o=$(CURDIR)/build/img/
