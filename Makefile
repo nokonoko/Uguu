@@ -4,8 +4,10 @@ TAR = "tar"
 GREP = "grep"
 NODE = "node"
 NPM = "npm"
+$(if $(wildcard node_modules/node-jq/bin/jq),,$(error node_modules/node-jq/bin/jq does not exist, have you run npm install?))
 NODEJQ = "node_modules/node-jq/bin/jq"
 SQLITE = "sqlite3"
+$(if $(wildcard src/config.json),,$(error src/config.json does not exist, aborting))
 CONF = "src/config.json"
 PHP = "php"
 CURL = "curl"
