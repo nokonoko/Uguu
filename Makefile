@@ -23,26 +23,37 @@ CONTAINER_NAME = "$(CONTAINER_NAME)"
 pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
 noExt = $(shell echo $(i) | cut -d '.' -f1)
 
-all: builddirs npm_dependencies ejs minify copy-img copy-php copy-benchmarks
+all: check-var builddirs npm_dependencies ejs minify copy-img copy-php copy-benchmarks
 
-ejs:
+check-var:
+ifeq ($(CURDIR),)
+    $(error One or more required variables are not set. Something went wrong.)
+endif
+ifeq ($(DESTDIR),)
+    $(error One or more required variables are not set. Something went wrong.)
+endif
+ifeq ($(TMPDIR),)
+    $(error One or more required variables are not set. Something went wrong.)
+endif
+
+ejs: check-var
 	$(foreach i,$(pageList), \
 	"node_modules/ejs/bin/cli.js" -f $(CURDIR)/$(CONF) $(CURDIR)/src/templates/$(i) -o $(CURDIR)/build/html/unmin/$(noExt).html;)
 	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/faq.html
 	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/api.html
 
-minify:
+minify: check-var
 	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor uglify-es --input $(CURDIR)/src/static/js/uguu.js --output $(CURDIR)/build/js/uguu.min.js
 	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor cssnano --input $(CURDIR)/src/static/css/uguu.css --output $(CURDIR)/build/css/uguu.min.css
 	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/faq.html --output $(CURDIR)/build/html/min/faq.html
 	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/api.html --output $(CURDIR)/build/html/min/api.html
 	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/index.html --output $(CURDIR)/build/html/min/index.html
 
-installdirs:
+installdirs: check-var
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img/grills
 
-copy-img:
+copy-img: check-var
 	mkdir -p $(CURDIR)/build/img/grills
 	mkdir -p $(CURDIR)/build/img
 	cp -v $(CURDIR)/src/static/img/*.avif $(CURDIR)/build/img/
@@ -51,16 +62,16 @@ copy-img:
 	"node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/grills/*.png --plugin=pngquant -o=$(CURDIR)/build/img/grills/
 
 
-copy-php:
+copy-php: check-var
 	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
 	cp -v $(CURDIR)/src/Classes/*.php $(CURDIR)/build/php/Classes/
 
-copy-benchmarks:
+copy-benchmarks: check-var
 	cp -v $(CURDIR)/src/Benchmarks/*.php $(CURDIR)/build/php/Benchmarks/
 	cp -v $(CURDIR)/src/Benchmarks/file.jpg $(CURDIR)/build/php/Benchmarks/
 	cp -v $(CURDIR)/src/Benchmarks/runBenchmark.sh $(CURDIR)/build/php/Benchmarks/
 
-install: installdirs
+install: check-var installdirs
 	rm -rf $(DESTDIR)/*
 	cp -rv $(CURDIR)/build/* $(DESTDIR)/
 	cp $(CURDIR)/src/*.json $(DESTDIR)/
@@ -80,7 +91,7 @@ install: installdirs
 	cd $(DESTDIR)/ && php composer.phar update && php composer.phar install && php composer.phar dump-autoload
 	bash ./compress.sh "$(DESTDIR)/public/"
 
-dist:
+dist: check-var
 	DESTDIR=$(TMPDIR)/uguu-$(PKGVERSION)
 	export DESTDIR
 	install
@@ -88,12 +99,12 @@ dist:
 	rm -rf $(TMPDIR)
 
 
-clean:
+clean: check-var
 	rm -rvf $(CURDIR)/node_modules
 	rm -rvf $(CURDIR)/build
 
 
-uninstall:
+uninstall: check-var
 	rm -rvf $(DESTDIR)/
 
 
@@ -116,11 +127,10 @@ run-container:
 purge-containers:
 	if docker images | grep uguu; then \
 	 	docker rm -f uguu && docker rmi uguu:$(PKG_VERSION) || true;\
-	fi;		
+	fi;
 
 remove-container:
 	docker rm -f uguu
 
-builddirs:
+builddirs: check-var
 	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/Classes $(CURDIR)/build/php/Benchmarks $(CURDIR)/build/php/Benchmarks/tmp  $(CURDIR)/build/public
-
