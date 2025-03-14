@@ -37,8 +37,6 @@ Node.js is used to compile Uguu, after that it runs on PHP.
 
 Installation and configuration can be found at [Uguu Documentation](https://github.com/nokonoko/Uguu/wiki/Uguu-Configuration-&-Installation).
 
-If you need a admin panel check out [Moe Panel](https://github.com/Pomf/MoePanel).
-
 ## Getting help
 
 Hit me up at [@nekunekus](https://twitter.com/nekunekus) or email me at neku@pomf.se
