@@ -26,7 +26,8 @@
     "ext-pdo": "*"
   },
   "require-dev": {
-    "phpbench/phpbench": "^1.0"
+    "phpbench/phpbench": "^1.0",
+    "friendsofphp/php-cs-fixer": "^3.72"
   },
   "config": {
     "optimize-autoloader": true,

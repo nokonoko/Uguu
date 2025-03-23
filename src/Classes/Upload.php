@@ -1,8 +1,9 @@
 <?php
+
 /*
  * Uguu
  *
- * @copyright Copyright (c) 2022-2024 Go Johansson (nokonoko) <neku@pomf.se>
+ * @copyright Copyright (c) 2022-2025 Go Johansson (nokonoko) <neku@pomf.se>
  * @links
  *
  * Note that this was previously distributed under the MIT license 2015-2022.
@@ -117,8 +118,8 @@ class Upload extends Response
     /**
      * Transposes a 2-dimensional array.
      *
-     * Transposes the given 2-dimensional array, where the rows of the input array become the columns
-     * of the transposed array.
+     * Transposes the given 2-dimensional array, where the rows of the input array
+     * become the columns of the transposed array.
      *
      * @param array $inputArray The input 2-dimensional array to transpose.
      *
@@ -127,9 +128,9 @@ class Upload extends Response
     public function transposeArray(array $inputArray): array
     {
         $transposedArray = [];
-        foreach ($inputArray as $key1 => $nestedArray) {
-            foreach ($nestedArray as $key2 => $nestedValue) {
-                $transposedArray[$key2][$key1] = $nestedValue;
+        foreach ($inputArray as $rowIndex => $row) {
+            foreach ($row as $columnIndex => $value) {
+                $transposedArray[$columnIndex][$rowIndex] = $value;
             }
         }
         return $transposedArray;
@@ -193,7 +194,7 @@ class Upload extends Response
             if (!is_writable($this->Connector->CONFIG['FILES_ROOT'])) {
                 $this->Connector->response->error(500, 'File storage path not writeable.');
             }
-            if(!$this->Connector->CONFIG['BENCHMARK_MODE']) {
+            if (!$this->Connector->CONFIG['BENCHMARK_MODE']) {
                 if (
                     !move_uploaded_file(
                         $this->FILE_INFO['TEMP_NAME'],
@@ -228,22 +229,26 @@ class Upload extends Response
      */
     public function fingerPrint(int $files_amount): void
     {
-        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
-            $USER_AGENT = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_ENCODED);
-            $ip = null;
-            if ($this->Connector->CONFIG['LOG_IP']) {
-                $ip = $_SERVER['REMOTE_ADDR'];
-            }
-            $this->fingerPrintInfo = [
-               'timestamp'    => $this->Connector->currentTime,
-               'useragent'    => $USER_AGENT,
-               'ip'           => $ip,
-               'ip_hash'      => hash('xxh3', $_SERVER['REMOTE_ADDR'] . $USER_AGENT),
-               'files_amount' => $files_amount,
-            ];
-        } else {
-            $this->Connector->response->error(500, 'Invalid user agent.');
+        $USER_AGENT = htmlspecialchars($_SERVER['HTTP_USER_AGENT'] ?? null, ENT_QUOTES, 'UTF-8');
+        $CLIENT_IP = filter_var(
+            $_SERVER['HTTP_CF_CONNECTING_IP'] ??
+               $_SERVER['HTTP_X_REAL_IP'] ??
+               $_SERVER['REMOTE_ADDR'] ??
+               null,
+            FILTER_VALIDATE_IP,
+            FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_NULL_ON_FAILURE
+        );
+        $ip = null;
+        if ($this->Connector->CONFIG['LOG_IP']) {
+            $ip = $CLIENT_IP;
         }
+        $this->fingerPrintInfo = [
+           'timestamp'    => $this->Connector->currentTime,
+           'useragent'    => $USER_AGENT,
+           'ip'           => $ip,
+           'ip_hash'      => hash('xxh3', $CLIENT_IP . $USER_AGENT),
+           'files_amount' => $files_amount,
+        ];
     }
 
     /**
@@ -409,6 +414,7 @@ class Upload extends Response
             if ($extension) {
                 $NEW_NAME .= '.' . $extension;
             }
+            $this->Connector->CONFIG['FILES_RETRIES']--;
         } while ($this->Connector->dbCheckNameExists($NEW_NAME));
         return $NEW_NAME;
     }
