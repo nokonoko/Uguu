@@ -4,9 +4,9 @@ TAR = "tar"
 GREP = "grep"
 CURL = "curl"
 UNZIP = "unzip"
-BUN = "$(CURDIR)/bun"
-NODE = "$(CURDIR)/bun"
-NPM = "$(CURDIR)/bun"
+BUN = "bun"
+NODE = "bun"
+NPM = "bun"
 SQLITE = "sqlite3"
 CONF = "src/config.json"
 PHP = "php"
@@ -31,21 +31,11 @@ build-prod: builddirs ejs minify copy-img copy-php
 build-dev: builddirs ejs minify copy-img copy-php copy-benchmarks
 dev: development
 
-install-bun:
-ifeq (,$(wildcard ./bun))
-	$(CURL) -L -o $(CURDIR)/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
-	$(UNZIP) $(CURDIR)/bun.zip
-	mv $(CURDIR)/bun-linux-x64-baseline/bun $(CURDIR)/
-	rm -rf $(CURDIR)/bun-linux-x64-baseline
-	rm $(CURDIR)/bun.zip
-	chmod +x $(CURDIR)/bun
-endif
-
-prod: install-bun
+prod:
 	$(BUN) install
 	$(MAKE) build-prod
 
-development: install-bun
+development:
 	$(BUN) install
 	$(MAKE) build-dev
 
