@@ -2,13 +2,14 @@ MAKE = "make"
 INSTALL = "install"
 TAR = "tar"
 GREP = "grep"
-NODE = "node"
-NPM = "npm"
-NODEJQ = "node_modules/node-jq/bin/jq"
+CURL = "curl"
+UNZIP = "unzip"
+BUN = "$(CURDIR)/bun"
+NODE = "$(CURDIR)/bun"
+NPM = "$(CURDIR)/bun"
 SQLITE = "sqlite3"
 CONF = "src/config.json"
 PHP = "php"
-CURL = "curl"
 DESTDIR = $(shell $(CURDIR)/$(NODEJQ) -r '.dest // "" | select(. != "") // "dist"' $(CURDIR)/$(CONF))
 SITEDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".DOMAIN" $(CURDIR)/$(CONF))
 FILESDOMAIN = $(shell $(CURDIR)/$(NODEJQ) -r ".FILE_DOMAIN" $(CURDIR)/$(CONF))
@@ -22,18 +23,41 @@ DOCKER_TAG = "$(DOCKER_TAG)"
 CONTAINER_NAME = "$(CONTAINER_NAME)"
 pageList = $(shell $(CURDIR)/$(NODEJQ) -r ".pages[]" $(CURDIR)/$(CONF))
 noExt = $(shell echo $(i) | cut -d '.' -f1)
+NODEJQ = "node_modules/node-jq/bin/jq"
 
-all: check-var builddirs npm_dependencies ejs minify copy-img copy-php copy-benchmarks
+
+all: prod
+build-prod: builddirs ejs minify copy-img copy-php
+build-dev: builddirs ejs minify copy-img copy-php copy-benchmarks
+dev: development
+
+install-bun:
+ifeq (,$(wildcard ./bun))
+	$(CURL) -L -o $(CURDIR)/bun.zip https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-baseline.zip
+	$(UNZIP) $(CURDIR)/bun.zip
+	mv $(CURDIR)/bun-linux-x64-baseline/bun $(CURDIR)/
+	rm -rf $(CURDIR)/bun-linux-x64-baseline
+	rm $(CURDIR)/bun.zip
+	chmod +x $(CURDIR)/bun
+endif
+
+prod: install-bun
+	$(BUN) install
+	$(MAKE) build-prod
+
+development: install-bun
+	$(BUN) install
+	$(MAKE) build-dev
 
 check-var:
 ifeq ($(CURDIR),)
-    $(error One or more required variables are not set. Something went wrong.)
+	$(error One or more required variables are not set. Something went wrong.)
 endif
 ifeq ($(DESTDIR),)
-    $(error One or more required variables are not set. Something went wrong.)
+	$(error One or more required variables are not set. Something went wrong.)
 endif
 ifeq ($(TMPDIR),)
-    $(error One or more required variables are not set. Something went wrong.)
+	$(error One or more required variables are not set. Something went wrong.)
 endif
 
 ejs: check-var
@@ -88,6 +112,26 @@ install: check-var installdirs
 	cd $(DESTDIR)/ && $(CURL) -o composer-setup.php https://raw.githubusercontent.com/composer/getcomposer.org/main/web/installer
 	cd $(DESTDIR)/ && $(PHP) composer-setup.php --quiet
 	cd $(DESTDIR)/ && rm composer-setup.php
+	cd $(DESTDIR)/ && php composer.phar update --no-dev && php composer.phar install --no-dev && php composer.phar dump-autoload --no-dev
+	bash ./compress.sh "$(DESTDIR)/public/"
+
+install-dev: check-var installdirs
+	rm -rf $(DESTDIR)/*
+	cp -rv $(CURDIR)/build/* $(DESTDIR)/
+	cp $(CURDIR)/src/*.json $(DESTDIR)/
+	mv $(DESTDIR)/html/min/* $(DESTDIR)/public/
+	mv $(DESTDIR)/js/* $(DESTDIR)/public/
+	mv $(DESTDIR)/css/* $(DESTDIR)/public/
+	mv $(DESTDIR)/php/* $(DESTDIR)/
+	rm -rf $(DESTDIR)/html
+	rm -rf $(DESTDIR)/css
+	rm -rf $(DESTDIR)/js
+	rm -rf $(DESTDIR)/php
+	mv $(DESTDIR)/img $(DESTDIR)/public/
+	mv $(DESTDIR)/upload.php $(DESTDIR)/public/
+	cd $(DESTDIR)/ && $(CURL) -o composer-setup.php https://raw.githubusercontent.com/composer/getcomposer.org/main/web/installer
+	cd $(DESTDIR)/ && $(PHP) composer-setup.php --quiet
+	cd $(DESTDIR)/ && rm composer-setup.php
 	cd $(DESTDIR)/ && php composer.phar update && php composer.phar install && php composer.phar dump-autoload
 	bash ./compress.sh "$(DESTDIR)/public/"
 
@@ -107,9 +151,6 @@ clean: check-var
 uninstall: check-var
 	rm -rvf $(DESTDIR)/
 
-
-npm_dependencies:
-	$(NPM) install
 
 build-container-no-cache:
 		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz src docker Makefile package.json package-lock.json

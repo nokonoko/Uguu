@@ -1,6 +1,7 @@
-## Uguu 1.9.0
+## Uguu 1.9.1
 
-* Improved IP/Useragent fingerprinting, validation and handling.
-* Added support to get client IP behind Cloudflare or proxy_pass.
-* Fixed issue where filename generation retries actually never counted down.
-* Minor variable name changes.
+* Replaced Node with Bun for the build process, building is
+* Added so Bun is installed when make runs.
+* Generally reworked Makefile a bit.
+* Updated build behaviour to not include benchmarks/dev tools when building for prod.
+* Updated documentation to reflect above changes.

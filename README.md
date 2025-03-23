@@ -29,9 +29,9 @@ See the real world site at [uguu.se](https://uguu.se).
 
 ## Requirements
 
-Tested and working with Nginx + PHP-8.3 + SQLite/MySQL/PostgreSQL + Node.js 18 or higher.
+Tested and working with Nginx + PHP-8.3 + SQLite/MySQL/PostgreSQL.
 
-Node.js is used to compile Uguu, after that it runs on PHP.
+Bun is used to compile Uguu, after that it runs on PHP.
 
 ## Installation
 
