@@ -1,8 +1,9 @@
 <?php
+
 /*
  * Uguu
  *
- * @copyright Copyright (c) 2022-2024 Go Johansson (nokonoko) <neku@pomf.se>
+ * @copyright Copyright (c) 2022-2025 Go Johansson (nokonoko) <neku@pomf.se>
  *
  * Note that this was previously distributed under the MIT license 2015-2022.
  *
@@ -36,7 +37,6 @@ use Random\Randomizer;
 class Connector extends Database
 {
     public PDO $DB;
-    public Redis $keyDB;
     public string $dbType;
     public mixed $CONFIG;
     public Response $response;
@@ -70,6 +70,7 @@ class Connector extends Database
      */
     public function __construct()
     {
+        // TODO: add support to read config values into apcu key store
         $this->response = new Response('json');
         if (!file_exists(__DIR__ . '/../config.json')) {
             $this->response->error(500, 'Cant read settings file.');

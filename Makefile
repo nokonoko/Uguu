@@ -52,16 +52,16 @@ endif
 
 ejs: check-var
 	$(foreach i,$(pageList), \
-	"node_modules/ejs/bin/cli.js" -f $(CURDIR)/$(CONF) $(CURDIR)/src/templates/$(i) -o $(CURDIR)/build/html/unmin/$(noExt).html;)
+	$(BUN) "node_modules/ejs/bin/cli.js" -f $(CURDIR)/$(CONF) $(CURDIR)/src/templates/$(i) -o $(CURDIR)/build/html/unmin/$(noExt).html;)
 	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/faq.html
 	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/api.html
 
 minify: check-var
-	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor uglify-es --input $(CURDIR)/src/static/js/uguu.js --output $(CURDIR)/build/js/uguu.min.js
-	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor cssnano --input $(CURDIR)/src/static/css/uguu.css --output $(CURDIR)/build/css/uguu.min.css
-	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/faq.html --output $(CURDIR)/build/html/min/faq.html
-	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/api.html --output $(CURDIR)/build/html/min/api.html
-	"node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/index.html --output $(CURDIR)/build/html/min/index.html
+	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor uglify-es --input $(CURDIR)/src/static/js/uguu.js --output $(CURDIR)/build/js/uguu.min.js
+	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor cssnano --input $(CURDIR)/src/static/css/uguu.css --output $(CURDIR)/build/css/uguu.min.css
+	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/faq.html --output $(CURDIR)/build/html/min/faq.html
+	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/api.html --output $(CURDIR)/build/html/min/api.html
+	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/index.html --output $(CURDIR)/build/html/min/index.html
 
 installdirs: check-var
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
@@ -72,8 +72,8 @@ copy-img: check-var
 	mkdir -p $(CURDIR)/build/img
 	cp -v $(CURDIR)/src/static/img/*.avif $(CURDIR)/build/img/
 	cp -v $(CURDIR)/src/static/img/grills/*.avif $(CURDIR)/build/img/grills/
-	"node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/*.png -o=$(CURDIR)/build/img/
-	"node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/grills/*.png --plugin=pngquant -o=$(CURDIR)/build/img/grills/
+	$(BUN) "node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/*.png -o=$(CURDIR)/build/img/
+	$(BUN) "node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/grills/*.png --plugin=pngquant -o=$(CURDIR)/build/img/grills/
 
 
 copy-php: check-var

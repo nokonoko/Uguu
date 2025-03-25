@@ -1,6 +1,5 @@
-## Uguu 1.9.1-0
+## Uguu 1.9.2
 
-* Replaced Node with Bun for the build process, building is
-* Generally reworked Makefile a bit.
-* Updated build behaviour to not include benchmarks/dev tools when building for prod.
-* Updated documentation to reflect above changes.
+### What's Changed
+
+* Fixed bug in Makefile which caused failure when running `make` leading to the error `/usr/bin/env: ‘node’: No such file or directory`
