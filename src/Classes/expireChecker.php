@@ -1,8 +1,9 @@
 <?php
+
 /*
  * Uguu
  *
- * @copyright Copyright (c) 2022-2024 Go Johansson (nokonoko) <neku@pomf.se>
+ * @copyright Copyright (c) 2022-2025 Go Johansson (nokonoko) <neku@pomf.se>
  *
  * Note that this was previously distributed under the MIT license 2015-2022.
  *
@@ -104,20 +105,32 @@ class expireChecker
     }
 
     /**
-     * Reads the config.json file and populates the CONFIG property with the settings
-     * Also assembles the PDO DB connection and registers error handlers.
+     * Loads configuration either from APCu cache or JSON file
+     */
+    private function loadConfig(): array
+    {
+        $apcuLoaded = extension_loaded('apcu') && apcu_enabled();
+        if ($apcuLoaded && ($config = apcu_fetch('UC', $success)) && $success) {
+            return $config;
+        }
+        if (!is_readable($configFile = __DIR__ . '/../config.json')) {
+            $this->response->error(500, 'Cant read settings file.');
+        }
+        $config = json_decode(file_get_contents($configFile), true)
+           ?: $this->response->error(500, 'Invalid JSON in config file.');
+        $apcuLoaded && apcu_store('UC', $config);
+        return $config;
+    }
+
+    /**
+     * Initialize configuration, set up error handling, and prepare the environment.
      *
+     * @return void
      */
     public function __construct()
     {
         $this->response = new Response('json');
-        if (!file_exists(__DIR__ . '/../config.json')) {
-            $this->response->error(500, 'Cant read settings file.');
-        }
-        $this->CONFIG = json_decode(
-            file_get_contents(__DIR__ . '/../config.json'),
-            true,
-        );
+        $this->CONFIG = $this->loadConfig();
         ini_set('display_errors', 0);
         $this->dbType = $this->CONFIG['DB_MODE'];
         $this->DB = new PDO(
