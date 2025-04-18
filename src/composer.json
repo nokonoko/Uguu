@@ -23,7 +23,8 @@
   "minimum-stability": "stable",
   "require": {
     "ext-fileinfo": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-apcu": "*"
   },
   "require-dev": {
     "phpbench/phpbench": "^1.0",

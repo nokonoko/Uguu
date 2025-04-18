@@ -7,7 +7,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/." isTestSource="false" packagePrefix="Pomf\Uguu\" />
       <sourceFolder url="file://$MODULE_DIR$/src/./Benchmarks" isTestSource="true" packagePrefix="Pomf\Uguu\Benchmarks\" />
       <sourceFolder url="file://$MODULE_DIR$/src/./Classes" isTestSource="false" packagePrefix="Pomf\Uguu\Classes\" />
-      <sourceFolder url="file://$MODULE_DIR$/src/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/src/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/build" />

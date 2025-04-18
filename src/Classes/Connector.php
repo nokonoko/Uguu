@@ -64,21 +64,32 @@ class Connector extends Database
     }
 
     /**
-     * Reads the config.json file and populates the CONFIG property with the settings
-     * Also assembles the PDO DB connection and registers error handlers.
+     * Loads configuration either from APCu cache or JSON file
+     */
+    private function loadConfig(): array
+    {
+        $apcuLoaded = extension_loaded('apcu') && apcu_enabled();
+        if ($apcuLoaded && ($config = apcu_fetch('UC', $success)) && $success) {
+            return $config;
+        }
+        if (!is_readable($configFile = __DIR__ . '/../config.json')) {
+            $this->response->error(500, 'Cant read settings file.');
+        }
+        $config = json_decode(file_get_contents($configFile), true)
+           ?: $this->response->error(500, 'Invalid JSON in config file.');
+        $apcuLoaded && apcu_store('UC', $config);
+        return $config;
+    }
+
+    /**
+     * Initialize configuration, set up error handling, and prepare the environment.
      *
+     * @return void
      */
     public function __construct()
     {
-        // TODO: add support to read config values into apcu key store
         $this->response = new Response('json');
-        if (!file_exists(__DIR__ . '/../config.json')) {
-            $this->response->error(500, 'Cant read settings file.');
-        }
-        $this->CONFIG = json_decode(
-            file_get_contents(__DIR__ . '/../config.json'),
-            true,
-        );
+        $this->CONFIG = $this->loadConfig();
         ini_set('display_errors', 0);
         set_error_handler([$this, "errorHandler"]);
         register_shutdown_function([$this, "fatalErrorHandler"]);
