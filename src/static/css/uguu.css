@@ -56,8 +56,6 @@ body {
 }
 
 .grill-wrapper {
-    --avif-bg: url('');
-    --png-bg: url('');
     background-image: var(--png-bg);
     @supports (background-image: var(--avif-bg)) {
         background-image: var(--avif-bg);
