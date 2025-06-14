@@ -1,6 +1,6 @@
 {
   "name": "uguu",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "description": "Uguu is a simple lightweight temporary file host with support for drop, paste, click and API uploading.",
   "homepage": "https://uguu.se",
   "repository": {
@@ -17,14 +17,14 @@
     "url": "https://github.com/nokonoko/uguu/issues"
   },
   "devDependencies": {
-    "ejs": "^3.1.9",
-    "imagemin-cli": "^7.0.0",
-    "imagemin-pngquant": "^9.0.2",
+    "ejs": "^3.1.10",
+    "imagemin-cli": "^8.0.0",
+    "imagemin-optipng": "^8.0.0",
     "@node-minify/core": "^8.0.6",
     "@node-minify/cli": "^8.0.6",
     "@node-minify/uglify-es": "^8.0.6",
     "@node-minify/cssnano": "^8.0.6",
     "@node-minify/html-minifier": "^8.0.6",
-    "node-jq": "^4.0.1"
+    "node-jq": "^4.4.0"
   }
 }

@@ -5,6 +5,7 @@ GREP = "grep"
 CURL = "curl"
 UNZIP = "unzip"
 BUN = "bun"
+PNGQUANT= "/usr/bin/pngquant"
 NODE = "bun"
 NPM = "bun"
 SQLITE = "sqlite3"
@@ -55,6 +56,7 @@ ejs: check-var
 	$(BUN) "node_modules/ejs/bin/cli.js" -f $(CURDIR)/$(CONF) $(CURDIR)/src/templates/$(i) -o $(CURDIR)/build/html/unmin/$(noExt).html;)
 	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/faq.html
 	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/api.html
+	sed -i '/uguu.min.js/d' $(CURDIR)/build/html/unmin/404.html
 
 minify: check-var
 	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor uglify-es --input $(CURDIR)/src/static/js/uguu.js --output $(CURDIR)/build/js/uguu.min.js
@@ -62,6 +64,7 @@ minify: check-var
 	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/faq.html --output $(CURDIR)/build/html/min/faq.html
 	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/api.html --output $(CURDIR)/build/html/min/api.html
 	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/index.html --output $(CURDIR)/build/html/min/index.html
+	$(BUN) "node_modules/@node-minify/cli/dist/cli.mjs" --compressor html-minifier --input $(CURDIR)/build/html/unmin/404.html --output $(CURDIR)/build/html/min/404.html
 
 installdirs: check-var
 	mkdir -p $(DESTDIR)/ $(DESTDIR)/img
@@ -72,9 +75,9 @@ copy-img: check-var
 	mkdir -p $(CURDIR)/build/img
 	cp -v $(CURDIR)/src/static/img/*.avif $(CURDIR)/build/img/
 	cp -v $(CURDIR)/src/static/img/grills/*.avif $(CURDIR)/build/img/grills/
-	$(BUN) "node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/*.png -o=$(CURDIR)/build/img/
-	$(BUN) "node_modules/imagemin-cli/cli.js" $(CURDIR)/src/static/img/grills/*.png --plugin=pngquant -o=$(CURDIR)/build/img/grills/
-
+	cp -v $(CURDIR)/src/static/img/*.png $(CURDIR)/build/img/
+	cp -v $(CURDIR)/src/static/img/grills/*.png $(CURDIR)/build/img/grills/
+	bash ./pngcompression.sh "$(CURDIR)"
 
 copy-php: check-var
 	cp -v $(CURDIR)/src/static/php/*.php $(CURDIR)/build/php/
@@ -142,26 +145,6 @@ uninstall: check-var
 	rm -rvf $(DESTDIR)/
 
 
-build-container-no-cache:
-		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz src docker Makefile package.json package-lock.json
-		mv uguuForDocker.tar.gz docker/
-		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(CONTACT_EMAIL) --build-arg MAX_SIZE=$(MAXSIZE) --build-arg EXPIRE_TIME=$(EXPIRE_TIME) --no-cache -t uguu:$(PKG_VERSION) .
-
-build-container:
-		tar --exclude='uguuForDocker.tar.gz' --exclude='vendor' --exclude='node_modules' --exclude='build' --exclude='dist' --exclude='.git' -czf uguuForDocker.tar.gz src docker Makefile package.json package-lock.json
-		mv uguuForDocker.tar.gz docker/
-		docker build -f docker/Dockerfile --build-arg DOMAIN=$(SITEDOMAIN) --build-arg FILE_DOMAIN=$(FILESDOMAIN) --build-arg CONTACT_EMAIL=$(CONTACT_EMAIL) --build-arg MAX_SIZE=$(MAXSIZE) --build-arg EXPIRE_TIME=$(EXPIRE_TIME) -t uguu:$(PKG_VERSION) .
-
-run-container:
-		docker run --name uguu -d -p 80:80 -p 443:443 uguu:$(PKG_VERSION)
-
-purge-containers:
-	if docker images | grep uguu; then \
-	 	docker rm -f uguu && docker rmi uguu:$(PKG_VERSION) || true;\
-	fi;
-
-remove-container:
-	docker rm -f uguu
-
 builddirs: check-var
+	rm -rf $(CURDIR)/build
 	mkdir -p $(CURDIR)/build $(CURDIR)/build/img $(CURDIR)/build/html $(CURDIR)/build/html/min $(CURDIR)/build/html/unmin $(CURDIR)/build/js $(CURDIR)/build/css $(CURDIR)/build/php $(CURDIR)/build/php/Classes $(CURDIR)/build/php/Benchmarks $(CURDIR)/build/php/Benchmarks/tmp  $(CURDIR)/build/public

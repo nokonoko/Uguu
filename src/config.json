@@ -1,10 +1,11 @@
 {
   "dest": "dist",
-  "pkgVersion": "1.9.3",
+  "pkgVersion": "1.9.4",
   "pages": [
     "index.ejs",
     "faq.ejs",
-    "api.ejs"
+    "api.ejs",
+    "404.ejs"
   ],
   "DEBUG": false,
   "BENCHMARK_MODE": false,

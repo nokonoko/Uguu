@@ -1,5 +1,7 @@
-## Uguu 1.9.2
+## Uguu 1.9.4
 
 ### What's Changed
 
-* Fixed bug in Makefile which caused failure when running `make` leading to the error `/usr/bin/env: ‘node’: No such file or directory`
+* Reduced rendering time on load by optimizing asset preloads and by moving grill randomizer into <head>.
+* Added template for 404 page.
+* Makefile changes to support arm64 systems.

@@ -21,7 +21,6 @@ Uguu is a simple lightweight temporary file hosting and sharing platform, but ca
 - File extension & MIME black/whitelisting.
 - Upload rate limiting.
 - File (hash) blacklisting.
-- Run bare or as a container.
 
 ### Demo
 

@@ -1,13 +1,6 @@
 <%- include('./nav.ejs'); %>
 </div>
 </div>
-<script async>
-    const grills = <%- JSON.stringify(GRILLS) %>;
-    const randomGrill = grills[Math.floor(Math.random() *  <%- GRILLS.length %>)];
-    const grillElement = document.getElementById("grill")
-    grillElement.style.setProperty('--avif-bg', `url('img/grills/${randomGrill}.avif')`)
-    grillElement.style.setProperty('--png-bg', `url('img/grills/${randomGrill}.png')`)
-</script>
 <script defer src="uguu.min.js"></script>
 </body>
 </html>

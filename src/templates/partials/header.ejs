@@ -6,9 +6,17 @@
     <meta name="generator" content="Uguu <%= pkgVersion %>">
     <meta name="description" content="<%= SiteMetaInfo %>">
     <title><%= siteName %> &middot; <%= subTitle %></title>
-    <link rel="preload" href="uguu.min.css" as="style"/>
-    <link rel="preload" href="uguu.min.js" as="script"/>
+    <link rel="preload" href="/img/bg.avif" as="image" type="image/avif"/>
+
+    <script async>
+        (() => {
+            const g =<%- JSON.stringify(GRILLS) %>, r = g[Math.floor(Math.random() * g.length)];
+            document.documentElement.style.setProperty('--avif-bg', `url('/img/grills/${r}.avif')`);
+            document.documentElement.style.setProperty('--png-bg', `url('/img/grills/${r}.png')`);
+            document.head.insertAdjacentHTML('beforeend', `<link rel="preload" href="img/grills/${r}.avif" as="image" type="image/avif"/>`)
+        })();
+    </script>
     <link rel="stylesheet" href="uguu.min.css"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="preload" href="uguu.min.js" as="script"/>
 </head>
 <body>
