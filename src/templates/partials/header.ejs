@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
-        .container {
-            display: none;
+        body {
+            opacity: 0;
         }
     </style>
     <meta name="generator" content="Uguu <%= pkgVersion %>">
@@ -14,6 +14,7 @@
     <link rel="shortcut icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png"/>
     <link rel="preload" href="img/bg.avif" as="image" type="image/avif" fetchpriority="high"/>
     <link rel="preload" href="uguu.min.css" as="style" fetchpriority="high"/>
+    <link rel="prefetch" href="uguu.min.js" as="script" fetchpriority="low"/>
     <script async>
         (() => {
             const g =<%- JSON.stringify(GRILLS) %>, r = g[Math.floor(Math.random() * g.length)];
@@ -22,5 +23,6 @@
             document.head.insertAdjacentHTML('beforeend', `<link rel="preload" href="img/grills/${r}.avif" as="image" type="image/avif" fetchpriority="high"/>`)
         })();
     </script>
+    <link rel="stylesheet" href="uguu.min.css" media="print" onload="this.media='all'">
 </head>
 <body>

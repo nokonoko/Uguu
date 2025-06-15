@@ -1,28 +1,27 @@
 /**
- * Copyright (c) 2011, 2012, 2013 Twitter, Inc.
- * Copyright (c) 2013-2024 Emma Lejack (https://github.com/NuckChorris) <peter.lejeck@gmail.com>
- * Copyright (c) 2013-2024 Go Johansson (https://github.com/nokonoko) <neku@pomf.se>
- * Copyright (c) 2013-2024 Uguu & Pomf Community Contributors (https://github.com/nokonoko/Uguu) (https://github.com/pomf/pomf)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
+    * Copyright (c) 2011, 2012, 2013 Twitter, Inc.
+    * Copyright (c) 2013-2024 Emma Lejack (https://github.com/NuckChorris) <peter.lejeck@gmail.com>
+    * Copyright (c) 2013-2024 Go Johansson (https://github.com/nokonoko) <neku@pomf.se>
+    * Copyright (c) 2013-2025 Uguu & Pomf Community Contributors (https://github.com/nokonoko/Uguu) (https://github.com/pomf/pomf)
+    *
+    * Permission is hereby granted, free of charge, to any person obtaining a copy
+    * of this software and associated documentation files (the "Software"), to deal
+    * in the Software without restriction, including without limitation the rights
+    * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    * copies of the Software, and to permit persons to whom the Software is
+    * furnished to do so, subject to the following conditions:
+    *
+    * The above copyright notice and this permission notice shall be included in
+    * all copies or substantial portions of the Software.
+    *
+    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    * SOFTWARE.
+    */
 /**
  * USE BORDER BOX
  */
@@ -53,6 +52,7 @@ body {
     text-shadow: 0 1px hsla(0, 0%, 100%, .5);
     text-rendering: optimizelegibility;
     height: 100vh;
+    opacity: 1;
 }
 
 .grill-wrapper {
@@ -67,7 +67,6 @@ body {
 }
 
 .container {
-    display: block;
     margin: 0 auto;
     max-width: 750px;
 }
