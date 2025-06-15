@@ -1,5 +1,5 @@
-## Uguu 1.9.5
+## Uguu 1.9.6
 
 ### What's Changed
 
-* Fix re-render bug.
+* Several bugfixes related to preload and re-render issues.

@@ -52,7 +52,7 @@ body {
     text-shadow: 0 1px hsla(0, 0%, 100%, .5);
     text-rendering: optimizelegibility;
     height: 100vh;
-    opacity: 1;
+    opacity: 1 !important;
 }
 
 .grill-wrapper {
@@ -74,10 +74,6 @@ body {
 /**
  * ELEMENTS
  */
-/* paragraphs */
-p {
-    margin: 0 0 10px;
-}
 
 /* images */
 input[type=image], img {
@@ -88,7 +84,6 @@ input[type=image], img {
 a {
     color: #0078B4;
     text-decoration: none;
-    transition: color 0.25s;
 }
 
 a:hover,
@@ -137,7 +132,6 @@ a:focus {
     display: inline-block;
     font-size: 24px;
     padding: 28px 48px;
-    transition: background-color 0.25s, width 0.5s, height 0.5s;
     text-shadow: 0 1px hsla(0, 0%, 100%, .5);
 }
 
@@ -153,10 +147,8 @@ a:focus {
  * BOXES
  */
 .alert {
-    background-color: #FCF8E3;
     border: 1px solid #FBEED5;
     border-radius: 4px;
-    margin-bottom: 20px;
     padding: 14px 14px;
     text-shadow: 0 1px hsla(0, 0%, 100%, .5);
 }
@@ -192,7 +184,6 @@ a.donate-btn {
     border-radius: 3px;
     color: hsl(0, 0%, 25%);
     border: 1px solid hsl(0, 0%, 85%);
-    transition: all .2s;
 }
 
 a.donate-btn:hover {
@@ -211,19 +202,19 @@ a.donate-btn:hover {
 }
 
 .icon-paypal {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" xml:space="preserve" width="16" height="16"><path style="fill:#385c8e" d="M14.823 2.791c.65 1.192.435 2.597.179 3.428-1.385 4.524-7.635 4.278-8.539 4.278s-1.113.842-1.113.842l-.675 2.946c-.184 1.034-1.122.982-1.122.982H1.52q-.077 0-.143-.01c-.01.189.017.743.694.743h2.034s.938.053 1.122-.981l.674-2.946s.211-.842 1.114-.842 7.154.246 8.539-4.278c.309-1.011.56-2.869-.731-4.162"/><path style="fill:#385c8e" d="m4.048 13.642.675-2.946s.21-.841 1.114-.841c.902 0 7.153.245 8.538-4.278C14.882 3.923 15.233 0 8.922 0H4.364s-.948-.044-1.181.963L.204 13.819s-.128.806.687.806h2.035s.938.053 1.122-.982m1.718-7.479.605-2.612s.193-.71.816-.816c.622-.106 1.682.019 1.955.07 1.77.332 1.394 2.007 1.394 2.007-.35 2.586-4.375 2.227-4.375 2.227-.631-.228-.395-.877-.395-.877"/></svg>');
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" xml:space="preserve" width="16" height="16"><path fill="%23385c8e" d="M14.823 2.791c.65 1.192.435 2.597.179 3.428-1.385 4.524-7.635 4.278-8.539 4.278s-1.113.842-1.113.842l-.675 2.946c-.184 1.034-1.122.982-1.122.982H1.52q-.077 0-.143-.01c-.01.189.017.743.694.743h2.034s.938.053 1.122-.981l.674-2.946s.211-.842 1.114-.842 7.154.246 8.539-4.278c.309-1.011.56-2.869-.731-4.162"/><path fill="%23385c8e" d="m4.048 13.642.675-2.946s.21-.841 1.114-.841c.902 0 7.153.245 8.538-4.278C14.882 3.923 15.233 0 8.922 0H4.364s-.948-.044-1.181.963L.204 13.819s-.128.806.687.806h2.035s.938.053 1.122-.982m1.718-7.479.605-2.612s.193-.71.816-.816c.622-.106 1.682.019 1.955.07 1.77.332 1.394 2.007 1.394 2.007-.35 2.586-4.375 2.227-4.375 2.227-.631-.228-.395-.877-.395-.877"/></svg>');
 }
 
 .icon-bitcoin {
-    background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 -0.01 0.68 0.68" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M.665.323a.323.323 0 1 1-.648 0 .323.323 0 0 1 .649 0M.42.203c.045.015.078.038.071.081Q.482.329.446.336q.048.027.033.086C.46.477.414.481.354.47L.339.529.303.52.318.462.29.455.275.513.24.504.255.445.183.427.201.386l.026.006C.237.394.242.388.243.384l.04-.159C.283.217.281.208.266.204L.24.198.249.16l.072.018L.336.12l.035.009-.014.057.029.007L.4.136l.036.009zM.335.3C.359.306.412.32.421.284S.379.235.354.23L.347.228.329.299l.006.002M.308.415C.337.423.4.439.41.399.42.358.359.344.329.337L.32.335.3.413l.007.002" fill="#F7931A"/></svg>');
+    background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 -0.01 0.68 0.68" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M.665.323a.323.323 0 1 1-.648 0 .323.323 0 0 1 .649 0M.42.203c.045.015.078.038.071.081Q.482.329.446.336q.048.027.033.086C.46.477.414.481.354.47L.339.529.303.52.318.462.29.455.275.513.24.504.255.445.183.427.201.386l.026.006C.237.394.242.388.243.384l.04-.159C.283.217.281.208.266.204L.24.198.249.16l.072.018L.336.12l.035.009-.014.057.029.007L.4.136l.036.009zM.335.3C.359.306.412.32.421.284S.379.235.354.23L.347.228.329.299l.006.002M.308.415C.337.423.4.439.41.399.42.358.359.344.329.337L.32.335.3.413l.007.002" fill="%23F7931A"/></svg>');
 }
 
 .icon-ethereum {
-    background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m7.963 11.98-4.91-2.9L7.962 16l4.913-6.92-4.915 2.9zM8.037 0l-4.91 8.149 4.91 2.903 4.91-2.9z"/></svg>');
+    background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m7.963 11.98-4.91-2.9L7.962 16l4.913-6.92-4.915 2.9zM8.037 0l-4.91 8.149 4.91 2.903 4.91-2.9z" fill="%23343434"/></svg>');
 }
 
 .icon-kofi {
-    background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="-0.181 0 1.859 1.859" xmlns="http://www.w3.org/2000/svg"><g data-name="Layer 2"><g data-name="Layer 1"><g data-name="Coffee Icon"><path data-name="Coffee Cup" d="M.124.36A.125.125 0 0 1 .248.222H1.25a.125.125 0 0 1 .124.138l-.151 1.388a.125.125 0 0 1-.124.111h-.7a.125.125 0 0 1-.124-.111Z" style="fill:#7b7b7b"/><path d="M1.387.14h-.032V.11a.11.11 0 0 0-.11-.11h-.99a.11.11 0 0 0-.11.11v.03H.11A.11.11 0 0 0 0 .249v.06a.11.11 0 0 0 .11.11h1.277a.11.11 0 0 0 .11-.11v-.06a.11.11 0 0 0-.11-.11" style="fill:#98c7eb"/><g data-name="Cup Sleeve"><path data-name="Cup Sleeve" d="M.072.861A.11.11 0 0 1 .181.738H1.32a.11.11 0 0 1 .109.123l-.062.5a.11.11 0 0 1-.109.096H.242a.11.11 0 0 1-.109-.096Z" style="fill:#edaea3"/><path d="m.751 1.271-.026-.026C.629 1.16.566 1.103.566 1.033A.1.1 0 0 1 .668.932a.11.11 0 0 1 .083.039.11.11 0 0 1 .083-.039.1.1 0 0 1 .102.101c0 .07-.063.127-.159.212Z" style="fill:#ff7878"/></g></g></g></g></svg>');
+    background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="-0.181 0 1.859 1.859" xmlns="http://www.w3.org/2000/svg"><g data-name="Layer 2"><g data-name="Layer 1"><g data-name="Coffee Icon"><path data-name="Coffee Cup" d="M.124.36A.125.125 0 0 1 .248.222H1.25a.125.125 0 0 1 .124.138l-.151 1.388a.125.125 0 0 1-.124.111h-.7a.125.125 0 0 1-.124-.111Z" fill="%237b7b7b"/><path d="M1.387.14h-.032V.11a.11.11 0 0 0-.11-.11h-.99a.11.11 0 0 0-.11.11v.03H.11A.11.11 0 0 0 0 .249v.06a.11.11 0 0 0 .11.11h1.277a.11.11 0 0 0 .11-.11v-.06a.11.11 0 0 0-.11-.11" fill="%2398c7eb"/><g data-name="Cup Sleeve"><path data-name="Cup Sleeve" d="M.072.861A.11.11 0 0 1 .181.738H1.32a.11.11 0 0 1 .109.123l-.062.5a.11.11 0 0 1-.109.096H.242a.11.11 0 0 1-.109-.096Z" fill="%23edaea3"/><path d="m.751 1.271-.026-.026C.629 1.16.566 1.103.566 1.033A.1.1 0 0 1 .668.932a.11.11 0 0 1 .083.039.11.11 0 0 1 .083-.039.1.1 0 0 1 .102.101c0 .07-.063.127-.159.212Z" fill="%23ff7878"/></g></g></g></g></svg>');
 }
 
 
@@ -231,7 +222,8 @@ a.donate-btn:hover {
  * NAVIGATION LINKS
  */
 nav {
-    padding-bottom: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 nav > ul,

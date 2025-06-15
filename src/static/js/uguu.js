@@ -253,8 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* Set up the event handlers for the <button>, <input> and the window itself
-       and also set the "js" class on selector "#upload-form", presumably to
-       allow custom styles for clients running javascript. */
+      */
     const state = {dragCount: 0};
     const uploadButton = document.getElementById('upload-btn');
     window.addEventListener('dragenter', (evt) => handleDrag(state, uploadButton, evt), false);
@@ -266,5 +265,4 @@ document.addEventListener('DOMContentLoaded', () => {
     uploadInput.addEventListener('change', uploadFiles);
     uploadButton.addEventListener('click', () => selectFiles(uploadInput, event));
     uploadButton.addEventListener('drop', (evt) => handleDragDrop(state, uploadButton, evt), false);
-    document.getElementById('upload-form').classList.add('js');
 });
