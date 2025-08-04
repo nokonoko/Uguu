@@ -1,7 +1,7 @@
 /*
  * Uguu
  *
- * @copyright Copyright (c) 2022 Go Johansson (nekunekus) <neku@pomf.se> <github.com/nokonoko>
+ * @copyright Copyright (c) 2022-2025 Go Johansson (nekunekus) <neku@pomf.se> <github.com/nokonoko>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 /*jshint esversion: 6 */
 
 document.addEventListener('DOMContentLoaded', () => {
+    let uploadedFiles = [];
     /**
      * Sets up the elements inside file upload rows.
      *
@@ -65,6 +66,33 @@ document.addEventListener('DOMContentLoaded', () => {
             percentIndicator.textContent = `${progressPercent}%`;
         }
     };
+    /**
+     * Creates a button that copies all links from successfully uploaded files.
+     */
+    const createCopyAllButton = () => {
+        if (document.getElementById('copy-all-btn')) {
+            return;
+        }
+
+        const copyAll = document.createElement('button');
+        copyAll.id = 'copy-all-btn';
+        copyAll.className = 'upload-clipboard-btn';
+        copyAll.textContent = 'Copy All';
+
+        const fileList = document.getElementById('upload-filelist');
+        fileList.parentNode.insertBefore(copyAll, fileList.nextSibling);
+
+        copyAll.addEventListener("click", () => {
+            const links = uploadedFiles.join('\n');
+            const textarea = document.createElement('textarea');
+            textarea.textContent = links;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+        });
+    };
+
 
     /**
      * Complete the uploading process by checking the response status and, if the
@@ -93,10 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (respStatus === 200) {
             const response = JSON.parse(xhr.responseText);
             if (response.success) {
-                link.textContent = response.files[0].url.replace(/.*?:\/\//g, '');
-                link.href = response.files[0].url;
+                const fileUrl = response.files[0].url;
+                link.textContent = fileUrl.replace(/.*?:\/\//g, '');
+                link.href = fileUrl;
                 link.target = "_BLANK";
                 url.appendChild(link);
+                uploadedFiles.push(fileUrl);
+
 
                 const copy = document.createElement('button');
                 copy.className = 'upload-clipboard-btn';
@@ -117,6 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.execCommand("copy");
                     link.removeChild(element);
                 });
+                if (uploadedFiles.length > 1) {
+                    createCopyAllButton();
+                }
             } else {
                 bar.innerHTML = `Error: ${response.description}`;
             }

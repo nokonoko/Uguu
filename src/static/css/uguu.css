@@ -547,3 +547,8 @@ kbd {
 kbd:before {
     content: "$ "
 }
+
+#copy-all-btn {
+    float: right;
+    margin-right: 2.24em;
+}

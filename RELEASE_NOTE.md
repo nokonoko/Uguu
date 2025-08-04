@@ -1,5 +1,5 @@
-## Uguu 1.9.6
+## Uguu 1.9.7
 
 ### What's Changed
 
-* Several bugfixes related to preload and re-render issues.
+* Added "copy all" links button.
