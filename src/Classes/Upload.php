@@ -83,7 +83,7 @@ class Upload extends Response
                'NAME'      => strip_tags($this->checkNameLength($file['name'])),
                'SIZE'      => $file['size'],
                'XXH'       => hash_file('xxh3', $file['tmp_name']),
-               'EXTENSION' => $this->fileExtension($file),
+               'EXTENSION' => $this->fileExtension(preg_replace('/[^a-zA-Z0-9.]/', '', $file['name'])),
                'MIME'      => $this->fileMIME($file),
                'DUPE'      => false,
                'FILENAME'  => null,
@@ -296,15 +296,15 @@ class Upload extends Response
      * to handle the special case. Otherwise, the method returns the last element of the exploded
      * file name array, which represents the extension.
      *
-     * @param array $file The file array containing the name of the file.
+     * @param string $filename The name of the file.
      *
      * @return string|bool The file extension if it exists, or false if the file name does not contain a dot.
      */
-    public function fileExtension(array $file): string|bool
+    public function fileExtension(string $filename): string|bool
     {
-        if (str_contains($file['name'], '.')) {
-            $extension = explode('.', $file['name']);
-            $dotCount = substr_count($file['name'], '.');
+        if (str_contains($filename, '.')) {
+            $extension = explode('.', $filename);
+            $dotCount = substr_count($filename, '.');
             return match ($dotCount) {
                 2 => $this->doubleDotExtension($extension),
                 default => end($extension)

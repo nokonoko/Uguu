@@ -1,5 +1,3 @@
-## Uguu 1.9.7
+## Uguu 1.9.8
 
-### What's Changed
-
-* Added "copy all" links button.
+* Fixed critical sanitization error.
