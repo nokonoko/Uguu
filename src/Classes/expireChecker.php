@@ -52,6 +52,7 @@ class expireChecker
             }
             $query = match ($this->dbType) {
                 'pgsql' => 'SELECT id, filename FROM files WHERE date < EXTRACT(epoch from NOW() - INTERVAL \'' . $this->CONFIG['expireTime'] . ' ' . $this->timeUnit . '\')',
+                'mysql' => 'SELECT id, filename FROM files WHERE date <= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL ' . (int)$this->CONFIG['expireTime'] . ' ' . rtrim($this->timeUnit, 'S') . '))',
                 default => 'SELECT id, filename FROM files WHERE date <= strftime(\'%s\', datetime(\'now\', \'-' . $this->CONFIG['expireTime'] . ' ' . $this->timeUnit . '\'));'
             };
             $q = $this->DB->prepare($query);
@@ -76,6 +77,7 @@ class expireChecker
     {
         $query = match ($this->dbType) {
             'pgsql' => 'DELETE FROM ratelimit WHERE time < EXTRACT(epoch from NOW() - INTERVAL \'24 HOURS\')',
+            'mysql' => 'DELETE FROM ratelimit WHERE time <= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 24 HOUR))',
             default => 'DELETE FROM ratelimit WHERE time <= strftime(\'%s\', datetime(\'now\', \'-24 HOURS\'));'
         };
         $q = $this->DB->prepare($query);
