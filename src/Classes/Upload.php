@@ -3,7 +3,7 @@
 /*
  * Uguu
  *
- * @copyright Copyright (c) 2022-2025 Go Johansson (nokonoko) <neku@pomf.se>
+ * @copyright Copyright (c) 2022-2026 Go Johansson (nokonoko) <neku@pomf.se>
  * @links
  *
  * Note that this was previously distributed under the MIT license 2015-2022.
@@ -303,7 +303,7 @@ class Upload extends Response
     public function fileExtension(string $filename): string|bool
     {
         if (str_contains($filename, '.')) {
-            $extension = explode('.', $filename);
+            $extension = explode('.', strtolower($filename));
             $dotCount = substr_count($filename, '.');
             return match ($dotCount) {
                 2 => $this->doubleDotExtension($extension),
